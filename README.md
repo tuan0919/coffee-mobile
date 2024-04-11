@@ -5,7 +5,8 @@
 ### Virtual Machine:
 - Model: Pixel 4
 - Resolution: 1080 x 2280, 440dpi
-- Android API: 34 x86_64
+- Android API Level: 7.0+ (Có tích hợp Google APIs)
+- Release Name: Nougat (Có thể dùng các Release Name khác có phiên bản Android API >= 7 và có tích hợp Google APIs)
 ### Project's Android SDK:
 - Version: 24 (7.0)
 ### Project's SDK:
