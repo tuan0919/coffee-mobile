@@ -11,7 +11,7 @@
 ### Project's SDK:
 - Version: 17
 ### Project's IDE:
-- IntelliJ IDE
+- IntelliJ IDE hoặc Android Studio
 ### Database diagram:
 [Click here](https://drive.google.com/file/d/1AifNGG-rSdlzweaVWvmlHa2kPiMpy25U/view?usp=sharing)
 ### UI Preview:
