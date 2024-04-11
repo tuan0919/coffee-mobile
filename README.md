@@ -1,7 +1,6 @@
 
 # 📲 Coffee Shop
 Đồ án cho môn Lập trình Mobile 📱
-
 ## Yêu cầu
 ### Virtual Machine:
 - Model: Pixel 4
@@ -9,6 +8,10 @@
 - Android API: 34 x86_64
 ### Project's Android SDK:
 - Version: 24 (7.0)
+### Project's SDK:
+- Version: 17
+### Project's IDE:
+- IntelliJ IDE
 ### Database diagram:
 [Click here](https://drive.google.com/file/d/1AifNGG-rSdlzweaVWvmlHa2kPiMpy25U/view?usp=sharing)
 ### UI Preview:
