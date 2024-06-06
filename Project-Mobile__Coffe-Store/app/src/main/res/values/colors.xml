@@ -9,4 +9,13 @@
     <color name="white">#FFFFFFFF</color>
     <color name="YellowBlack">#FFDE7C</color>
     <color name="DarkGray">#5e5d5d</color>
+    <color name="Background">#0B0B09</color>
+    <color name="Primary">#FFDE7B</color>
+    <color name="Secondary">#60A719</color>
+    <color name="Black">#1D1D1C</color>
+    <color name="Greyscale1">#ECECEC</color>
+    <color name="Greyscale2">#DADADA</color>
+    <color name="Greyscale3">#BBBBBB</color>
+    <color name="NeutralDark">#2E2E2D</color>
+    <color name="NeutralLight">#878682</color>
 </resources>
