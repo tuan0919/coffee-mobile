@@ -13,4 +13,10 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="ThemeOverlay.SearchView" parent="">
+        <!--change hint color-->
+        <item name="android:textColorHint">@android:color/white</item>
+        <!--change text color-->
+        <item name="android:editTextColor">@android:color/white</item>
+    </style>
 </resources>
