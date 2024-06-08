@@ -1,16 +1,28 @@
 package com.nlu.packages;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import com.nlu.packages.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity{
+import com.google.android.material.navigation.NavigationBarView;
+import com.nlu.packages.databinding.ActivityMainBinding;
+import com.nlu.packages.ui.cart.CartFragment;
+import com.nlu.packages.ui.home.HomeFragment;
+import com.nlu.packages.ui.order.OrderFragment;
+import com.nlu.packages.ui.reward.RewardFragment;
+import com.nlu.packages.ui.store.StoreFragment;
+
+public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
@@ -29,5 +41,36 @@ public class MainActivity extends AppCompatActivity{
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupWithNavController(navView, navController);
+
+        navView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    if(item.getItemId() == R.id.navigation_home) {
+                        loadFragment(new HomeFragment());
+                        return true;
+                    }else if(item.getItemId() == R.id.navigation_reward){
+                        loadFragment(new RewardFragment());
+                        return true;
+                    }else if(item.getItemId() == R.id.navigation_order){
+                        loadFragment(new OrderFragment());
+                        return true;
+                    }else if(item.getItemId() == R.id.navigation_cart){
+                        loadFragment(new CartFragment());
+                        return true;
+                    }else if(item.getItemId() == R.id.navigation_store){
+                        loadFragment(new StoreFragment());
+                        return true;
+                    }
+                return true;
+            }
+        });
+    }
+
+    public void loadFragment(Fragment fragment) {
+        Fragment orderFragment = new OrderFragment();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 }

@@ -14,15 +14,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nlu.packages.R;
 import com.nlu.packages.ui.order.OrderFragment;
 import com.squareup.picasso.Picasso;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HomeFragment extends Fragment {
 
     ImageView imageViewHome1, imageViewHome2, imageViewHome3, imageViewHome4;
@@ -50,6 +46,18 @@ public class HomeFragment extends Fragment {
         searchView = view.findViewById(R.id.searchViewHome1);
         setUpUI(view);
 
+        //change to OrderFragment
+        button=view.findViewById(R.id.order_Button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loadFragment(new OrderFragment());
+                BottomNavigationView navView = getActivity().findViewById(R.id.nav_view);
+                navView.setSelectedItemId(R.id.navigation_order);
+            }
+        });
+
+
         return view;
     }
 
@@ -76,6 +84,13 @@ public class HomeFragment extends Fragment {
                 setUpUI(innerView);
             }
         }
+    }
+    private void loadFragment(Fragment fragment) {
+        Fragment orderFragment = new OrderFragment();
+        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 }

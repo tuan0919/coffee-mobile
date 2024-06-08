@@ -273,7 +273,8 @@
                         <ImageButton
                             android:id="@+id/imageHomeFragment3"
                             android:layout_width="match_parent"
-                            android:layout_height="170dp" />
+                            android:layout_height="170dp"
+                            android:background="@drawable/corner_100dp"/>
 
                         <TextView
                             android:id="@+id/textView17"
@@ -335,5 +336,17 @@
 
             </LinearLayout>
         </ScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/order_Button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="70dp"
+            android:background="@drawable/corner_100dp"
+            android:text="Order Now"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/mobile_navigation"
-            app:startDestination="@+id/navigation_home">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
 
     <fragment
-            android:id="@+id/navigation_home"
-            android:name="com.nlu.packages.ui.home.HomeFragment"
-            android:label="@string/title_home"
-            tools:layout="@layout/fragment_home"/>
+        android:id="@+id/navigation_home"
+        android:name="com.nlu.packages.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
 
     <fragment
-            android:id="@+id/navigation_reward"
-            android:name="com.nlu.packages.ui.reward.RewardFragment"
-            android:label="@string/title_reward"
-            tools:layout="@layout/fragment_reward"/>
+        android:id="@+id/navigation_reward"
+        android:name="com.nlu.packages.ui.reward.RewardFragment"
+        android:label="@string/title_reward"
+        tools:layout="@layout/fragment_reward" />
 
     <fragment
-            android:id="@+id/navigation_order"
-            android:name="com.nlu.packages.ui.order.OrderFragment"
-            android:label="@string/title_order"
-            tools:layout="@layout/fragment_order"/>
+        android:id="@+id/navigation_order"
+        android:name="com.nlu.packages.ui.order.OrderFragment"
+        android:label="@string/title_order"
+        tools:layout="@layout/fragment_order" />
 
     <fragment
-            android:id="@+id/navigation_cart"
-            android:name="com.nlu.packages.ui.cart.CartFragment"
-            android:label="@string/title_cart"
-            tools:layout="@layout/fragment_cart"/>
+        android:id="@+id/navigation_cart"
+        android:name="com.nlu.packages.ui.cart.CartFragment"
+        android:label="@string/title_cart"
+        tools:layout="@layout/fragment_cart" />
 
     <fragment
         android:id="@+id/navigation_store"
         android:name="com.nlu.packages.ui.store.StoreFragment"
         android:label="@string/title_store"
-        tools:layout="@layout/fragment_store"/>
+        tools:layout="@layout/fragment_store" />
 </navigation>
