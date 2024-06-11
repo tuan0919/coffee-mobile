@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Coffe Shop</string>
     <string name="title_home">Home</string>
+    <string name="title_reward">Reward</string>
+    <string name="title_order">Order</string>
+    <string name="title_cart">Cart</string>
+    <string name="title_store">Store</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="go_back_button">Go previous activity</string>
