@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
         Picasso.get().load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMkrl2cJ_c3eYDYqmwrGZ4ReL3taAU8rinUA&s").into(imageViewHome4);
 
         //add hide soft keyboard
-        constraintLayoutHome = view.findViewById(R.id.constraintLayout3);
+        constraintLayoutHome = view.findViewById(R.id.constraintLayoutHomeFragment);
         searchView = view.findViewById(R.id.searchViewHome1);
         setUpUI(view);
 
