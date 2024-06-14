@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "name": "Cà phê máy",
+    "active": "true",
+    "avatar": ""
+  },
+  {
+    "id": "2",
+    "name": "Cà phê Việt Nam",
+    "active": "true",
+    "avatar": ""
+  },
+  {
+    "id": "3",
+    "name": "Cold Brew",
+    "active": "true",
+    "avatar": ""
+  },
+  {
+    "id": "4",
+    "name": "Trái cây xay",
+    "active": "true",
+    "avatar": ""
+  },
+  {
+    "id": "5",
+    "name": "Trà trái cây",
+    "active": "true",
+    "avatar": ""
+  },
+  {
+    "id": "6",
+    "name": "Trà xanh",
+    "active": "true",
+    "avatar": ""
+  },
+  {
+    "id": "7",
+    "name": "Đá xay",
+    "active": "true",
+    "avatar": ""
+  },
+  {
+    "id": "8",
+    "name": "Bánh ngọt",
+    "active": "true",
+    "avatar": ""
+  },
+  {
+    "id": "9",
+    "name": "Bánh mặn",
+    "active": "true",
+    "avatar": ""
+  },
+  {
+    "id": "10",
+    "name": "Snack",
+    "active": "true",
+    "avatar": ""
+  }
+]
