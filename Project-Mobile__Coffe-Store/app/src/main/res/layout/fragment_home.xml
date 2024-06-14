@@ -169,87 +169,12 @@
                     android:textColor="@color/Greyscale1"
                     android:textSize="24sp" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/homeCoffeeForYou"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp">
-
-                    <LinearLayout
-                        android:id="@+id/linearLayout6"
-                        android:layout_width="170dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageButton
-                            android:id="@+id/imageHomeFragment1"
-                            android:layout_width="match_parent"
-                            android:layout_height="170dp" />
-
-                        <TextView
-                            android:id="@+id/textView12"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/inter"
-                            android:paddingLeft="4dp"
-                            android:text="Iced Mocha"
-                            android:textColor="@color/Greyscale1"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textView13"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/inter"
-                            android:paddingLeft="4dp"
-                            android:text="$2.90"
-                            android:textColor="@color/Greyscale1"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="170dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageButton
-                            android:id="@+id/imageHomeFragment2"
-                            android:layout_width="match_parent"
-                            android:layout_height="170dp" />
-
-                        <TextView
-                            android:id="@+id/textView14"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/inter"
-                            android:paddingLeft="8dp"
-                            android:text="Capuccino"
-                            android:textColor="@color/Greyscale1"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/inter"
-                            android:paddingLeft="8dp"
-                            android:text="$2.45"
-                            android:textColor="@color/Greyscale1"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:layout_height="210dp"
+                    android:layout_marginTop="24dp"
+                    android:scrollbars="horizontal"/>
 
                 <TextView
                     android:id="@+id/textView16"
@@ -261,87 +186,12 @@
                     android:textColor="@color/Greyscale1"
                     android:textSize="24sp" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/homeTopPick"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="210dp"
                     android:layout_marginTop="24dp"
-                    android:paddingBottom="8dp">
-
-                    <LinearLayout
-                        android:layout_width="170dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="16dp"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageButton
-                            android:id="@+id/imageHomeFragment3"
-                            android:layout_width="match_parent"
-                            android:layout_height="170dp"/>
-
-                        <TextView
-                            android:id="@+id/textView17"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/inter"
-                            android:paddingLeft="4dp"
-                            android:text="Americano"
-                            android:textColor="@color/Greyscale1"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textView18"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/inter"
-                            android:paddingLeft="4dp"
-                            android:text="$2.4"
-                            android:textColor="@color/Greyscale1"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="170dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="16dp"
-                        android:orientation="vertical"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageButton
-                            android:id="@+id/imageHomeFragment4"
-                            android:layout_width="match_parent"
-                            android:layout_height="170dp" />
-
-                        <TextView
-                            android:id="@+id/textView19"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/inter"
-                            android:paddingLeft="8dp"
-                            android:text="Expresso"
-                            android:textColor="@color/Greyscale1"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:id="@+id/textView20"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:fontFamily="@font/inter"
-                            android:paddingLeft="8dp"
-                            android:text="$2.55"
-                            android:textColor="@color/Greyscale1"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:scrollbars="horizontal"/>
 
             </LinearLayout>
         </ScrollView>
