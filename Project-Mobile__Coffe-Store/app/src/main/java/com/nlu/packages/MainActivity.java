@@ -1,5 +1,7 @@
 package com.nlu.packages;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -16,7 +18,6 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.nlu.packages.databinding.ActivityMainBinding;
-import com.nlu.packages.ui.cart.CartFragment;
 import com.nlu.packages.ui.home.HomeFragment;
 import com.nlu.packages.ui.order.OrderFragment;
 import com.nlu.packages.ui.reward.RewardFragment;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                         loadFragment(new OrderFragment());
                         return true;
                     }else if(item.getItemId() == R.id.navigation_cart){
-                        loadFragment(new CartFragment());
+                        loadActivity(new CartActivity().getClass());
                         return true;
                     }else if(item.getItemId() == R.id.navigation_store){
                         loadFragment(new StoreFragment());
@@ -66,12 +67,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void loadFragment(Fragment fragment) {
+    private void loadFragment(Fragment fragment) {
         Fragment orderFragment = new OrderFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
-
+    private void loadActivity(Class<? extends AppCompatActivity> activity){
+        Intent intent = new Intent(this, activity);
+        startActivity(intent);
+    }
 }

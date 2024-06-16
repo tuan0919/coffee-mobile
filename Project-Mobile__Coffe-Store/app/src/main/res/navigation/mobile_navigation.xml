@@ -23,11 +23,11 @@
         android:label="@string/title_order"
         tools:layout="@layout/fragment_order" />
 
-    <fragment
+    <activity
         android:id="@+id/navigation_cart"
-        android:name="com.nlu.packages.ui.cart.CartFragment"
+        android:name="com.nlu.packages.CartActivity"
         android:label="@string/title_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/activity_cart" />
 
     <fragment
         android:id="@+id/navigation_store"
