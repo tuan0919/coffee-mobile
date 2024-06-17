@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nlu.hcmuaf.android_coffee_app.dto.json.carts.CartJSON;
 import nlu.hcmuaf.android_coffee_app.enums.EIngredient;
+import nlu.hcmuaf.android_coffee_app.enums.EProductSize;
 
 import java.util.List;
 @Data
@@ -17,5 +18,6 @@ public class CartItemRequestDTO {
     private String username;
     private int productId;
     private int quantity;
+    private EProductSize size;
     private List<EIngredient> ingredients;
 }

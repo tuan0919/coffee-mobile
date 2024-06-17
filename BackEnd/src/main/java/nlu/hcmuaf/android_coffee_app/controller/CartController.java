@@ -25,13 +25,14 @@ public class CartController {
 
   @PostMapping("cart")
   public ResponseEntity<MessageResponseDTO> putItem(@RequestBody CartItemRequestDTO requestDTO) {
-    MessageResponseDTO response = new MessageResponseDTO();
+    MessageResponseDTO response = new MessageResponseDTO("OK");
     var status = HttpStatus.OK;
     try {
       cartService.putItem(
               requestDTO.getUsername(),
               requestDTO.getProductId(),
               requestDTO.getQuantity(),
+              requestDTO.getSize(),
               requestDTO.getIngredients());
     } catch (CustomException e) {
       status = HttpStatus.BAD_REQUEST;

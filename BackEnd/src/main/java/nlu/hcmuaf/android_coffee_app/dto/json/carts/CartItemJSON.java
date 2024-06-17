@@ -1,4 +1,4 @@
-package nlu.hcmuaf.android_coffee_app.dto.json.categories;
+package nlu.hcmuaf.android_coffee_app.dto.json.carts;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

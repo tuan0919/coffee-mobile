@@ -255,7 +255,7 @@ public class UserServiceImpl extends AService implements IUserService {
             ObjectMapper mapper = new ObjectMapper();
             var cartJSON = new CartJSON();
             {
-              cartJSON.setDetails(new ArrayList<>());
+              cartJSON.setDetails(new HashMap<>());
             }
             cartJSON.setUsername(user.getUsername());
             cart.setCartJSON(mapper.writeValueAsString(cartJSON));
