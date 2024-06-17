@@ -50,9 +50,6 @@ public class Products {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Set<WishList> wishLists;
 
-    @OneToMany(mappedBy = "product")
-    private Set<CartUsers> cartUsersSet;
-
     @ManyToOne
     @JoinColumn(name = "discountId")
     private Discounts discount;

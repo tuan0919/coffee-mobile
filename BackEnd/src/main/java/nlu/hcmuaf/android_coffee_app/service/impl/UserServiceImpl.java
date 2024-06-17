@@ -7,9 +7,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.nimbusds.jose.shaded.gson.JsonObject;
 import jakarta.transaction.Transactional;
 import nlu.hcmuaf.android_coffee_app.config.CustomUserDetails;
 import nlu.hcmuaf.android_coffee_app.config.JwtService;
+import nlu.hcmuaf.android_coffee_app.dto.json.carts.CartJSON;
 import nlu.hcmuaf.android_coffee_app.dto.json.products.ProductJSON;
 import nlu.hcmuaf.android_coffee_app.dto.json.users.AddressJSON;
 import nlu.hcmuaf.android_coffee_app.dto.json.users.UserJSON;
@@ -21,10 +25,8 @@ import nlu.hcmuaf.android_coffee_app.dto.response.TokenResponseDTO;
 import nlu.hcmuaf.android_coffee_app.entities.*;
 import nlu.hcmuaf.android_coffee_app.enums.EGender;
 import nlu.hcmuaf.android_coffee_app.enums.ERole;
-import nlu.hcmuaf.android_coffee_app.repositories.AddressRepository;
-import nlu.hcmuaf.android_coffee_app.repositories.RoleRepository;
-import nlu.hcmuaf.android_coffee_app.repositories.UserDetailRepository;
-import nlu.hcmuaf.android_coffee_app.repositories.UserRepository;
+import nlu.hcmuaf.android_coffee_app.repositories.*;
+import nlu.hcmuaf.android_coffee_app.service.templates.ICartService;
 import nlu.hcmuaf.android_coffee_app.service.templates.IEmailService;
 import nlu.hcmuaf.android_coffee_app.service.templates.IUserService;
 import nlu.hcmuaf.android_coffee_app.utils.MyUtils;
@@ -59,6 +61,8 @@ public class UserServiceImpl extends AService implements IUserService {
   private ModelMapper modelMapper;
   @Autowired
   private IEmailService emailService;
+  @Autowired
+  private CartRepository cartRepository;
   @Autowired
   private MyUtils myUtils;
   @Autowired
@@ -148,9 +152,6 @@ public class UserServiceImpl extends AService implements IUserService {
 
         users.setCreatedDate(LocalDate.now());
         users.setUserDetails(newUserDetail);
-        Cart cart = new Cart();
-        cart.setUser(users);
-        users.setCart(cart);
         // send email to User
         emailService.sendVerificationCode(requestDTO.getEmail(), otp);
         userRepository.save(users);
@@ -247,6 +248,20 @@ public class UserServiceImpl extends AService implements IUserService {
           user.setUsername(json.getUsername());
           user.setPassword(passwordEncoder.encode(json.getPassword()));
           user.setCreatedDate(LocalDate.now());
+          // create cart for this user
+          var cart = new Cart();
+          {
+            cart.setUser(user);
+            ObjectMapper mapper = new ObjectMapper();
+            var cartJSON = new CartJSON();
+            {
+              cartJSON.setDetails(new ArrayList<>());
+            }
+            cartJSON.setUsername(user.getUsername());
+            cart.setCartJSON(mapper.writeValueAsString(cartJSON));
+            cartRepository.save(cart);
+          }
+          user.setCart(cart);
           // User Details
           UserDetails details = new UserDetails();
           {

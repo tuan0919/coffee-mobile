@@ -11,11 +11,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity(name = "Cart_Users")
+//@Data
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Entity(name = "Cart_Users")
 public class CartUsers implements Serializable {
   @Id
   @ManyToOne

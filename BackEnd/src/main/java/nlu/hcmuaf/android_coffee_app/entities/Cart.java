@@ -33,10 +33,9 @@ public class Cart implements Serializable {
 //  private long userId;
 
   @OneToOne
-  @MapsId
   @JoinColumn(name = "userId")
   private Users user;
 
-  @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-  private Set<CartUsers> cartUsers;
+  @Column(name = "cartJSON")
+  private String cartJSON;
 }

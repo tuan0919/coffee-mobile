@@ -48,8 +48,8 @@ public class Users implements Serializable {
   @PrimaryKeyJoinColumn
   private UserDetails userDetails;
 
-  @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-  @PrimaryKeyJoinColumn
+  @OneToOne
+  @JoinColumn(name = "cartId")
   private Cart cart;
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
