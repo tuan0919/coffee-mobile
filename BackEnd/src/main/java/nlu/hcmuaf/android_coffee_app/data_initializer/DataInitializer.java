@@ -7,9 +7,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
-
-  @Autowired
-  private IPaymentService paymentService;
   @Autowired
   private IRoleService roleService;
   @Autowired
@@ -20,14 +17,13 @@ public class DataInitializer implements CommandLineRunner {
   private ICategoryService categoryService;
   @Autowired
   private IProductService productService;
+  @Autowired
+  private IStoreService storeService;
 
   @Override
   public void run(String... args) throws Exception {
     // Generate default role
     roleService.initData();
-
-    // Generate default payment
-    paymentService.initData();
 
     // Generate admin account
     userService.initData();
@@ -40,5 +36,8 @@ public class DataInitializer implements CommandLineRunner {
 
     // Generate products
     productService.initData();
+
+    // Generate stores
+    storeService.initData();
   }
 }

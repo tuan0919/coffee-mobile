@@ -13,11 +13,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import nlu.hcmuaf.android_coffee_app.enums.EPaymentMethod;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity(name = "Payments")
+//@Data
+//@Builder
+//@NoArgsConstructor
+//@AllArgsConstructor
+//@Entity(name = "Payments")
 public class Payments {
 
   @Id

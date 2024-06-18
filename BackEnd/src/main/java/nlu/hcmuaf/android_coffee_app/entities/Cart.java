@@ -36,6 +36,6 @@ public class Cart implements Serializable {
   @JoinColumn(name = "userId")
   private Users user;
 
-  @Column(name = "cartJSON")
+  @Column(name = "cartJSON", columnDefinition = "TEXT")
   private String cartJSON;
 }
