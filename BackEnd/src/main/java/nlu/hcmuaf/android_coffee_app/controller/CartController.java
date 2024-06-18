@@ -22,14 +22,19 @@ public class CartController {
 
   @Autowired
   private ICartService cartService;
+  @Autowired
+  private JwtService jwtService;
 
-  @PostMapping("cart")
-  public ResponseEntity<MessageResponseDTO> putItem(@RequestBody CartItemRequestDTO requestDTO) {
+  @PutMapping("cart")
+  public ResponseEntity<MessageResponseDTO> putItem(
+          @RequestBody CartItemRequestDTO requestDTO,
+          @RequestHeader(value = "Authorization") String authHeader) {
     MessageResponseDTO response = new MessageResponseDTO("OK");
     var status = HttpStatus.OK;
+    String username = jwtService.extractUsername(authHeader.substring(7));
     try {
       cartService.putItem(
-              requestDTO.getUsername(),
+              username,
               requestDTO.getProductId(),
               requestDTO.getQuantity(),
               requestDTO.getSize(),

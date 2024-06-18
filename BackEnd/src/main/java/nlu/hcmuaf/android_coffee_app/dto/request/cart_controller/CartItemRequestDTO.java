@@ -15,7 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class CartItemRequestDTO {
-    private String username;
     private int productId;
     private int quantity;
     private EProductSize size;
