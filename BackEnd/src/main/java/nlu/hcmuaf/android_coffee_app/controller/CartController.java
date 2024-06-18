@@ -4,6 +4,7 @@ import nlu.hcmuaf.android_coffee_app.config.JwtService;
 import nlu.hcmuaf.android_coffee_app.dto.request.cart_controller.CartItemRequestDTO;
 import nlu.hcmuaf.android_coffee_app.dto.request.cart_controller.CreateOrderRequestDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartResponseDTO;
 import nlu.hcmuaf.android_coffee_app.exceptions.CustomException;
 import nlu.hcmuaf.android_coffee_app.service.templates.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,41 +24,35 @@ public class CartController {
   @PutMapping("cart")
   public ResponseEntity<MessageResponseDTO> putItem(
           @RequestBody CartItemRequestDTO requestDTO,
-          @RequestHeader(value = "Authorization") String authHeader) {
+          @RequestHeader(value = "Authorization") String authHeader) throws CustomException {
     MessageResponseDTO response = new MessageResponseDTO("OK");
-    var status = HttpStatus.OK;
     String username = jwtService.extractUsername(authHeader.substring(7));
-    try {
-      cartService.putItem(
-              username,
+      cartService.putItem(username,
               requestDTO.getProductId(),
               requestDTO.getQuantity(),
               requestDTO.getSize(),
               requestDTO.getIngredients());
-    } catch (CustomException e) {
-      status = HttpStatus.BAD_REQUEST;
-      response.setMessage(e.getMessage());
-    }
-    return new ResponseEntity<>(response, status);
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
+  @GetMapping("cart")
+  public ResponseEntity<CartResponseDTO> getCart(
+          @RequestHeader(value = "Authorization") String authHeader) throws CustomException {
+    String username = jwtService.extractUsername(authHeader.substring(7));
+    var body = cartService.getCartDTO(username);
+    return ResponseEntity.status(HttpStatus.OK).body(body);
   }
 
   @PostMapping("cart")
   public ResponseEntity<MessageResponseDTO> order(
           @RequestBody CreateOrderRequestDTO requestDTO,
-          @RequestHeader(value = "Authorization") String authHeader) {
+          @RequestHeader(value = "Authorization") String authHeader) throws CustomException {
     MessageResponseDTO response = new MessageResponseDTO("OK");
-    var status = HttpStatus.OK;
     String username = jwtService.extractUsername(authHeader.substring(7));
-    try {
-      cartService.order(
-              username,
-              requestDTO.getStoreId(),
-              requestDTO.getMethod());
-    } catch (CustomException e) {
-      status = HttpStatus.BAD_REQUEST;
-      response.setMessage(e.getMessage());
-    }
-    return new ResponseEntity<>(response, status);
+    cartService.order(username,
+      requestDTO.getStoreId(),
+      requestDTO.getMethod());
+    return ResponseEntity.ok(response);
   }
 
 }

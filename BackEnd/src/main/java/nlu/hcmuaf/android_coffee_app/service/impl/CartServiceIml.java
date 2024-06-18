@@ -7,6 +7,9 @@ import jakarta.persistence.criteria.Order;
 import jakarta.transaction.Transactional;
 import nlu.hcmuaf.android_coffee_app.dto.json.carts.CartJSON;
 import nlu.hcmuaf.android_coffee_app.dto.json.carts.CartItemJSON;
+import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartItemResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.ProductDTO;
 import nlu.hcmuaf.android_coffee_app.entities.*;
 import nlu.hcmuaf.android_coffee_app.enums.EIngredient;
 import nlu.hcmuaf.android_coffee_app.enums.EOrderStatus;
@@ -143,6 +146,37 @@ public class CartServiceIml implements ICartService {
             order.setStores(oStore.get());
             order.setPayments(payment);
             orderRepository.save(order);
+        } catch (JsonProcessingException e) {
+            throw new CustomException("Error while parsing JSON");
+        }
+    }
+
+    @Override
+    public CartResponseDTO getCartDTO(String username) throws CustomException {
+        var user = userRepository.findUsersByUsername(username);
+        if (user.isEmpty()) throw new UserNotFoundException("User with this username is not found.");
+        var cart = cartRepository.findCartByUserId(user.get().getUserId());
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            var cartJSON = mapper.readValue(cart.get().getCartJSON(), CartJSON.class);
+            List<CartItemResponseDTO> list = new ArrayList<>();
+            for (var entry : cartJSON.getDetails().entrySet()) {
+//                Get product info
+                var oProduct = productRepository.findById(entry.getKey());
+                if (oProduct.isEmpty())
+                    throw new ProductNotFoundException("Product with this productId is not found.");
+                var productDTO = ProductDTO.builder()
+                        .id(entry.getKey())
+                        .name(oProduct.get().getName())
+                        .avatar(oProduct.get().getAvatar())
+                        .price(oProduct.get().getBasePrice()).build();
+                var itemDTO = CartItemResponseDTO.builder().size(entry.getValue().getSize())
+                        .quantity(entry.getValue().getQuantity())
+                        .ingredients(entry.getValue().getIngredients())
+                        .product(productDTO).build();
+                list.add(itemDTO);
+            }
+            return CartResponseDTO.builder().items(list).build();
         } catch (JsonProcessingException e) {
             throw new CustomException("Error while parsing JSON");
         }
