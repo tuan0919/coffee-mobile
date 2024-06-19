@@ -3,14 +3,18 @@ package com.nlu.packages.ui.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -19,13 +23,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.nlu.packages.CartActivity;
+import com.nlu.packages.MainActivity;
 import com.nlu.packages.R;
+import com.nlu.packages.ui.login.LoginActivity;
 import com.nlu.packages.ui.order.OrderFragment;
 
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, TopCoffeeRvInterface {
+    FirebaseAuth auth;
+    FirebaseUser firebaseUser;
     ImageView imageViewHome1, imageViewHome2, imageViewHome3, imageViewHome4;
     ConstraintLayout constraintLayoutHome;
     SearchView searchView;
@@ -54,6 +64,17 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
                 loadFragment(new OrderFragment());
                 BottomNavigationView navView = getActivity().findViewById(R.id.nav_view);
                 navView.setSelectedItemId(R.id.navigation_order);
+            }
+        });
+        auth= FirebaseAuth.getInstance();
+        firebaseUser= auth.getCurrentUser();
+        // xử lý chức năng nút bấm profile.
+        ImageButton imageButton9= view.findViewById(R.id.imageButton9);
+        imageButton9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPopupMenu(v);
+                Log.d("Bấm","Bấm điiiiiiiii");
             }
         });
 
@@ -90,6 +111,30 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
         topPickRv.setAdapter(topPickRvAdapter);
 
         return view;
+    }
+
+    private void showPopupMenu(View v) {
+        PopupMenu popupMenu = new PopupMenu(getContext(), v);
+        popupMenu.inflate(R.menu.context_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.edit_profile:
+                        Log.d("click","Trang ca nhân");
+                        return true;
+                    case R.id.logout:
+                        Log.d("sign", " Logout sucess"+firebaseUser.getEmail());
+                        auth.signOut();
+                        startActivity(new Intent(getActivity(),LoginActivity.class));
+                        getActivity().finish();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        popupMenu.show();
     }
 
     public void hideKeyboard(View view) {

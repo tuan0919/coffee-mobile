@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "653580284590",
+    "project_id": "appmobile-e3a99",
+    "storage_bucket": "appmobile-e3a99.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653580284590:android:7f33f2d001597c1916b33f",
+        "android_client_info": {
+          "package_name": "com.nlu.packages"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "653580284590-bba42nus6mcrlae401n3lpir0gr3i9np.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nlu.packages",
+            "certificate_hash": "634151549d728984dac86ed435afb49e59eaf180"
+          }
+        },
+        {
+          "client_id": "653580284590-18e8cnb86rmk7f8qo0thkt5404aj1uak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOcj-az-WC23aArHWDy1mcNLBpM475-pY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "653580284590-18e8cnb86rmk7f8qo0thkt5404aj1uak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
