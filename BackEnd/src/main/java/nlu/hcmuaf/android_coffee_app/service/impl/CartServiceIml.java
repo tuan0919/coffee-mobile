@@ -1,12 +1,11 @@
 package nlu.hcmuaf.android_coffee_app.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.criteria.Order;
 import jakarta.transaction.Transactional;
 import nlu.hcmuaf.android_coffee_app.dto.json.carts.CartJSON;
 import nlu.hcmuaf.android_coffee_app.dto.json.carts.CartItemJSON;
+import nlu.hcmuaf.android_coffee_app.dto.request.cart_controller.CartItemRequestDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartItemResponseDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartResponseDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.ProductDTO;
@@ -16,18 +15,17 @@ import nlu.hcmuaf.android_coffee_app.enums.EOrderStatus;
 import nlu.hcmuaf.android_coffee_app.enums.EPaymentMethod;
 import nlu.hcmuaf.android_coffee_app.enums.EProductSize;
 import nlu.hcmuaf.android_coffee_app.exceptions.*;
+import nlu.hcmuaf.android_coffee_app.mapper.request.cart.CartItemRequestDTOMapper;
+import nlu.hcmuaf.android_coffee_app.mapper.response.cart.CartResponseDTOMapper;
 import nlu.hcmuaf.android_coffee_app.repositories.*;
 import nlu.hcmuaf.android_coffee_app.service.templates.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class CartServiceIml implements ICartService {
-    @Autowired
-    private CartRepository repository;
     @Autowired
     private ProductRepository productRepository;
     @Autowired
@@ -42,67 +40,53 @@ public class CartServiceIml implements ICartService {
     private IngredientRepository ingredientRepository;
     @Autowired
     private StoreRepository storeRepository;
+    @Autowired
+    private CartResponseDTOMapper cartResponseDTOMapper;
+    @Autowired
+    private CartItemRequestDTOMapper cartItemRequestDTOMapper;
 
-    @Override
-    public Optional<Cart> findByUserId(long id) {
-        return repository.findCartByUserId(id);
+    public boolean checkHavingSize(long productId, EProductSize size) throws CustomException {
+        var sizeSet = productRepository.findProductSizes(productId);
+        if (sizeSet.isEmpty())
+            throw new ProductSizeException(String.format("Product with id: %d has no size.", productId));
+        return sizeSet.contains(size);
+    }
+
+    public boolean checkHavingIngredients(long productId, List<EIngredient> list) throws CustomException {
+        var ingredientSet = productRepository.findProductIngredients(productId);
+        if (ingredientSet.isEmpty())
+            throw new IngredientException(String.format("Product with id: %d has no ingredient.", productId));
+        for (var ie : list) if (!ingredientSet.contains(ie)) return false;
+        return true;
+    }
+
+    public boolean checkUserExists(String username) {
+        var user = userRepository.findUsersByUsername(username);
+        return user.isPresent();
     }
 
     @Transactional(rollbackOn = Exception.class)
     @Override
-    public void putItem(String username, long productId, int quantity, EProductSize size, List<EIngredient> ingredients) throws CustomException {
-        ObjectMapper mapper = new ObjectMapper();
-        var user = userRepository.findUsersByUsername(username);
-        if (user.isEmpty()) throw new UserNotFoundException("User with this username is not found.");
-        var product = productRepository.findById(productId);
-        if (product.isEmpty()) throw new ProductNotFoundException("Product with this productId is not found.");
-        var oSetSize = productRepository.findSizes(productId);
-        Set<EProductSize> setSize = null;
-        Set<EIngredient> setIngredients = null;
-        if (oSetSize.isPresent()) setSize = oSetSize.get().getSizeSet()
-                .stream().map(hv -> hv.getSize()).collect(Collectors.toSet());
-        if (oSetSize.isEmpty() || !setSize.contains(size))
-            throw new ProductSizeNotFoundException("This product doesn't have that size");
-        var oSetIngredients = productRepository.findIngredients(productId);
-        if (oSetIngredients.isPresent()) setIngredients = oSetIngredients.get().getIngredientsSet()
-                .stream().map(hv -> hv.getIngredients().getIngredientEnum()).collect(Collectors.toSet());
-        for (var i : setIngredients) {
-            if (oSetIngredients.isEmpty() || !setIngredients.contains(i))
-                throw new IngredientNotFoundException("This product doesn't have that ingredient");
-        }
-        var cart = cartRepository.findCartByUserId(user.get().getUserId());
-        try {
-            var cartJSON = mapper.readValue(cart.get().getCartJSON(), CartJSON.class);
-            System.out.println(cartJSON);
-            System.out.println(String.format("trong giỏ hàng đang có %d sản phẩm", cartJSON.getDetails().size()));
-            if (quantity == 0) cartJSON.getDetails().remove(productId);
-            else {
-                var oItem = Optional.ofNullable(cartJSON.getDetails().get(productId));
-                CartItemJSON item = null;
-                if (!oItem.isPresent()) {
-                    item = new CartItemJSON();
-                }
-                else {
-                    item = oItem.get();
-                }
-                item.setProductId(productId);
-                item.setQuantity(quantity);
-                item.setSize(size);
-                item.setIngredients(ingredients);
-                cartJSON.getDetails().put(productId, item);
-            }
-            cart.get().setCartJSON(mapper.writeValueAsString(cartJSON));
-            cartRepository.save(cart.get());
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+    public void putItem(String username, CartItemRequestDTO requestDTO) throws CustomException {
+        if (!checkUserExists(username))
+            throw new CustomException(String.format("User with username: %s doesn't exist.", username));
+        long productId = requestDTO.getProductId();
+        EProductSize productSize = requestDTO.getSize();
+        if (!checkHavingSize(productId, productSize))
+            throw new ProductSizeException(String.format("Product with id: %d doesn't have this size: %s.", productId, productSize));
+        List<EIngredient> ingredients = requestDTO.getIngredients();
+        if (!checkHavingIngredients(productId, ingredients))
+            throw new IngredientException(String.format("Product with id: %d doesn't have some of ingredients.", productId));
+        var cart = cartRepository.findCartByUsername(username).get();
+        cartItemRequestDTOMapper.updateFromDTO(cart, requestDTO);
+        cartRepository.save(cart);
     }
 
     @Override
     @Transactional(rollbackOn = Exception.class)
     public void order(String username, long storeId, EPaymentMethod payment) throws CustomException {
         var user = userRepository.findUsersByUsername(username);
-        if (user.isEmpty()) throw new UserNotFoundException("User with this username is not found.");
+        if (user.isEmpty()) throw new UserInfoException("User with this username is not found.");
         var cart = cartRepository.findCartByUserId(user.get().getUserId());
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -117,7 +101,7 @@ public class CartServiceIml implements ICartService {
 //                create Order Items
                 var orderItems = new OrderItems();
                 var oProduct = productRepository.findById(entry.getKey());
-                if (oProduct.isEmpty()) throw new ProductNotFoundException("Product with this productId is not found.");
+                if (oProduct.isEmpty()) throw new ProductException("Product with this productId is not found.");
                 orderItems.setSize(entry.getValue().getSize());
                 orderItems.setQuantity(entry.getValue().getQuantity());
                 orderItems.setProducts(oProduct.get());
@@ -127,7 +111,7 @@ public class CartServiceIml implements ICartService {
                 Set<AddIngredients> addSet = new HashSet<>();
                 for (var ie : entry.getValue().getIngredients()) {
                     var oIE = ingredientRepository.findByEnum(ie);
-                    if (oIE.isEmpty()) throw new IngredientNotFoundException("Ingredient is not found.");
+                    if (oIE.isEmpty()) throw new IngredientException("Ingredient is not found.");
                     var add = new AddIngredients();
                     add.setOrderItems(orderItems);
                     add.setIngredients(oIE.get());
@@ -153,32 +137,9 @@ public class CartServiceIml implements ICartService {
 
     @Override
     public CartResponseDTO getCartDTO(String username) throws CustomException {
-        var user = userRepository.findUsersByUsername(username);
-        if (user.isEmpty()) throw new UserNotFoundException("User with this username is not found.");
-        var cart = cartRepository.findCartByUserId(user.get().getUserId());
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            var cartJSON = mapper.readValue(cart.get().getCartJSON(), CartJSON.class);
-            List<CartItemResponseDTO> list = new ArrayList<>();
-            for (var entry : cartJSON.getDetails().entrySet()) {
-//                Get product info
-                var oProduct = productRepository.findById(entry.getKey());
-                if (oProduct.isEmpty())
-                    throw new ProductNotFoundException("Product with this productId is not found.");
-                var productDTO = ProductDTO.builder()
-                        .id(entry.getKey())
-                        .name(oProduct.get().getName())
-                        .avatar(oProduct.get().getAvatar())
-                        .price(oProduct.get().getBasePrice()).build();
-                var itemDTO = CartItemResponseDTO.builder().size(entry.getValue().getSize())
-                        .quantity(entry.getValue().getQuantity())
-                        .ingredients(entry.getValue().getIngredients())
-                        .product(productDTO).build();
-                list.add(itemDTO);
-            }
-            return CartResponseDTO.builder().items(list).build();
-        } catch (JsonProcessingException e) {
-            throw new CustomException("Error while parsing JSON");
-        }
+        if (!checkUserExists(username))
+            throw new UserInfoException(String.format("User with username: %s doesn't exist.", username));
+        var cart = cartRepository.findCartByUsername(username).get();
+        return cartResponseDTOMapper.mapToDTO(cart);
     }
 }

@@ -15,4 +15,6 @@ import java.util.Optional;
 public interface CartRepository extends CrudRepository<Cart, Long> {
   @Query("SELECT c FROM Cart c WHERE c.user.userId = :id")
   Optional<Cart> findCartByUserId(@Param("id") long id);
+  @Query("SELECT c FROM Cart c WHERE c.user.username = :username")
+  Optional<Cart> findCartByUsername(@Param("username") String username);
 }

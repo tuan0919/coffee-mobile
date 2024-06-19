@@ -27,11 +27,7 @@ public class CartController {
           @RequestHeader(value = "Authorization") String authHeader) throws CustomException {
     MessageResponseDTO response = new MessageResponseDTO("OK");
     String username = jwtService.extractUsername(authHeader.substring(7));
-      cartService.putItem(username,
-              requestDTO.getProductId(),
-              requestDTO.getQuantity(),
-              requestDTO.getSize(),
-              requestDTO.getIngredients());
+      cartService.putItem(username, requestDTO);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
