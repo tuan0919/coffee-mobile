@@ -15,6 +15,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+//class nầy để tạo 1 recycle view, để lấy dữ liệu lên trên màn hình, là phần code có thể mở rộng, nó là phần hỗ
+//trợ hiển thị giao diện cho phần Top Pick Coffee trên màn hình Home
 class TopPickRvAdapter extends RecyclerView.Adapter<TopPickRvAdapter.MyHolder> {
     private final TopCoffeeRvInterface topCoffeeRvInterface;
     ArrayList<String> data;
@@ -26,6 +28,7 @@ class TopPickRvAdapter extends RecyclerView.Adapter<TopPickRvAdapter.MyHolder> {
         this.topCoffeeRvInterface = topCoffeeRvInterface;
     }
 
+    //khỏi tạo view holder, để hiển thị giao diện lên fragment gọi nó
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,15 +47,18 @@ class TopPickRvAdapter extends RecyclerView.Adapter<TopPickRvAdapter.MyHolder> {
         return data.size();
     }
 
-    class MyHolder extends RecyclerView.ViewHolder {
+    //khai báo textview vói image view để chứa hình ảnh với chữ
+    public static class MyHolder extends RecyclerView.ViewHolder {
         TextView textView2;
         ImageView imageView2;
 
+        //set lại nôi dung của hình ảnh với chữ
         public MyHolder(@NonNull View itemView, TopCoffeeRvInterface topCoffeeRvInterface) {
             super(itemView);
             textView2 = itemView.findViewById(R.id.topPickTitleRv);
             imageView2 = itemView.findViewById(R.id.topPickImageRv);
 
+            //xử lý sự kiện khi và 1 hình ảnh được nhấn vào sẽ chuyển qua trang chi tiết sản phẩm
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

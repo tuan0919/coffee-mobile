@@ -15,6 +15,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+//class nầy để tạo 1 recycle view (được gọi là adapter), được dùng để lấy dữ liệu lên trên màn hình,
+//là phần code có thể mở rộng, nó là phần hỗ trợ giao diện cho mục Coffee for you trên màn hình Home
 class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyHolder> {
     private final CoffeeForYouRvInterface coffeeForYouRvInterface;
     ArrayList<String> data;
@@ -26,6 +28,7 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
         this.coffeeForYouRvInterface=coffeeForYouRvInterface;
     }
 
+    //khỏi tạo view holder, để hiển thị giao diện lên fragment gọi nó
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -44,15 +47,18 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
         return data.size();
     }
 
+    //khai báo textview vói image view để chứa hình ảnh với chữ
     public static class MyHolder extends RecyclerView.ViewHolder {
         TextView textView1;
         ImageView imageView1;
 
+        //set lại nôi dung của hình ảnh với chữ
         public MyHolder(@NonNull View itemView, CoffeeForYouRvInterface coffeeForYouRvInterface) {
             super(itemView);
             textView1 = itemView.findViewById(R.id.homeCoffeeTitleRv);
             imageView1 = itemView.findViewById(R.id.homeCoffeeImageRv);
 
+            //xử lý sự kiện khi và 1 hình ảnh được nhấn vào sẽ chuyển qua trang chi tiết sản phẩm
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
