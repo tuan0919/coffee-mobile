@@ -45,7 +45,7 @@ public abstract class CartResponseDTOMapper {
                     throw new ProductException(String.format("Product with id %d is not found", entry.getKey()));
                 var productDTO = ProductDTO.builder()
                         .id(entry.getKey())
-                        .name(oProduct.get().getName())
+                        .name(oProduct.get().getProductName())
                         .avatar(oProduct.get().getAvatar())
                         .price(oProduct.get().getBasePrice()).build();
                 var itemDTO = CartItemResponseDTO.builder().size(entry.getValue().getSize())

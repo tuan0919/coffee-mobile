@@ -2,10 +2,14 @@ package nlu.hcmuaf.android_coffee_app.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import nlu.hcmuaf.android_coffee_app.dto.json.products.ProductJSON;
+import nlu.hcmuaf.android_coffee_app.dto.response.product_controller.ProductResponseDTO;
 import nlu.hcmuaf.android_coffee_app.entities.HavingIngredients;
 import nlu.hcmuaf.android_coffee_app.entities.HavingSizes;
 import nlu.hcmuaf.android_coffee_app.entities.Products;
 import nlu.hcmuaf.android_coffee_app.enums.EProductType;
+import nlu.hcmuaf.android_coffee_app.exceptions.CustomException;
+import nlu.hcmuaf.android_coffee_app.exceptions.ProductException;
+import nlu.hcmuaf.android_coffee_app.mapper.response.product.ProductResponseDTOMapper;
 import nlu.hcmuaf.android_coffee_app.repositories.ProductRepository;
 import nlu.hcmuaf.android_coffee_app.service.templates.IProductService;
 import org.modelmapper.TypeMap;
@@ -27,6 +31,8 @@ public class ProductServiceIml extends AService implements IProductService {
     private CategoryService categoryService;
     @Autowired
     private IngredientService ingredientService;
+    @Autowired
+    private ProductResponseDTOMapper productResponseDTOMapper;
     @Override
     public void initData() {
         if (repository.findAll().isEmpty()) {
@@ -38,7 +44,7 @@ public class ProductServiceIml extends AService implements IProductService {
                 for (var json : ingredientJSONS.stream().toList()) {
                     Products product = new Products();
                     product.setProductId(json.getProductId());
-                    product.setName(json.getName());
+                    product.setProductName(json.getName());
                     product.setAvatar(json.getAvatar());
                     product.setBasePrice(json.getBasePrice());
                     product.setActive(json.isActive());
@@ -66,5 +72,13 @@ public class ProductServiceIml extends AService implements IProductService {
                 throw new RuntimeException(e.getMessage(), e);
             }
         }
+    }
+
+    @Override
+    public ProductResponseDTO findProductById(Long id) throws CustomException {
+        var oProduct = repository.findById(id);
+        if (oProduct.isEmpty())
+            throw new ProductException(String.format("Product with id :%d is not found", id));
+        return productResponseDTOMapper.mapToDTO(oProduct.get());
     }
 }

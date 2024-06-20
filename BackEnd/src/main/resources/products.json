@@ -6,7 +6,7 @@
     "avatar": "https://product.hstatic.net/1000075078/product/1686716532_dd-suada_c180c6187e644babbac7019a2070231e_large.jpg",
     "base_price": "45.0",
     "category_id": "2",
-    "type": "COFFEE",
+    "type": "DRINK",
     "sizes": ["SMALL", "MEDIUM", "LARGE"],
     "ingredients":[
       "SHOT_EXPRESSO",
@@ -21,7 +21,7 @@
     "avatar": "https://product.hstatic.net/1000075078/product/1675355354_bg-tch-sua-da-no_4fbf208885ed464ab4b5e145336d42a2_large.jpg",
     "base_price": "39.0",
     "category_id": "2",
-    "type": "COFFEE",
+    "type": "DRINK",
     "sizes": ["SMALL", "MEDIUM", "LARGE"],
     "ingredients":[
       "SHOT_EXPRESSO",
@@ -36,7 +36,7 @@
     "avatar": "https://product.hstatic.net/1000075078/product/1669736835_ca-phe-sua-da_e6168b6a38ec45d2b4854d2708b5d542.png",
     "base_price": "29.0",
     "category_id": "2",
-    "type": "COFFEE",
+    "type": "DRINK",
     "sizes": ["SMALL", "MEDIUM", "LARGE"],
     "ingredients":[
       "SHOT_EXPRESSO",
@@ -51,7 +51,7 @@
     "avatar": "https://product.hstatic.net/1000075078/product/1639377770_cfsua-nong_9a47f58888e7444a9979e0d117d49ad3.jpg",
     "base_price": "39.0",
     "category_id": "2",
-    "type": "COFFEE",
+    "type": "DRINK",
     "sizes": [],
     "ingredients":[
       "SHOT_EXPRESSO",
@@ -66,7 +66,7 @@
     "avatar": "https://product.hstatic.net/1000075078/product/1639377904_bac-siu_525b9fa5055b41f183088c8e479a9472.jpg",
     "base_price": "39.0",
     "category_id": "2",
-    "type": "COFFEE",
+    "type": "DRINK",
     "sizes": [],
     "ingredients":[
       "SHOT_EXPRESSO",
@@ -81,7 +81,7 @@
     "avatar": "https://product.hstatic.net/1000075078/product/1639377904_bac-siu_525b9fa5055b41f183088c8e479a9472.jpg",
     "base_price": "39.0",
     "category_id": "2",
-    "type": "COFFEE",
+    "type": "DRINK",
     "sizes": [],
     "ingredients":[
       "SHOT_EXPRESSO",

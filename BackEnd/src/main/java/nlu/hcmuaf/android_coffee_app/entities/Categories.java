@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nlu.hcmuaf.android_coffee_app.enums.EProductType;
 
 import java.io.Serializable;
 
@@ -27,4 +28,8 @@ public class Categories implements Serializable {
 
     @Column(name = "active")
     private boolean active;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private EProductType type;
 }

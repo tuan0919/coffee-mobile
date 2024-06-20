@@ -16,7 +16,7 @@ import java.util.Set;
 
 @Repository
 public interface ProductRepository extends CrudRepository<Products, Long> {
-  @Query("SELECT p FROM products p JOIN FETCH p.categories WHERE p.name like %:name%")
+  @Query("SELECT p FROM products p JOIN FETCH p.categories WHERE p.productName like %:name%")
   List<Products> findProductByName(@Param("name") String name);
   @Query("SELECT p FROM products p")
   List<Products> findAll();

@@ -24,10 +24,10 @@ public class Discounts implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "discountId")
-  private long discountId;
+  private Long discountId;
 
   @Column(name = "percent")
-  private double percent;
+  private Double percent;
 
   @Column(name = "expireDate")
   private LocalDate expireDate;

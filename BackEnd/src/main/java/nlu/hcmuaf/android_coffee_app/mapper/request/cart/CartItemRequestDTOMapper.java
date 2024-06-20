@@ -6,11 +6,9 @@ import nlu.hcmuaf.android_coffee_app.dto.json.carts.CartJSON;
 import nlu.hcmuaf.android_coffee_app.dto.request.cart_controller.CartItemRequestDTO;
 import nlu.hcmuaf.android_coffee_app.entities.Cart;
 import nlu.hcmuaf.android_coffee_app.exceptions.CustomException;
-import nlu.hcmuaf.android_coffee_app.mapper.response.cart.CartResponseDTOMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
-import org.mapstruct.factory.Mappers;
 
 import java.util.Optional;
 

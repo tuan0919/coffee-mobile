@@ -1,7 +1,7 @@
 package nlu.hcmuaf.android_coffee_app.enums;
 
 public enum EProductType {
-  COFFEE("Cà phê"), TEA("Trà"), ICE_BLENDED("Đá xay"), FOOD("Thức ăn"), FRUIT("Trái cây");
+  DRINK("Nước uống"), FOOD("Thức ăn"), FRUIT("Trái cây");
   private final String text;
 
   private EProductType(String text) {

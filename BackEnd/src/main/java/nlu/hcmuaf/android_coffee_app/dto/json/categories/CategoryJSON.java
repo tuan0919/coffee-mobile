@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import nlu.hcmuaf.android_coffee_app.enums.EProductType;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +18,6 @@ public class CategoryJSON {
     private boolean active;
     @JsonProperty("avatar")
     private String avatar;
+    @JsonProperty("type")
+    private EProductType type;
 }
