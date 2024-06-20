@@ -20,13 +20,13 @@ public class Ingredients {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ingredientId")
-    private long ingredientId;
+    private Long ingredientId;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "ingredientName")
+    private String ingredientName;
 
     @Column(name = "addPrice")
-    private double addPrice;
+    private Double addPrice;
 
     @Column(name = "ingredientType")
     @Enumerated(EnumType.STRING)
@@ -36,10 +36,13 @@ public class Ingredients {
     @Enumerated(EnumType.STRING)
     private EIngredient ingredientEnum;
 
-    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ingredients",
+            cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY)
     private Set<HavingIngredients> productSet;
 
-    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL,
+    fetch = FetchType.LAZY)
     private Set<AddIngredients> orderItemSet;
 
     @Override

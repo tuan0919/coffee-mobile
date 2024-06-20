@@ -1,11 +1,14 @@
 package nlu.hcmuaf.android_coffee_app.mapper.response.product;
 
+import nlu.hcmuaf.android_coffee_app.dto.response.product_controller.IngredientResponseDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.product_controller.ProductResponseDTO;
+import nlu.hcmuaf.android_coffee_app.entities.Ingredients;
 import nlu.hcmuaf.android_coffee_app.entities.Products;
 import nlu.hcmuaf.android_coffee_app.enums.EIngredient;
 import nlu.hcmuaf.android_coffee_app.enums.EProductSize;
 import nlu.hcmuaf.android_coffee_app.repositories.CategoryRepository;
 import nlu.hcmuaf.android_coffee_app.repositories.DiscountRepository;
+import nlu.hcmuaf.android_coffee_app.repositories.IngredientRepository;
 import nlu.hcmuaf.android_coffee_app.repositories.ProductRepository;
 import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,10 @@ public abstract class ProductResponseDTOMapper {
     CategoryRepository categoryRepository;
     @Autowired
     DiscountRepository discountRepository;
+    @Autowired
+    IngredientRepository ingredientRepository;
+    @Autowired
+    IngredientResponseDTOMapper ingredientResponseDTOMapper;
     @Mapping(target = "categoryId", source = "categories.categoryId")
     @Mapping(target = "availableSizes", source = "productId", qualifiedByName = "findSizesFromId")
     @Mapping(target = "availableIngredients", source = "productId", qualifiedByName = "findIngredientsFromId")
@@ -35,8 +42,10 @@ public abstract class ProductResponseDTOMapper {
         return productRepository.findProductSizes(productId).stream().toList();
     }
     @Named("findIngredientsFromId")
-    List<EIngredient> findIngredients(Long productId) {
-        return productRepository.findProductIngredients(productId).stream().toList();
+    List<IngredientResponseDTO> findIngredients(Long productId) {
+        return ingredientRepository.findByProductId(productId)
+                .stream().map(ie -> ingredientResponseDTOMapper.mapToDTO(ie))
+                .toList();
     }
     @Named("findDiscountPercentFromId")
     double findDiscountPercent(Long discountId) {

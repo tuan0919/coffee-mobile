@@ -14,7 +14,7 @@ public class IngredientJSON {
     @JsonProperty("id")
     private long ingredientId;
     @JsonProperty("name")
-    private String name;
+    private String ingredientName;
     @JsonProperty("add_price")
     private double addPrice;
     @JsonProperty("type")
