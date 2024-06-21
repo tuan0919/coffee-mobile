@@ -20,4 +20,6 @@ public class CategoryJSON {
     private String avatar;
     @JsonProperty("type")
     private EProductType type;
+    @JsonProperty("categoryEnum")
+    private String categoryEnum;
 }

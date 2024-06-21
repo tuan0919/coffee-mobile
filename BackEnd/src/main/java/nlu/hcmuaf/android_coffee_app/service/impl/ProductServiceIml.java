@@ -6,15 +6,19 @@ import nlu.hcmuaf.android_coffee_app.dto.response.product_controller.ProductResp
 import nlu.hcmuaf.android_coffee_app.entities.HavingIngredients;
 import nlu.hcmuaf.android_coffee_app.entities.HavingSizes;
 import nlu.hcmuaf.android_coffee_app.entities.Products;
+import nlu.hcmuaf.android_coffee_app.enums.ECategory;
 import nlu.hcmuaf.android_coffee_app.enums.EProductType;
+import nlu.hcmuaf.android_coffee_app.exceptions.CategoryException;
 import nlu.hcmuaf.android_coffee_app.exceptions.CustomException;
 import nlu.hcmuaf.android_coffee_app.exceptions.ProductException;
 import nlu.hcmuaf.android_coffee_app.mapper.response.product.ProductResponseDTOMapper;
+import nlu.hcmuaf.android_coffee_app.repositories.CategoryRepository;
 import nlu.hcmuaf.android_coffee_app.repositories.ProductRepository;
 import nlu.hcmuaf.android_coffee_app.service.templates.IProductService;
 import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,6 +37,7 @@ public class ProductServiceIml extends AService implements IProductService {
     private IngredientService ingredientService;
     @Autowired
     private ProductResponseDTOMapper productResponseDTOMapper;
+
     @Override
     public void initData() {
         if (repository.findAll().isEmpty()) {
@@ -75,10 +80,32 @@ public class ProductServiceIml extends AService implements IProductService {
     }
 
     @Override
-    public ProductResponseDTO findProductById(Long id) throws CustomException {
-        var oProduct = repository.findById(id);
-        if (oProduct.isEmpty())
-            throw new ProductException(String.format("Product with id :%d is not found", id));
-        return productResponseDTOMapper.mapToDTO(oProduct.get());
+    public List<ProductResponseDTO> findProducts(String typePathName, String categoryPathName, String name, Long id) throws CustomException {
+        List<Products> products;
+        if (null == typePathName || typePathName.isEmpty())
+            products = repository.findAll();
+        else {
+            var map = EProductType.MAP_TO_PATHNAME;
+            if (!map.containsKey(typePathName))
+                throw new ProductException("Product's type is not exists", HttpStatus.NOT_FOUND.value());
+            products = repository.findAllByProductType(map.get(typePathName));
+        }
+        if (categoryPathName != null && !categoryPathName.isEmpty()) {
+            var map = ECategory.MAP_TO_PATHNAME;
+            if (!map.containsKey(categoryPathName))
+                throw new CategoryException("Category is not exists", HttpStatus.NOT_FOUND.value());
+            products = products.stream()
+                    .filter(p -> p.getCategories().getCategoryEnum() == map.get(categoryPathName))
+                    .toList();
+        }
+        if (name != null && !name.isEmpty())
+            products = products.stream()
+                    .filter(p -> p.getProductName().toLowerCase().contains(name.toLowerCase()))
+                    .toList();
+        if (id != null)
+            products = products.stream()
+                    .filter(p -> p.getProductId() == id)
+                    .toList();
+        return products.stream().map(productResponseDTOMapper::mapToDTO).toList();
     }
 }

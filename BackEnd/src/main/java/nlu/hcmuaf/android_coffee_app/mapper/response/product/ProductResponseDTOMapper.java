@@ -1,59 +1,43 @@
 package nlu.hcmuaf.android_coffee_app.mapper.response.product;
 
-import nlu.hcmuaf.android_coffee_app.dto.response.product_controller.IngredientResponseDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.product_controller.ProductResponseDTO;
+import nlu.hcmuaf.android_coffee_app.entities.HavingIngredients;
+import nlu.hcmuaf.android_coffee_app.entities.HavingSizes;
 import nlu.hcmuaf.android_coffee_app.entities.Ingredients;
 import nlu.hcmuaf.android_coffee_app.entities.Products;
-import nlu.hcmuaf.android_coffee_app.enums.EIngredient;
 import nlu.hcmuaf.android_coffee_app.enums.EProductSize;
-import nlu.hcmuaf.android_coffee_app.repositories.CategoryRepository;
-import nlu.hcmuaf.android_coffee_app.repositories.DiscountRepository;
-import nlu.hcmuaf.android_coffee_app.repositories.IngredientRepository;
-import nlu.hcmuaf.android_coffee_app.repositories.ProductRepository;
 import org.mapstruct.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class ProductResponseDTOMapper {
-    @Autowired
-    ProductRepository productRepository;
-    @Autowired
-    CategoryRepository categoryRepository;
-    @Autowired
-    DiscountRepository discountRepository;
-    @Autowired
-    IngredientRepository ingredientRepository;
-    @Autowired
-    IngredientResponseDTOMapper ingredientResponseDTOMapper;
     @Mapping(target = "categoryId", source = "categories.categoryId")
-    @Mapping(target = "availableSizes", source = "productId", qualifiedByName = "findSizesFromId")
-    @Mapping(target = "availableIngredients", source = "productId", qualifiedByName = "findIngredientsFromId")
-    @Mapping(target = "categoryName", source = "categories.categoryId", qualifiedByName = "findCategoryNameFromId")
-    @Mapping(target = "discountPercent",
-            defaultValue = "-1",
-            source = "discount.discountId",
-            qualifiedByName = "findDiscountPercentFromId")
+    @Mapping(target = "availableSizes", source = "product", qualifiedByName = "findSizes")
+    @Mapping(target = "availableIngredients", source = "product", qualifiedByName = "findIngredients")
+    @Mapping(target = "categoryName", source = "product.categories.categoryName")
+    @Mapping(target = "discountPercent", source = "product.discount.percent", defaultValue = "0")
     public abstract ProductResponseDTO mapToDTO(Products product);
+    abstract ProductResponseDTO.IngredientDTO mapToDTO(Ingredients ingredient);
+    @Mapping(target = "sizeEnum", source = "size")
+    @Mapping(target = "multipler", source = "size.multipler")
+    abstract ProductResponseDTO.ProductSizeDTO mapToDTO(EProductSize size);
 
-    @Named("findSizesFromId")
-    List<EProductSize> findSizes(Long productId) {
-        return productRepository.findProductSizes(productId).stream().toList();
-    }
-    @Named("findIngredientsFromId")
-    List<IngredientResponseDTO> findIngredients(Long productId) {
-        return ingredientRepository.findByProductId(productId)
-                .stream().map(ie -> ingredientResponseDTOMapper.mapToDTO(ie))
+
+
+    @Named("findSizes")
+    List<ProductResponseDTO.ProductSizeDTO> findSizes(Products product) {
+        return product.getSizeSet().stream()
+                .map(HavingSizes::getSize)
+                .map(this::mapToDTO)
                 .toList();
     }
-    @Named("findDiscountPercentFromId")
-    double findDiscountPercent(Long discountId) {
-        if (discountId == -1) return 0;
-        return discountRepository.findById(discountId).get().getPercent();
-    }
-    @Named("findCategoryNameFromId")
-    String findCategoryName(Long categoryId) {
-        return categoryRepository.findById(categoryId).get().getCategoryName();
+
+    @Named("findIngredients")
+    List<ProductResponseDTO.IngredientDTO> findIngredients(Products product) {
+        return product.getIngredientsSet().stream()
+                .map(HavingIngredients::getIngredients)
+                .map(this::mapToDTO)
+                .toList();
     }
 }
