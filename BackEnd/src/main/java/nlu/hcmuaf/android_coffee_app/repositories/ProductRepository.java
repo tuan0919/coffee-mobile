@@ -3,6 +3,7 @@ package nlu.hcmuaf.android_coffee_app.repositories;
 import nlu.hcmuaf.android_coffee_app.entities.HavingSizes;
 import nlu.hcmuaf.android_coffee_app.entities.Ingredients;
 import nlu.hcmuaf.android_coffee_app.entities.Products;
+import nlu.hcmuaf.android_coffee_app.enums.ECategory;
 import nlu.hcmuaf.android_coffee_app.enums.EIngredient;
 import nlu.hcmuaf.android_coffee_app.enums.EProductSize;
 import nlu.hcmuaf.android_coffee_app.enums.EProductType;
@@ -30,4 +31,5 @@ public interface ProductRepository extends CrudRepository<Products, Long> {
 //  Auto
   List<Products> findAllByCategoriesCategoryId(Long id);
   List<Products> findAllByProductType(EProductType productType);
+  List<Products> findALlByProductTypeAndCategoriesCategoryEnum(EProductType productType, ECategory category);
 }

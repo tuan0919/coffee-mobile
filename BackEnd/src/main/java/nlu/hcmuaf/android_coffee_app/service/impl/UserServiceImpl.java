@@ -249,18 +249,7 @@ public class UserServiceImpl extends AService implements IUserService {
           user.setPassword(passwordEncoder.encode(json.getPassword()));
           user.setCreatedDate(LocalDate.now());
           // create cart for this user
-          var cart = new Cart();
-          {
-            cart.setUser(user);
-            ObjectMapper mapper = new ObjectMapper();
-            var cartJSON = new CartJSON();
-            {
-              cartJSON.setDetails(new HashMap<>());
-            }
-            cartJSON.setUsername(user.getUsername());
-            cart.setCartJSON(mapper.writeValueAsString(cartJSON));
-            cartRepository.save(cart);
-          }
+          var cart = Cart.builder().user(user).build();
           user.setCart(cart);
           // User Details
           UserDetails details = new UserDetails();

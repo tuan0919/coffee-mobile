@@ -1,7 +1,7 @@
 package nlu.hcmuaf.android_coffee_app.mapper.response.cart;
 
 import nlu.hcmuaf.android_coffee_app.dto.request.cart_controller.CartItemRequestDTO;
-import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartResponseDTO2;
+import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartResponseDTO;
 import nlu.hcmuaf.android_coffee_app.entities.*;
 import nlu.hcmuaf.android_coffee_app.enums.EIngredient;
 import nlu.hcmuaf.android_coffee_app.enums.EProductSize;
@@ -16,12 +16,14 @@ import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING,
+builder = @Builder(disableBuilder = true))
 public abstract class CartDTOMapper {
     @Autowired
     ProductRepository productRepository;
@@ -30,23 +32,46 @@ public abstract class CartDTOMapper {
     @Autowired
     CartItemRepository cartItemRepository;
 
-    @Mapping(target = "list", source = "cart.cartItemsSet", qualifiedByName = "findCartItem")
-    public abstract CartResponseDTO2 mapToDTO(Cart cart);
+    @Mapping(target = "list", source = "cart.cartItemsSet", qualifiedByName = "findCartItems")
+    @Mapping(target = "count", ignore = true)
+    @Mapping(target = "total", ignore = true)
+    public abstract CartResponseDTO mapCartToDTO(Cart cart);
+    public CartResponseDTO mapSetCartItemToDTO(Set<CartItems> items) {
+        var list = findCartItems(items);
+        var instance = CartResponseDTO.builder()
+                .list(list)
+                .build();
+        afterMapCartDTO(instance);
+        return instance;
+    }
     @Mapping(target = "id", source = "product.productId")
     @Mapping(target = "name", source = "product.productName")
     @Mapping(target = "price", source = "product.basePrice")
     @Named("findProduct")
-    abstract CartResponseDTO2.ProductDTO findProduct(Products product);
+    abstract CartResponseDTO.ProductDTO findProduct(Products product);
+
     @Mapping(target = "ingredients", qualifiedByName = "findIngredientEnums", source = "item.ingredientsSet")
-    @Named("findCartItem")
     @Mapping(target = "product", source = "item.products", qualifiedByName = "findProduct")
-    abstract CartResponseDTO2.CartItemDTO findCartItem(CartItems item);
+    abstract CartResponseDTO.CartItemDTO findCartItem(CartItems item);
+
+    @Named("findCartItems")
+    abstract List<CartResponseDTO.CartItemDTO> findCartItems(Set<CartItems> items);
+
     @Named("findIngredientEnums")
     List<EIngredient> findIngredientEnums(Set<CartAddIngredients> ingredients) {
         return ingredients.stream()
                 .map(CartAddIngredients::getIngredients)
                 .map(Ingredients::getIngredientEnum)
                 .toList();
+    }
+
+    @AfterMapping
+    void afterMapCartDTO(@MappingTarget CartResponseDTO cartDTO) {
+        double total = cartDTO.getList().stream()
+                .mapToDouble(CartResponseDTO.CartItemDTO::getPrice)
+                .sum();
+        cartDTO.setTotal(total);
+        cartDTO.setCount(cartDTO.getList().size());
     }
     public CartItems mapToModel(Cart cart, CartItemRequestDTO cartItemRequestDTO) throws CustomException {
         CartItems item = new CartItems();

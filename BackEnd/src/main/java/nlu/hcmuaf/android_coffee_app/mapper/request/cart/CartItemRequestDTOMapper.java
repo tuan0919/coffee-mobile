@@ -15,22 +15,4 @@ import java.util.Optional;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public abstract class CartItemRequestDTOMapper {
     public abstract CartItemJSON mapToJSON(CartItemRequestDTO cartItemRequestDTO);
-    public void updateFromDTO(@MappingTarget Cart cart, CartItemRequestDTO cartItemRequestDTO) throws CustomException {
-        int quantity = cartItemRequestDTO.getQuantity();
-        long productId = cartItemRequestDTO.getProductId();
-        var mapper = new ObjectMapper();
-        try {
-            var cartJSON = mapper.readValue(cart.getCartJSON(), CartJSON.class);
-            if (quantity == 0)
-                cartJSON.getDetails().remove(productId);
-            else {
-                var oItem = Optional.ofNullable(cartJSON.getDetails().get(productId));
-                CartItemJSON item = oItem.orElse(mapToJSON(cartItemRequestDTO));
-                cartJSON.getDetails().put(productId, item);
-            }
-            cart.setCartJSON(mapper.writeValueAsString(cartJSON));
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
 }

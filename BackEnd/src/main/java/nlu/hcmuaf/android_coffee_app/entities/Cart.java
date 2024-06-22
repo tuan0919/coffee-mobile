@@ -34,9 +34,6 @@ public class Cart implements Serializable {
   @JoinColumn(name = "userId")
   private Users user;
 
-  @Column(name = "cartJSON", columnDefinition = "TEXT")
-  private String cartJSON;
-
   @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
   private Set<CartItems> cartItemsSet;
 

@@ -49,7 +49,7 @@ public class Users implements Serializable {
   @PrimaryKeyJoinColumn
   private UserDetails userDetails;
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "cartId")
   private Cart cart;
 

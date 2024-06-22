@@ -82,30 +82,41 @@ public class ProductServiceIml extends AService implements IProductService {
     @Override
     public List<ProductResponseDTO> findProducts(String typePathName, String categoryPathName, String name, Long id) throws CustomException {
         List<Products> products;
-        if (null == typePathName || typePathName.isEmpty())
-            products = repository.findAll();
-        else {
-            var map = EProductType.MAP_TO_PATHNAME;
-            if (!map.containsKey(typePathName))
-                throw new ProductException("Product's type is not exists", HttpStatus.NOT_FOUND.value());
-            products = repository.findAllByProductType(map.get(typePathName));
-        }
-        if (categoryPathName != null && !categoryPathName.isEmpty()) {
-            var map = ECategory.MAP_TO_PATHNAME;
-            if (!map.containsKey(categoryPathName))
-                throw new CategoryException("Category is not exists", HttpStatus.NOT_FOUND.value());
-            products = products.stream()
-                    .filter(p -> p.getCategories().getCategoryEnum() == map.get(categoryPathName))
-                    .toList();
-        }
-        if (name != null && !name.isEmpty())
+        if (null != categoryPathName && !categoryPathName.isEmpty())
+            products = queryProductsFromCategory(typePathName, categoryPathName);
+        else if (null != typePathName && !typePathName.isEmpty())
+            products = queryProductsFromType(typePathName);
+        else
+            products = queryProductsFromAll();
+        if (null != name && !name.isEmpty())
             products = products.stream()
                     .filter(p -> p.getProductName().toLowerCase().contains(name.toLowerCase()))
                     .toList();
-        if (id != null)
+        if (null != id)
             products = products.stream()
                     .filter(p -> p.getProductId() == id)
                     .toList();
         return products.stream().map(productResponseDTOMapper::mapToDTO).toList();
+    }
+
+    List<Products> queryProductsFromAll() {
+        return repository.findAll();
+    }
+
+    List<Products> queryProductsFromType(String typePathName) throws ProductException {
+        var map = EProductType.MAP_TO_PATHNAME;
+        if (!map.containsKey(typePathName))
+            throw new ProductException("Product's type is not exists", HttpStatus.NOT_FOUND.value());
+        return repository.findAllByProductType(map.get(typePathName));
+    }
+
+    List<Products> queryProductsFromCategory(String typePathName, String categoryPathName) throws ProductException, CategoryException {
+        if (!EProductType.MAP_TO_PATHNAME.containsKey(typePathName))
+            throw new ProductException("Product's type is not exists", HttpStatus.NOT_FOUND.value());
+        if (!ECategory.MAP_TO_PATHNAME.containsKey(categoryPathName))
+            throw new CategoryException("Category is not exists", HttpStatus.NOT_FOUND.value());
+        EProductType type = EProductType.MAP_TO_PATHNAME.get(typePathName);
+        ECategory category = ECategory.MAP_TO_PATHNAME.get(categoryPathName);
+        return repository.findALlByProductTypeAndCategoriesCategoryEnum(type, category);
     }
 }
