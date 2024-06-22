@@ -36,14 +36,14 @@ public class Ingredients {
     @Enumerated(EnumType.STRING)
     private EIngredient ingredientEnum;
 
-    @OneToMany(mappedBy = "ingredients",
-            cascade = CascadeType.ALL,
-    fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL)
     private Set<HavingIngredients> productSet;
 
-    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL,
-    fetch = FetchType.LAZY)
-    private Set<AddIngredients> orderItemSet;
+    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL)
+    private Set<OrderAddIngredients> orderItemSet;
+
+    @OneToMany(mappedBy = "ingredients", cascade = CascadeType.ALL)
+    private Set<CartAddIngredients> cartItemSet;
 
     @Override
     public boolean equals(Object o) {

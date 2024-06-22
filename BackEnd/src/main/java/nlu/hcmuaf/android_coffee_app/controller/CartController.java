@@ -5,6 +5,7 @@ import nlu.hcmuaf.android_coffee_app.dto.request.cart_controller.CartItemRequest
 import nlu.hcmuaf.android_coffee_app.dto.request.cart_controller.CreateOrderRequestDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartResponseDTO2;
 import nlu.hcmuaf.android_coffee_app.exceptions.CustomException;
 import nlu.hcmuaf.android_coffee_app.service.templates.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,24 @@ public class CartController {
     String username = jwtService.extractUsername(authHeader.substring(7));
       cartService.putItem(username, requestDTO);
     return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
+  @PutMapping("cart2")
+  public ResponseEntity<MessageResponseDTO> putItem2(
+          @RequestBody CartItemRequestDTO requestDTO,
+          @RequestHeader(value = "Authorization") String authHeader) throws CustomException {
+    MessageResponseDTO response = new MessageResponseDTO("OK");
+    String username = jwtService.extractUsername(authHeader.substring(7));
+    cartService.putItem2(username, requestDTO);
+    return ResponseEntity.status(HttpStatus.OK).body(response);
+  }
+
+  @GetMapping("cart2")
+  @ResponseBody
+  public CartResponseDTO2 getCart2(
+          @RequestHeader(value = "Authorization") String authHeader) throws CustomException {
+    String username = jwtService.extractUsername(authHeader.substring(7));
+    return cartService.getCartDTO2(username);
   }
 
   @GetMapping("cart")

@@ -15,43 +15,43 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "order_items")
-public class OrderItems implements Serializable {
+@Entity(name = "cart_items")
+public class CartItems implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "orderItemId")
-    private int orderItemId;
+    @Column(name = "cartItemId")
+    private Long cartItemId;
 
     @ManyToOne
     @JoinColumn(name = "productId")
     private Products products;
 
     @ManyToOne
-    @JoinColumn(name = "orderId")
-    private Orders orders;
+    @JoinColumn(name = "cartId")
+    private Cart cart;
 
     @Column(name = "productSize")
     @Enumerated(EnumType.STRING)
     private EProductSize size;
 
     @Column(name = "quantity")
-    private int quantity;
+    private Integer quantity;
 
     @Column(name = "price")
-    private double price;
+    private Double price;
 
-    @OneToMany(mappedBy = "orderItems", cascade = CascadeType.ALL)
-    private Set<OrderAddIngredients> ingredientsSet;
+    @OneToMany(mappedBy = "cartItems", cascade = CascadeType.ALL)
+    private Set<CartAddIngredients> ingredientsSet;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof OrderItems that)) return false;
-        return orderItemId == that.orderItemId && Objects.equals(products, that.products) && Objects.equals(orders, that.orders);
+        if (!(o instanceof CartItems that)) return false;
+        return Objects.equals(products, that.products) && Objects.equals(cart, that.cart);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(orderItemId, products, orders);
+        return Objects.hash(products, cart);
     }
 }

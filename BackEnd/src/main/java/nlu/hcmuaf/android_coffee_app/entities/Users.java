@@ -13,6 +13,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -54,4 +55,16 @@ public class Users implements Serializable {
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private Set<WishList> wishLists;
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof Users users)) return false;
+      return userId == users.userId;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(userId);
+  }
 }

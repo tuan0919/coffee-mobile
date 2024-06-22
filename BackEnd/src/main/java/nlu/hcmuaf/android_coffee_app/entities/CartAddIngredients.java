@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "add_ingredients")
-public class AddIngredients {
+@Entity(name = "cart_add_ingredients")
+public class CartAddIngredients {
     @Id
     @ManyToOne
-    @JoinColumn(name = "orderItemId")
-    private OrderItems orderItems;
+    @JoinColumn(name = "cartItemId")
+    private CartItems cartItems;
 
     @Id
     @ManyToOne
