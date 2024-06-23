@@ -56,6 +56,9 @@ public class Users implements Serializable {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
   private Set<WishList> wishLists;
 
+  @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+  private Set<Orders> ordersSet;
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;

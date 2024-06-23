@@ -1,7 +1,7 @@
 package nlu.hcmuaf.android_coffee_app.mapper.response.cart;
 
-import nlu.hcmuaf.android_coffee_app.dto.request.cart_controller.CartItemRequestDTO;
-import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.request.cart.CartItemRequestDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.cart.CartResponseDTO;
 import nlu.hcmuaf.android_coffee_app.entities.*;
 import nlu.hcmuaf.android_coffee_app.enums.EIngredient;
 import nlu.hcmuaf.android_coffee_app.enums.EProductSize;
@@ -16,7 +16,6 @@ import org.mapstruct.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

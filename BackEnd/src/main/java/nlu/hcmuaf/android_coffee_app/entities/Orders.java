@@ -21,11 +21,11 @@ public class Orders implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orderId")
-    private long orderId;
+    private Long orderId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment")
-    private EPaymentMethod payments;
+    private EPaymentMethod payment;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
@@ -36,6 +36,10 @@ public class Orders implements Serializable {
     @ManyToOne
     @JoinColumn(name = "storedId")
     private Stores stores;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private Users user;
 
     @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private Set<OrderItems> orderItemsSet;

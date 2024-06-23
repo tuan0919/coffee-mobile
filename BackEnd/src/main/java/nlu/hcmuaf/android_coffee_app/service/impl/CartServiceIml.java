@@ -1,13 +1,12 @@
 package nlu.hcmuaf.android_coffee_app.service.impl;
 
 import jakarta.transaction.Transactional;
-import nlu.hcmuaf.android_coffee_app.dto.request.cart_controller.CartItemRequestDTO;
-import nlu.hcmuaf.android_coffee_app.dto.response.cart_controller.CartResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.request.cart.CartItemRequestDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.cart.CartResponseDTO;
 import nlu.hcmuaf.android_coffee_app.entities.*;
 import nlu.hcmuaf.android_coffee_app.enums.EIngredient;
 import nlu.hcmuaf.android_coffee_app.enums.EProductSize;
 import nlu.hcmuaf.android_coffee_app.exceptions.*;
-import nlu.hcmuaf.android_coffee_app.mapper.request.cart.CartItemRequestDTOMapper;
 import nlu.hcmuaf.android_coffee_app.mapper.response.cart.CartDTOMapper;
 import nlu.hcmuaf.android_coffee_app.repositories.*;
 import nlu.hcmuaf.android_coffee_app.service.templates.ICartService;
@@ -24,16 +23,6 @@ public class CartServiceIml implements ICartService {
     private UserRepository userRepository;
     @Autowired
     private CartRepository cartRepository;
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private OrderItemRepository orderItemRepository;
-    @Autowired
-    private IngredientRepository ingredientRepository;
-    @Autowired
-    private StoreRepository storeRepository;
-    @Autowired
-    private CartItemRequestDTOMapper cartItemRequestDTOMapper;
     @Autowired
     private CartDTOMapper cartDTOMapper;
 

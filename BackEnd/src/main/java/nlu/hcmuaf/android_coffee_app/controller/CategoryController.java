@@ -1,6 +1,6 @@
 package nlu.hcmuaf.android_coffee_app.controller;
 
-import nlu.hcmuaf.android_coffee_app.dto.response.categories_controller.CategoriesResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.category.CategoriesResponseDTO;
 import nlu.hcmuaf.android_coffee_app.service.templates.ICategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

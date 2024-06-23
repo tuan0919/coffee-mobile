@@ -1,6 +1,6 @@
 package nlu.hcmuaf.android_coffee_app.mapper.response.product;
 
-import nlu.hcmuaf.android_coffee_app.dto.response.product_controller.ProductResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.product.ProductResponseDTO;
 import nlu.hcmuaf.android_coffee_app.entities.HavingIngredients;
 import nlu.hcmuaf.android_coffee_app.entities.HavingSizes;
 import nlu.hcmuaf.android_coffee_app.entities.Ingredients;

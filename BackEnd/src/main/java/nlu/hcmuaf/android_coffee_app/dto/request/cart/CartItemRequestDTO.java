@@ -1,4 +1,4 @@
-package nlu.hcmuaf.android_coffee_app.dto.request.cart_controller;
+package nlu.hcmuaf.android_coffee_app.dto.request.cart;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,12 +8,11 @@ import nlu.hcmuaf.android_coffee_app.enums.EIngredient;
 import nlu.hcmuaf.android_coffee_app.enums.EProductSize;
 
 import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CartRequestDTO {
+public class CartItemRequestDTO {
     private Long productId;
     private Integer quantity;
     private EProductSize size;

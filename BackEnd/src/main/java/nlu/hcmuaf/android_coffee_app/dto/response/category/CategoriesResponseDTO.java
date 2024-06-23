@@ -1,4 +1,4 @@
-package nlu.hcmuaf.android_coffee_app.dto.response.categories_controller;
+package nlu.hcmuaf.android_coffee_app.dto.response.category;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

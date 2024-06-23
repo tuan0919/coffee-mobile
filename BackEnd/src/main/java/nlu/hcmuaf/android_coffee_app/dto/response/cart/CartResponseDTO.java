@@ -1,4 +1,4 @@
-package nlu.hcmuaf.android_coffee_app.dto.response.cart_controller;
+package nlu.hcmuaf.android_coffee_app.dto.response.cart;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

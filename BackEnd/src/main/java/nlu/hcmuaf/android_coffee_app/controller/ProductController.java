@@ -1,19 +1,12 @@
 package nlu.hcmuaf.android_coffee_app.controller;
 
-import nlu.hcmuaf.android_coffee_app.dto.response.categories_controller.CategoriesResponseDTO;
-import nlu.hcmuaf.android_coffee_app.dto.response.product_controller.ProductResponseDTO;
-import nlu.hcmuaf.android_coffee_app.entities.Products;
-import nlu.hcmuaf.android_coffee_app.enums.EProductType;
+import nlu.hcmuaf.android_coffee_app.dto.response.product.ProductResponseDTO;
 import nlu.hcmuaf.android_coffee_app.exceptions.CustomException;
-import nlu.hcmuaf.android_coffee_app.repositories.ProductRepository;
-import nlu.hcmuaf.android_coffee_app.service.templates.ICategoryService;
 import nlu.hcmuaf.android_coffee_app.service.templates.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 @RestController
 @RequestMapping("/api/v1/san-pham")

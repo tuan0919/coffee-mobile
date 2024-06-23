@@ -2,7 +2,7 @@ package nlu.hcmuaf.android_coffee_app.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import nlu.hcmuaf.android_coffee_app.dto.json.categories.CategoryJSON;
-import nlu.hcmuaf.android_coffee_app.dto.response.categories_controller.CategoriesResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.category.CategoriesResponseDTO;
 import nlu.hcmuaf.android_coffee_app.entities.Categories;
 import nlu.hcmuaf.android_coffee_app.mapper.response.category.CategoriesResponseDTOMapper;
 import nlu.hcmuaf.android_coffee_app.repositories.CategoryRepository;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @Service
 public class CategoryService extends AService implements ICategoryService {
