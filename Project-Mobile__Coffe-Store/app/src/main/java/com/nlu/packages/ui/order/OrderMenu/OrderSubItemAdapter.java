@@ -17,10 +17,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class OrderSubItemAdapter extends RecyclerView.Adapter<OrderSubItemAdapter.ViewHolder> {
 
-    ArrayList<OrderMenuProductItem> orderMenuProductItems;
+    ArrayList<OrderMenuCategoryItem> orderMenuCategoryItems;
 
-    public OrderSubItemAdapter(ArrayList<OrderMenuProductItem> orderMenuProductItems) {
-        this.orderMenuProductItems = orderMenuProductItems;
+    public OrderSubItemAdapter(ArrayList<OrderMenuCategoryItem> orderMenuCategoryItems) {
+        this.orderMenuCategoryItems = orderMenuCategoryItems;
     }
 
     @NonNull
@@ -33,16 +33,16 @@ public class OrderSubItemAdapter extends RecyclerView.Adapter<OrderSubItemAdapte
 
     @Override
     public void onBindViewHolder(@NonNull OrderSubItemAdapter.ViewHolder holder, int position) {
-        OrderMenuProductItem orderMenuProductItem = orderMenuProductItems.get(position);
+        OrderMenuCategoryItem orderMenuCategoryItem = orderMenuCategoryItems.get(position);
 
-        Picasso.get().load(orderMenuProductItem.imageUrl).into(holder.productImage);
-        holder.productName.setText(orderMenuProductItem.productName);
+        Picasso.get().load(orderMenuCategoryItem.getImageUrl()).into(holder.productImage);
+        holder.productName.setText(orderMenuCategoryItem.getProductName());
 
     }
 
     @Override
     public int getItemCount() {
-        return orderMenuProductItems.size();
+        return orderMenuCategoryItems.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

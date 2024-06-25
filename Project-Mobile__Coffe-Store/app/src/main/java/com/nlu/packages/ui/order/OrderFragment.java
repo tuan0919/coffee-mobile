@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.google.android.material.tabs.TabLayout;
 import com.nlu.packages.R;
 import com.nlu.packages.ui.order.OrderMenu.OrderMenuFragment;
+import com.nlu.packages.ui.order.OrderPopular.OrderPopularFragment;
 
 public class OrderFragment extends Fragment {
     private TabLayout tabLayout;

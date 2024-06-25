@@ -17,13 +17,11 @@ import java.util.ArrayList;
 public class OrderMenuAdapter extends RecyclerView.Adapter<OrderMenuAdapter.ViewHolder> {
 
     private Activity activity;
-    ArrayList<OrderMenuCategoryItem> orderMenuCategoryItems;
-    ArrayList<OrderMenuProductItem> orderMenuProductItems;
+    ArrayList<OrderMenuTypeItem> orderMenuTypeItems;
 
-    public OrderMenuAdapter(Activity activity, ArrayList<OrderMenuCategoryItem> orderMenuCategoryItems, ArrayList<OrderMenuProductItem> orderMenuProductItems) {
+    public OrderMenuAdapter(Activity activity, ArrayList<OrderMenuTypeItem> orderMenuTypeItems) {
         this.activity = activity;
-        this.orderMenuCategoryItems = orderMenuCategoryItems;
-        this.orderMenuProductItems = orderMenuProductItems;
+        this.orderMenuTypeItems = orderMenuTypeItems;
     }
 
     @NonNull
@@ -36,11 +34,11 @@ public class OrderMenuAdapter extends RecyclerView.Adapter<OrderMenuAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull OrderMenuAdapter.ViewHolder holder, int position) {
-        OrderMenuCategoryItem orderMenuCategoryItem = orderMenuCategoryItems.get(position);
+        OrderMenuTypeItem orderMenuTypeItem = orderMenuTypeItems.get(position);
 
-        holder.productCategory.setText(orderMenuCategoryItem.categoyName);
+        holder.productCategory.setText(orderMenuTypeItem.categoyName);
 
-        OrderSubItemAdapter orderSubItemAdapter = new OrderSubItemAdapter(orderMenuProductItems);
+        OrderSubItemAdapter orderSubItemAdapter = new OrderSubItemAdapter(orderMenuTypeItem.getCategoryItems());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         holder.nestRv.setLayoutManager(linearLayoutManager);
         holder.nestRv.setAdapter(orderSubItemAdapter);
@@ -48,7 +46,7 @@ public class OrderMenuAdapter extends RecyclerView.Adapter<OrderMenuAdapter.View
 
     @Override
     public int getItemCount() {
-        return orderMenuCategoryItems.size();
+        return orderMenuTypeItems.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

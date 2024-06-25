@@ -26,7 +26,6 @@ import com.nlu.packages.ui.order.OrderFragment;
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, TopCoffeeRvInterface {
-    ImageView imageViewHome1, imageViewHome2, imageViewHome3, imageViewHome4;
     ConstraintLayout constraintLayoutHome;
     SearchView searchView;
     androidx.appcompat.widget.AppCompatButton button;
