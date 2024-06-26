@@ -3,16 +3,15 @@ package nlu.hcmuaf.android_coffee_app.config;
 import lombok.RequiredArgsConstructor;
 import nlu.hcmuaf.android_coffee_app.enums.ERole;
 import nlu.hcmuaf.android_coffee_app.service.impl.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,13 +21,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-  @Autowired
-  private JwtAuthFilter jwtAuthFilter;
+  private final JwtAuthFilter jwtAuthFilter;
 
   @Bean
   public UserDetailsService userDetailsService() {
@@ -36,26 +32,40 @@ public class SecurityConfig {
   }
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+  @Order(2)  // Đảm bảo rằng filter chain cho Private APIs chạy sau
+  public SecurityFilterChain privateFilterChain(HttpSecurity httpSecurity) throws Exception {
     httpSecurity
-        .csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests(auth -> auth // ủy quyền
-            .requestMatchers("/api/user/login").permitAll() // ai cũng có thể truy cập
-            .requestMatchers("/api/v1/user/**").permitAll() // ai cũng có thể truy cập
-            .requestMatchers("/api/v1/san-pham/**").permitAll()
-            .requestMatchers("/api/v1/user/test")
-            .hasAnyAuthority(ERole.USER.name(), ERole.ADMIN.name()) // Chỉ user
-            .requestMatchers("/api/v1/product/fish")
-            .hasAnyAuthority(ERole.ADMIN.name())// Chỉ ADMIN
-            .requestMatchers("/api/v1/product/sion")
-            .hasAnyAuthority(ERole.MANAGER.name())// Chỉ MANAGER
-            .anyRequest()
-            .authenticated())
-        .sessionManagement(
-            sessionManager -> sessionManager.sessionCreationPolicy(
-                SessionCreationPolicy.STATELESS)) // quản lý các phiên
-        .authenticationProvider(daoAuthenticationProvider())
-        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+            .csrf(AbstractHttpConfigurer::disable)
+            .securityMatcher("/api/v2/**")
+            .authorizeHttpRequests(auth -> {
+              auth.requestMatchers("/api/v2/gio-hang/**")
+                      .hasAnyAuthority(ERole.ROLE_USER.name(), ERole.ROLE_ADMIN.name())
+                  .requestMatchers(HttpMethod.POST, "/api/v2/dat-hang")
+                      .hasAnyAuthority(ERole.ROLE_USER.name(), ERole.ROLE_ADMIN.name())
+                  .requestMatchers(HttpMethod.GET,"/api/v2/don-hang/**")
+                      .hasAnyAuthority(ERole.ROLE_USER.name(), ERole.ROLE_ADMIN.name())
+                  .anyRequest()
+                      .authenticated();
+            })
+            .sessionManagement(sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authenticationProvider(daoAuthenticationProvider())
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+    return httpSecurity.build();
+  }
+
+  @Bean
+  @Order(1)  // Đảm bảo rằng filter chain cho Public APIs chạy trước
+  public SecurityFilterChain publicFilterChain(HttpSecurity httpSecurity) throws Exception {
+    httpSecurity
+            .csrf(AbstractHttpConfigurer::disable)
+            .securityMatcher("/api/v1/**")
+            .authorizeHttpRequests(auth -> {
+              auth.requestMatchers("/api/v1/san-pham/**").permitAll()
+                      .requestMatchers("/api/v1/dang-nhap").permitAll()
+                      .requestMatchers("/api/v1/dang-ky").permitAll()
+                      .requestMatchers("/api/v1/xac-minh").permitAll()
+                      .anyRequest().denyAll();  // Chỉ cho phép các request đã định nghĩa ở trên
+            });
     return httpSecurity.build();
   }
 

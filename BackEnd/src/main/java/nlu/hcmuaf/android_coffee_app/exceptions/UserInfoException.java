@@ -4,4 +4,8 @@ public class UserInfoException extends CustomException {
     public UserInfoException(String message) {
         super(message);
     }
+
+    public UserInfoException(String message, int errorCode) {
+        super(message, errorCode);
+    }
 }

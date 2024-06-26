@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1")
 public class LoginController {
 
   @Autowired
@@ -30,27 +30,26 @@ public class LoginController {
   @Autowired
   private IUserService userService;
 
-  @PostMapping("login")
-  public ResponseEntity<TokenResponseDTO> login(@RequestBody LoginRequestDTO requestDTO) {
-    return new ResponseEntity<>(userService.login(requestDTO), HttpStatus.OK);
+  @PostMapping("dang-nhap")
+  public TokenResponseDTO login(@RequestBody LoginRequestDTO requestDTO) {
+    return userService.login(requestDTO);
   }
 
-  @PostMapping("register")
-  public ResponseEntity<MessageResponseDTO> register(@RequestBody RegisterRequestDTO requestDTO) {
-    return new ResponseEntity<>(userService.register(requestDTO), HttpStatus.OK);
+  @PostMapping("dang-ky")
+  public MessageResponseDTO register(@RequestBody RegisterRequestDTO requestDTO) {
+    return userService.register(requestDTO);
   }
 
-  @PostMapping("verify-account")
-  public ResponseEntity<MessageResponseDTO> verifyAccount(
-      @RequestBody VerifyRequestDTO requestDTO) {
-    return new ResponseEntity<>(userService.verifyAccount(requestDTO), HttpStatus.OK);
+  @PostMapping("xac-minh")
+  public MessageResponseDTO verifyAccount(@RequestBody VerifyRequestDTO requestDTO) {
+    return userService.verifyAccount(requestDTO);
   }
 
   @GetMapping("test")
   public ResponseEntity<MessageResponseDTO> test(
       @RequestBody MessageResponseDTO messageResponseDTO) {
     return new ResponseEntity<>(
-        MessageResponseDTO.builder().message("DJT me langw coc day nhu dau buoi").build(),
+        MessageResponseDTO.builder().message("Bla bla bla").build(),
         HttpStatus.OK);
   }
 

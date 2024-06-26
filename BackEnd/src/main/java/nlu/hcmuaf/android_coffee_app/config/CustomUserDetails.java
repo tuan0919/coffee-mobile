@@ -9,18 +9,20 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Getter
-public class CustomUserDetails extends Users implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
   private String username;
   private String password;
+  private final Users user;
   Collection<? extends GrantedAuthority> authorities;
 
   public CustomUserDetails(Users user) {
     this.username = user.getUsername();
     this.password = user.getPassword();
     List<GrantedAuthority> auths = List.of(
-        new SimpleGrantedAuthority(user.getRoles().toString().toUpperCase()));
+        new SimpleGrantedAuthority(user.getRoles().getRoleName().toUpperCase()));
     this.authorities = auths;
+    this.user = user;
   }
 
   @Override

@@ -1,9 +1,11 @@
 package nlu.hcmuaf.android_coffee_app.controller;
 
+import lombok.RequiredArgsConstructor;
 import nlu.hcmuaf.android_coffee_app.config.JwtService;
 import nlu.hcmuaf.android_coffee_app.dto.request.cart.CartItemRequestDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.cart.CartResponseDTO;
+import nlu.hcmuaf.android_coffee_app.entities.Users;
 import nlu.hcmuaf.android_coffee_app.exceptions.CustomException;
 import nlu.hcmuaf.android_coffee_app.service.templates.ICartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,29 +14,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/gio-hang")
+@RequestMapping("/api/v2")
+@RequiredArgsConstructor
 public class CartController {
-  @Autowired
-  private ICartService cartService;
-  @Autowired
-  private JwtService jwtService;
+  private final ICartService cartService;
 
-  @PutMapping
+  @PutMapping(path = "gio-hang")
   public ResponseEntity<MessageResponseDTO> putItem(
-          @RequestBody CartItemRequestDTO requestDTO,
-          @RequestHeader(value = "Authorization") String authHeader) throws CustomException {
+          @RequestAttribute(name = "user") Users user,
+          @RequestBody CartItemRequestDTO requestDTO) throws CustomException {
     MessageResponseDTO response = new MessageResponseDTO("OK");
-    String username = jwtService.extractUsername(authHeader.substring(7));
-    cartService.updateCart(username, requestDTO);
+    cartService.updateCart(user.getUsername(), requestDTO);
     return ResponseEntity.status(HttpStatus.OK).body(response);
   }
 
-  @GetMapping
+  @GetMapping(path = "gio-hang")
   @ResponseBody
-  public CartResponseDTO getCart(
-          @RequestHeader(value = "Authorization") String authHeader) throws CustomException {
-    String username = jwtService.extractUsername(authHeader.substring(7));
-    return cartService.findCart(username);
+  public CartResponseDTO getCart(@RequestAttribute(name = "user") Users user) throws CustomException {
+    return cartService.findCart(user.getUsername());
   }
 
 }

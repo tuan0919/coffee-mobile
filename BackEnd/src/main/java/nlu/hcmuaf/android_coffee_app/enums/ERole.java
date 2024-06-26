@@ -1,7 +1,7 @@
 package nlu.hcmuaf.android_coffee_app.enums;
 
 public enum ERole {
-  ADMIN("ADMIN"), MANAGER("MANAGER"), USER("USER");
+  ROLE_ADMIN("ROLE_ADMIN"), ROLE_MANAGER("ROLE_MANAGER"), ROLE_USER("ROLE_USER");
   private final String text;
 
   private ERole(String text) {

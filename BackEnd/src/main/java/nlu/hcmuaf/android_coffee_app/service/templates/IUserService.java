@@ -7,11 +7,7 @@ import nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO;
 import nlu.hcmuaf.android_coffee_app.dto.response.TokenResponseDTO;
 
 public interface IUserService extends IInitializerData {
-
   TokenResponseDTO login(LoginRequestDTO requestDTO);
-
   MessageResponseDTO register(RegisterRequestDTO requestDTO);
-
   MessageResponseDTO verifyAccount(VerifyRequestDTO requestDTO);
-
 }

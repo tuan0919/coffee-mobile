@@ -136,7 +136,7 @@ public class UserServiceImpl extends AService implements IUserService {
 
         Iterable<Roles> roles = roleRepository.findAll();
         roles.forEach(role -> {
-          if (role.getRoleName().equals(ERole.USER)) {
+          if (role.getRoleName().equals(ERole.ROLE_USER)) {
             users.setRoles(role);
           }
         });

@@ -1,6 +1,6 @@
 [
   {
-    "role": "ADMIN",
+    "role": "ROLE_ADMIN",
     "password": "0919",
     "username": "nqat0919",
     "details": {
