@@ -29,6 +29,7 @@ import com.nlu.packages.CartActivity;
 import com.nlu.packages.MainActivity;
 import com.nlu.packages.R;
 import com.nlu.packages.ui.login.LoginActivity;
+import com.nlu.packages.ui.login.UserProfileActivity;
 import com.nlu.packages.ui.order.OrderFragment;
 
 import java.util.ArrayList;
@@ -122,6 +123,7 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
                 switch (item.getItemId()){
                     case R.id.edit_profile:
                         Log.d("click","Trang ca nhân");
+                        startActivity(new Intent(getActivity(), UserProfileActivity.class));
                         return true;
                     case R.id.logout:
                         Log.d("sign", " Logout sucess"+firebaseUser.getEmail());

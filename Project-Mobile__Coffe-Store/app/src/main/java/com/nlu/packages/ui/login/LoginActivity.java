@@ -1,6 +1,7 @@
 package com.nlu.packages.ui.login;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -43,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
     AppCompatButton button1, button2, button3;
     EditText editText1,editText2;
-    ImageView google;
+    Button google;
     GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN =9001;
 
@@ -61,6 +63,12 @@ public class LoginActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
+        findViewById(R.id.main).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard();
+            }
+        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -96,6 +104,13 @@ public class LoginActivity extends AppCompatActivity {
 
             return insets;
         });
+    }
+    private void hideKeyboard() {// phươngh thức này dủng đển keyboard sau click vào vị trí trống trong màn hình
+        View view= this.getCurrentFocus();
+        if(view != null){
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void LoginByGoogle() {

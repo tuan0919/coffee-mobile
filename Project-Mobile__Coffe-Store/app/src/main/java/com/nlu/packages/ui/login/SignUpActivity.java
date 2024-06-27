@@ -25,6 +25,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.nlu.packages.R;
 import com.squareup.picasso.Picasso;
 
@@ -117,9 +119,27 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(SignUpActivity.this, "đăng ký thành công", Toast.LENGTH_LONG).show();
+                                FirebaseUser user = auth.getCurrentUser();
+                                if(user != null){
+                                    UserProfileChangeRequest profileChangeRequest= new UserProfileChangeRequest.Builder()
+                                            .setDisplayName(str_signUpName)
+                                            .build();
+                                    user.updateProfile(profileChangeRequest)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if(task.isSuccessful()){
+                                                        Log.d("Profile Update", "User profile updated success");
+                                                        startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                                                    }
+                                                    Log.d("Profile Update", "User profile updated fail");
+                                                }
+                                            });
 
-                                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
+                                }
+
+//                                Toast.makeText(SignUpActivity.this, "đăng ký thành công", Toast.LENGTH_LONG).show();
+//                                startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
 
                             }else{
                                 Toast.makeText(SignUpActivity.this, "đăng ký thất bại", Toast.LENGTH_LONG).show();
