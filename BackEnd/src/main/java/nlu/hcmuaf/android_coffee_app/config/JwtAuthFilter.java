@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import nlu.hcmuaf.android_coffee_app.entities.Users;
 import nlu.hcmuaf.android_coffee_app.exceptions.CustomException;
 import nlu.hcmuaf.android_coffee_app.exceptions.UserInfoException;
@@ -39,8 +40,12 @@ public class JwtAuthFilter extends HttpFilter {
   private final UserDetailsServiceImpl userDetailsService;
   private static final Logger logger = (Logger) LoggerFactory.getLogger(
           JwtAuthFilter.class);
+  private HandlerExceptionResolver resolver;
+
   @Qualifier("handlerExceptionResolver")
-  private final HandlerExceptionResolver resolver;
+  public void setResolver(HandlerExceptionResolver resolver) {
+    this.resolver = resolver;
+  }
 
   @Override
   protected void doFilter(
