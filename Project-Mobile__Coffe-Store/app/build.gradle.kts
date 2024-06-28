@@ -48,4 +48,19 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation("com.fasterxml.jackson.core:jackson-core:2.10.1")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.10.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.10.1")
+
+    compileOnly ("org.projectlombok:lombok:1.18.24")
+    annotationProcessor ("org.projectlombok:lombok:1.18.24")
+
+    // https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
+
 }

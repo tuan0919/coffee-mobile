@@ -44,7 +44,7 @@ public class PopularDrinksRvAdapter extends RecyclerView.Adapter<PopularDrinksRv
                 load("https://media.istockphoto.com/id/1358132613/photo/refreshing-hot-cup-of-coffee-at-a-cafe.jpg?s=612x612&w=0&k=20&c=ObwIF28Vt3k93Nch9U4QYUdOwMA_eiMwVVCvKbypnNc=").
                 into(holder.imageView);
 
-        //xử lý sự kiện cho toggle button
+        //xử lý sự kiện cho `add to favorite`
         holder.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 Toast.makeText(context, "Added to Favorite", Toast.LENGTH_SHORT).show();

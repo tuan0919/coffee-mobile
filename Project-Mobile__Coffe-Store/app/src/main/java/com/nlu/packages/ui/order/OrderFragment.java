@@ -11,6 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
@@ -21,6 +22,7 @@ import com.nlu.packages.ui.order.OrderPopular.OrderPopularFragment;
 public class OrderFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private ImageButton backButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,6 +31,7 @@ public class OrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_order, container, false);
         tabLayout = view.findViewById(R.id.tabLayoutOrderFragment);
         viewPager = view.findViewById(R.id.viewPagerOrder);
+        backButton = view.findViewById(R.id.orderBackButton);
 
         OrderViewPageAdapter adapter = new OrderViewPageAdapter(
                 getActivity().getSupportFragmentManager(),
@@ -82,6 +85,20 @@ public class OrderFragment extends Fragment {
             }
         });
 
+        //xử lý sự kiện cho nút back button
+        backButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
         return view;
+    }
+
+    //Trở lại activity cũ
+    public void onBackPressed(){
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

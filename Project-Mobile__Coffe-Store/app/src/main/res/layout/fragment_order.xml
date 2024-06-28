@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/orderBackButton"
                 android:layout_width="40dp"
                 android:layout_height="match_parent"
                 android:background="@null"
@@ -54,7 +54,7 @@
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageButton3"
-                app:layout_constraintStart_toEndOf="@+id/imageButton2"
+                app:layout_constraintStart_toEndOf="@+id/orderBackButton"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
