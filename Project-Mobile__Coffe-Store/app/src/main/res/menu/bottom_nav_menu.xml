@@ -7,11 +7,6 @@
             android:title="@string/title_home"/>
 
     <item
-            android:id="@+id/navigation_reward"
-            android:icon="@drawable/ic_star_regular_night"
-            android:title="@string/title_reward"/>
-
-    <item
             android:id="@+id/navigation_order"
             android:icon="@drawable/ic_order_night"
             android:title="@string/title_order"/>
