@@ -16,8 +16,10 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.nlu.packages.R;
+import com.nlu.packages.ui.order.OrderFavorite.OrderFavoriteFragment;
 import com.nlu.packages.ui.order.OrderMenu.OrderMenuFragment;
 import com.nlu.packages.ui.order.OrderPopular.OrderPopularFragment;
+import com.nlu.packages.ui.order.OrderPrevious.OrderPreviousFragment;
 
 public class OrderFragment extends Fragment {
     private TabLayout tabLayout;
