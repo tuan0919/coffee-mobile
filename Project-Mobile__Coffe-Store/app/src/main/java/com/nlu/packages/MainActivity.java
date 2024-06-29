@@ -19,7 +19,6 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.nlu.packages.databinding.ActivityMainBinding;
 import com.nlu.packages.ui.home.HomeFragment;
 import com.nlu.packages.ui.order.OrderFragment;
-import com.nlu.packages.ui.reward.RewardFragment;
 import com.nlu.packages.ui.store.StoreFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_reward, R.id.navigation_order,
+                R.id.navigation_home, R.id.navigation_order,
                 R.id.navigation_cart, R.id.navigation_store)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
@@ -47,9 +46,6 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     if(item.getItemId() == R.id.navigation_home) {
                         loadFragment(new HomeFragment());
-                        return true;
-                    }else if(item.getItemId() == R.id.navigation_reward){
-                        loadFragment(new RewardFragment());
                         return true;
                     }else if(item.getItemId() == R.id.navigation_order){
                         loadFragment(new OrderFragment());
