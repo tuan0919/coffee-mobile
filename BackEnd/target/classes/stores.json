@@ -1,0 +1,26 @@
+[
+  {
+    "active": true,
+    "name": "HCM Hoàng Việt",
+    "avatar": "https://file.hstatic.net/1000075078/file/12232963_1646846405589379_7723364037985650962_o_9f5674e7c32a443094da29aed456c80f.jpeg",
+    "address": {
+      "main_address": "true",
+      "city": "TP. Hồ Chí Minh",
+      "district": "Tân Bình",
+      "street": "Phường 4",
+      "ward": "17 Út tịch"
+    }
+  },
+  {
+    "active": true,
+    "name": "The Coffee House 64A Lữ Gia",
+    "avatar": "https://lh5.googleusercontent.com/p/AF1QipNAC8L3aeIV4zLMNnYs7cSlaYf1Bn7W4WczpJ40=w408-h272-k-no",
+    "address": {
+      "main_address": "true",
+      "city": "TP. Hồ Chí Minh",
+      "district": "Quận 11",
+      "street": "Phường 15",
+      "ward": "64A Đ.Lữ Gia"
+    }
+  }
+]

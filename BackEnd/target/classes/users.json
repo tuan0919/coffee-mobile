@@ -1,0 +1,33 @@
+[
+  {
+    "role": "ROLE_ADMIN",
+    "password": "0919",
+    "username": "nqat0919",
+    "details": {
+      "dob": "21-03-2003",
+      "verified": "true",
+      "email": "nqat0919@gmail.com",
+      "first_name": "Tuấn",
+      "img": "https://ih1.redbubble.net/image.5452846048.9607/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg",
+      "last_name": "Nguyễn",
+      "phone": "0936565257",
+      "gender": "MALE"
+    },
+    "addresses": [
+      {
+        "main_address": "true",
+        "city": "TP. Hồ Chí Minh",
+        "district": "Thủ Đức",
+        "street": "Khu Phố 6",
+        "ward": "Phường Linh Trung"
+      },
+      {
+        "main_address": "false",
+        "city": "TP. Tây Ninh",
+        "district": "Hoà Thành",
+        "street": "Khu Phố 4",
+        "ward": "Long Hoa"
+      }
+    ]
+  }
+]

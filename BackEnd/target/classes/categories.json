@@ -1,0 +1,82 @@
+[
+  {
+    "id": "1",
+    "name": "Cà phê máy",
+    "active": "true",
+    "avatar": "https://phadincoffee.com/wp-content/uploads/2020/07/foresto-3085-008-2.jpg",
+    "type": "DRINK",
+    "categoryEnum": "CA_PHE_MAY"
+  },
+  {
+    "id": "2",
+    "name": "Cà phê Việt Nam",
+    "active": "true",
+    "avatar": "https://vinbarista.com/uploads/editer/images/1.jpg",
+    "type": "DRINK",
+    "categoryEnum": "CA_PHE_VIET_NAM"
+  },
+  {
+    "id": "3",
+    "name": "Cold Brew",
+    "active": "true",
+    "avatar": "https://cdn.tgdd.vn/2020/07/CookProductThumb/thumbnew-620x620-11.jpg",
+    "type": "DRINK",
+    "categoryEnum": "COLD_BREW"
+  },
+  {
+    "id": "4",
+    "name": "Trái cây xay",
+    "active": "true",
+    "avatar": "https://cdn.tgdd.vn/Files/2017/04/24/975816/bi-quyet-pha-sinh-to-ngon-dung-dieu-ngay-tai-nha-1_760x507.jpg",
+    "type": "FRUIT",
+    "categoryEnum": "TRAI_CAY_XAY"
+  },
+  {
+    "id": "5",
+    "name": "Trà trái cây",
+    "active": "true",
+    "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR0-iURLXTn69SM_Qrll0j_aFhsYxByDDw8EA&s",
+    "type": "FRUIT",
+    "categoryEnum": "TRA_TRAI_CAY"
+  },
+  {
+    "id": "6",
+    "name": "Trà xanh",
+    "active": "true",
+    "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx7MuBq9K1kD32eWKjiJm_NHG6A-KQaiVAeQ&s",
+    "type": "DRINK",
+    "categoryEnum": "TRA_XANH"
+  },
+  {
+    "id": "7",
+    "name": "Đá xay",
+    "active": "true",
+    "avatar": "https://noithatcaphe.vn/images/2022/07/11/%C4%91%E1%BB%93%20u%E1%BB%91ng%20%C4%91%C3%A1%20xay%202.jpg",
+    "type": "DRINK",
+    "categoryEnum": "DA_XAY"
+  },
+  {
+    "id": "8",
+    "name": "Bánh ngọt",
+    "active": "true",
+    "avatar": "https://caphenguyenchat.vip/wp-content/uploads/2021/06/6-loai-banh-an-kem-cafe-6.jpg",
+    "type": "FOOD",
+    "categoryEnum": "BANH_NGOT"
+  },
+  {
+    "id": "9",
+    "name": "Bánh mặn",
+    "active": "true",
+    "avatar": "https://phinviet.com/wp-content/uploads/2020/05/Muffin-800x400.png",
+    "type": "FOOD",
+    "categoryEnum": "BANH_MAN"
+  },
+  {
+    "id": "10",
+    "name": "Snack",
+    "active": "true",
+    "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKWCaj915FWruy9Fi1kW7YmpZuFrO_nOmGhQ&s",
+    "type": "FOOD",
+    "categoryEnum": "BANH_SNACK"
+  }
+]

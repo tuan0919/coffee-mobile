@@ -38,6 +38,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.nlu.packages.MainActivity;
 import com.nlu.packages.R;
+import com.nlu.packages.api.ApiService;
+import com.nlu.packages.model.Login;
+import com.nlu.packages.model.Section;
+
+import java.io.IOException;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
@@ -105,6 +114,72 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
     }
+    private void Login() {
+        String str_email = editText1.getText().toString().trim();
+        String str_pass = editText2.getText().toString().trim();
+        if (TextUtils.isEmpty(str_email)) {
+            editText1.setError("Email bị để trống");
+            editText1.requestFocus();
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(str_email).matches()) {
+            editText1.setError("không đúng định dạng ");
+            editText1.requestFocus();
+        } else if (TextUtils.isEmpty(str_pass)) {
+            editText2.setError("mật khẩu bị để trống");
+            editText2.requestFocus();
+        }else{
+//            auth.signInWithEmailAndPassword(str_email,str_pass).addOnCompleteListener(LoginActivity.this,
+//                    new OnCompleteListener<AuthResult>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<AuthResult> task) {
+//                            if (task.isSuccessful()) {
+//                                firebaseUser = auth.getCurrentUser();
+//                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                                Log.d("sign", "Login success "+firebaseUser.getEmail());
+//                            } else {
+//                                Log.d("sign", "Un Login success");
+//                            }
+//
+//                        }
+//                    });
+            Login login= new Login();
+            login.setEmail(str_email);
+            login.setPassword(str_pass);
+            ApiService.api.loginUser(login).enqueue(new Callback<Section>() {
+
+                @Override
+                public void onResponse(Call<Section> call, Response<Section> response) {
+                    if (response.isSuccessful()) {
+                        Log.d("TAGGGGGG", "API call successful, response received.");
+                        Section section = response.body();
+                        if (section != null) {
+                            Log.d("TAGGGGGG", "Token: " + section.getToken()); // Giả sử có phương thức getToken() trong model Section.
+                        } else {
+                            Log.d("TAGGGGGG", "Response body is null");
+                        }
+                    } else {
+                        Log.d("TAGGGGGG", "API call not successful, HTTP status code: " + response.code());
+                        try {
+                            Log.d("TAGGGGGG", "Error body: " + response.errorBody().string());
+                        } catch (IOException e) {
+                            Log.e("TAGGGGGG", "Error reading error body", e);
+                        }
+                    }
+                    Log.d("TAGGGGGG","SUCESS");
+                    Section section = response.body();
+                    if(section != null){
+                        Log.d("TAGGGGGG",section.getToken());
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<Section> call, Throwable t) {
+                    Log.d("TAGGGGGG","FAILED",t);
+                }
+            });
+
+        }
+    }
     private void hideKeyboard() {// phươngh thức này dủng đển keyboard sau click vào vị trí trống trong màn hình
         View view= this.getCurrentFocus();
         if(view != null){
@@ -156,36 +231,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void Login() {
-        String str_email = editText1.getText().toString().trim();
-        String str_pass = editText2.getText().toString().trim();
-        if (TextUtils.isEmpty(str_email)) {
-            editText1.setError("Email bị để trống");
-            editText1.requestFocus();
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(str_email).matches()) {
-            editText1.setError("không đúng định dạng ");
-            editText1.requestFocus();
-        } else if (TextUtils.isEmpty(str_pass)) {
-            editText2.setError("mật khẩu bị để trống");
-            editText2.requestFocus();
-        }else{
-            auth.signInWithEmailAndPassword(str_email,str_pass).addOnCompleteListener(LoginActivity.this,
-                    new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                firebaseUser = auth.getCurrentUser();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                Log.d("sign", "Login success "+firebaseUser.getEmail());
-                            } else {
-                                Log.d("sign", "Un Login success");
-                            }
 
-                        }
-                    });
-
-        }
-    }
 
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);

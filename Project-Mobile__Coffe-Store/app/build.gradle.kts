@@ -58,4 +58,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.google.android.material:material:1.5.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
+    // Gson
+    implementation ("com.google.code.gson:gson:2.11.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
 }
