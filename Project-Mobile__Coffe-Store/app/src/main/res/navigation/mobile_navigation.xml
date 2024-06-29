@@ -22,4 +22,9 @@
             android:name="com.nlu.packages.ui.notifications.NotificationsFragment"
             android:label="@string/title_notifications"
             tools:layout="@layout/fragment_notifications"/>
+    <fragment
+            android:id="@+id/navigation_detailsStore"
+            android:name="com.nlu.packages.ui.detailstore.DetailsStoreFragement"
+            android:label="@string/title_detailsStore"
+            tools:layout="@layout/fragment_details_store_fragement"/>
 </navigation>
