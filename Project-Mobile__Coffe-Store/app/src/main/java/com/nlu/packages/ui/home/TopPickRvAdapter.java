@@ -11,20 +11,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 //class nầy để tạo 1 recycle view, để lấy dữ liệu lên trên màn hình, là phần code có thể mở rộng, nó là phần hỗ
 //trợ hiển thị giao diện cho phần Top Pick Coffee trên màn hình Home
 class TopPickRvAdapter extends RecyclerView.Adapter<TopPickRvAdapter.MyHolder> {
     private final TopCoffeeRvInterface topCoffeeRvInterface;
-    ArrayList<String> data;
+    ArrayList<ProductResponseDTO> data;
     Context context;
 
-    public TopPickRvAdapter(Context context, ArrayList<String> data, TopCoffeeRvInterface topCoffeeRvInterface) {
+    public TopPickRvAdapter(Context context, ArrayList<ProductResponseDTO> data, TopCoffeeRvInterface topCoffeeRvInterface) {
         this.context = context;
-        this.data = data;
+        this.data = data != null ? data : new ArrayList<>();
         this.topCoffeeRvInterface = topCoffeeRvInterface;
     }
 
@@ -38,8 +41,8 @@ class TopPickRvAdapter extends RecyclerView.Adapter<TopPickRvAdapter.MyHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.textView2.setText(data.get(position));
-        Picasso.get().load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLxLKJHXvIkiVTP4oRp0WkgYGaTBtisWBc3mXdJFMv_6A5PHRl2AZbVaQpCdPNHyjlrAE&usqp=CAU").into(holder.imageView2);
+        holder.textView2.setText(data.get(position).getProductName());
+        Picasso.get().load(data.get(position).getAvatar()).into(holder.imageView2);
     }
 
     @Override
@@ -71,5 +74,10 @@ class TopPickRvAdapter extends RecyclerView.Adapter<TopPickRvAdapter.MyHolder> {
                 }
             });
         }
+    }
+    public void updateData(List<ProductResponseDTO> newList) {
+        this.data.clear();
+        this.data.addAll(newList);
+        notifyDataSetChanged();
     }
 }

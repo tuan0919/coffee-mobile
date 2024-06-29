@@ -3,6 +3,7 @@ package com.nlu.packages.ui.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,19 +22,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nlu.packages.CartActivity;
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import com.nlu.packages.service.CoffeeApi;
+import com.nlu.packages.service.CoffeeService;
 import com.nlu.packages.ui.order.OrderFragment;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, TopCoffeeRvInterface {
-    ConstraintLayout constraintLayoutHome;
-    SearchView searchView;
-    androidx.appcompat.widget.AppCompatButton button;
-    RecyclerView coffeeForYouRv, topPickRv;
-    ArrayList<String> coffeeForYouDataSource, topPickDataSource;
-    LinearLayoutManager linearLayoutManager;
+    private ConstraintLayout constraintLayoutHome;
+    private SearchView searchView;
+    private androidx.appcompat.widget.AppCompatButton button;
+    private RecyclerView coffeeForYouRv, topPickRv;
+    private ArrayList<ProductResponseDTO> coffeeForYouDataSource, topPickDataSource = new ArrayList<>();
+    private LinearLayoutManager linearLayoutManager;
     CoffeForYouRvAdapter coffeForYouRvAdapter;
     TopPickRvAdapter topPickRvAdapter;
+    private CoffeeApi coffeeApi;
+
+    public HomeFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,15 +70,11 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
             }
         });
 
+        //setting for `coffee for you` and `top pick` data source
+        getListCoffee();
+
         //setting for coffee for you recycle view
         coffeeForYouRv = view.findViewById(R.id.homeCoffeeForYou);
-
-        //setting the data source
-        coffeeForYouDataSource = new ArrayList<>();
-        coffeeForYouDataSource.add("Expesso");
-        coffeeForYouDataSource.add("Cappuccino");
-        coffeeForYouDataSource.add("Latte");
-        coffeeForYouDataSource.add("Mocha");
 
         //setting the coffee for you adapter
         linearLayoutManager = new LinearLayoutManager(HomeFragment.this.getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -74,13 +84,6 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
 
         //setting for top pick recycle view
         topPickRv = view.findViewById(R.id.homeTopPick);
-
-        //setting the data source
-        topPickDataSource = new ArrayList<>();
-        topPickDataSource.add("Cappuccino");
-        topPickDataSource.add("Latte");
-        topPickDataSource.add("Mocha");
-        topPickDataSource.add("Expesso");
 
         //setting the top pick adapter
         linearLayoutManager = new LinearLayoutManager(HomeFragment.this.getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -133,7 +136,9 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     public void onItemClickCoffeeForYou(int position) {
         Intent intent = new Intent(HomeFragment.this.getContext(), CartActivity.class);
 
-        intent.putExtra("Name", coffeeForYouDataSource.get(position));
+        intent.putExtra("ProductName", coffeeForYouDataSource.get(position).getProductName());
+        intent.putExtra("Avatar", coffeeForYouDataSource.get(position).getAvatar());
+        intent.putExtra("BasePrice", coffeeForYouDataSource.get(position).getBasePrice());
 
         startActivity(intent);
     }
@@ -142,8 +147,44 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     public void onItemClickTopCoffee(int position) {
         Intent intent = new Intent(HomeFragment.this.getContext(), CartActivity.class);
 
-        intent.putExtra("Name", topPickDataSource.get(position));
+        intent.putExtra("ProductName", topPickDataSource.get(position).getProductName());
+        intent.putExtra("Avatar", topPickDataSource.get(position).getAvatar());
+        intent.putExtra("BasePrice", topPickDataSource.get(position).getBasePrice());
 
         startActivity(intent);
+    }
+
+    public void getListCoffee() {
+        coffeeApi = CoffeeService.getClient();
+        Call<List<ProductResponseDTO>> call = coffeeApi.getAllProduct();
+        call.enqueue(new Callback<List<ProductResponseDTO>>() {
+            @Override
+            public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
+                if (response.isSuccessful()) {
+                    //get response data for `coffee for you`
+                    List<ProductResponseDTO> responseDTOS = response.body();
+                    coffeeForYouDataSource = (ArrayList<ProductResponseDTO>) responseDTOS;
+
+                    //get response data for `top pick`
+                    topPickDataSource = (ArrayList<ProductResponseDTO>) response.body();
+
+                    //update data to adapter
+                    coffeForYouRvAdapter.updateData(responseDTOS);
+
+                    //shuffle the data
+                    Collections.shuffle(responseDTOS);
+
+                    //re-update data to adapter
+                    topPickRvAdapter.updateData(topPickDataSource);
+                } else {
+                    System.out.println("lỗi lấy data");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ProductResponseDTO>> call, Throwable throwable) {
+                System.out.println(throwable.getMessage());
+            }
+        });
     }
 }

@@ -1,6 +1,7 @@
 package com.nlu.packages.ui.order.OrderMenu;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nlu.packages.CartActivity;
 import com.nlu.packages.R;
+import com.nlu.packages.ui.order.OrderProduct.ProductWithType;
 
 import java.util.ArrayList;
 
-public class OrderMenuAdapter extends RecyclerView.Adapter<OrderMenuAdapter.ViewHolder> {
+public class OrderMenuAdapter extends RecyclerView.Adapter<OrderMenuAdapter.ViewHolder> implements OrderMenuRvInterface{
 
     private Activity activity;
     ArrayList<OrderMenuTypeItem> orderMenuTypeItems;
@@ -38,7 +41,7 @@ public class OrderMenuAdapter extends RecyclerView.Adapter<OrderMenuAdapter.View
 
         holder.productCategory.setText(orderMenuTypeItem.categoyName);
 
-        OrderSubItemAdapter orderSubItemAdapter = new OrderSubItemAdapter(orderMenuTypeItem.getCategoryItems());
+        OrderSubItemAdapter orderSubItemAdapter = new OrderSubItemAdapter(this.activity, orderMenuTypeItem.getCategoryItems(),this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         holder.nestRv.setLayoutManager(linearLayoutManager);
         holder.nestRv.setAdapter(orderSubItemAdapter);
@@ -47,6 +50,15 @@ public class OrderMenuAdapter extends RecyclerView.Adapter<OrderMenuAdapter.View
     @Override
     public int getItemCount() {
         return orderMenuTypeItems.size();
+    }
+
+    @Override
+    public void onClickedMenuCategory(int position) {
+        Intent intent = new Intent(OrderMenuAdapter.this.activity, ProductWithType.class);
+
+        intent.putExtra("Name", orderMenuTypeItems.get(position).categoyName);
+
+        activity.startActivity(intent);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

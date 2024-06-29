@@ -11,20 +11,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //class nầy để tạo 1 recycle view (được gọi là adapter), được dùng để lấy dữ liệu lên trên màn hình,
 //là phần code có thể mở rộng, nó là phần hỗ trợ giao diện cho mục Coffee for you trên màn hình Home
 class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyHolder> {
-    private final CoffeeForYouRvInterface coffeeForYouRvInterface;
-    ArrayList<String> data;
     Context context;
+    List<ProductResponseDTO> data;
+    private final CoffeeForYouRvInterface coffeeForYouRvInterface;
 
-    public CoffeForYouRvAdapter(Context context, ArrayList<String> data, CoffeeForYouRvInterface coffeeForYouRvInterface) {
+    public CoffeForYouRvAdapter(Context context, ArrayList<ProductResponseDTO> data, CoffeeForYouRvInterface coffeeForYouRvInterface) {
         this.context=context;
-        this.data = data;
+        this.data = data != null ? data : new ArrayList<>();
         this.coffeeForYouRvInterface=coffeeForYouRvInterface;
     }
 
@@ -38,8 +40,10 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.textView1.setText(data.get(position));
-        Picasso.get().load("https://media.istockphoto.com/id/1358132613/photo/refreshing-hot-cup-of-coffee-at-a-cafe.jpg?s=612x612&w=0&k=20&c=ObwIF28Vt3k93Nch9U4QYUdOwMA_eiMwVVCvKbypnNc=").into(holder.imageView1);
+//        holder.textView1.setText(data.get(position));
+//        Picasso.get().load("https://media.istockphoto.com/id/1358132613/photo/refreshing-hot-cup-of-coffee-at-a-cafe.jpg?s=612x612&w=0&k=20&c=ObwIF28Vt3k93Nch9U4QYUdOwMA_eiMwVVCvKbypnNc=").into(holder.imageView1);
+        holder.textView1.setText(data.get(position).getProductName());
+        Picasso.get().load(data.get(position).getAvatar()).into(holder.imageView1);
     }
 
     @Override
@@ -71,5 +75,10 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
                 }
             });
         }
+    }
+    public void updateData(List<ProductResponseDTO> newList) {
+        this.data.clear();
+        this.data.addAll(newList);
+        notifyDataSetChanged();
     }
 }

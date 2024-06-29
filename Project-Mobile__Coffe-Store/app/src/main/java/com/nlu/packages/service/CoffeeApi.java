@@ -25,6 +25,9 @@ public interface CoffeeApi {
     @POST("api/v1/xac-minh")
     Call<MessageResponseDTO> verifyAccount(@Body VerifyRequestDTO requestDTO);
 
+    @GET("api/v1/san-pham")
+    Call<List<ProductResponseDTO>> getAllProduct();
+
     @GET("api/v1/san-pham/nuoc-uong")
     Call<List<ProductResponseDTO>> getProductWithType(String typePathName, String name, Long id);
 
@@ -32,5 +35,4 @@ public interface CoffeeApi {
     Call<List<ProductResponseDTO>> getProductWithCate (String typePathName,
                                                        @Path("categoryPathName") String categoryPathName,
                                                        String name, Long id);
-
 }
