@@ -71,7 +71,7 @@
             app:srcCompat="@drawable/add_shopping_cart_24px" />
 
         <TextView
-            android:id="@+id/myCartText"
+            android:id="@+id/paymentText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

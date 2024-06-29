@@ -13,6 +13,7 @@
     <string name="item_cart">Items</string>
     <string name="menu_drop">Dropdown Menu</string>
     <string name="select">Select</string>
+    <string name="paymentText">Checkout</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

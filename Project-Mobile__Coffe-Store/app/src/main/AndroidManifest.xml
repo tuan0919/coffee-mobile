@@ -30,6 +30,9 @@
             android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.payment.CheckAndPayActivity"
+            android:exported="false" />
+        <activity
             android:name=".DetailProductOrderActivity"
             android:exported="false" />
         <activity
@@ -50,5 +53,4 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-
 </manifest>
