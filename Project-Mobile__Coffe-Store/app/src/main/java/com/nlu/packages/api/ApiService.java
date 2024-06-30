@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.nlu.packages.model.Product;
 
 import java.io.IOException;
+import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -44,7 +45,7 @@ public interface ApiService {
             .build()
             .create(ApiService.class);
     @GET("v1/san-pham/nuoc-uong")
-    Call<Product> getProduct(@Query("id")int idProduct);
+    Call<List<Product>> getProduct(@Query("id")int idProduct);
 
 
 
