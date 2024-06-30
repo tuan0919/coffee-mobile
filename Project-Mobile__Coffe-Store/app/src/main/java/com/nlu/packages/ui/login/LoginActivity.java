@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     Button google;
     GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN =9001;
+    Login login;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
 //
 //                        }
 //                    });
-            Login login= new Login();
+            login= new Login();
             login.setEmail(str_email);
             login.setPassword(str_pass);
             ApiService.api.loginUser(login).enqueue(new Callback<Section>() {
@@ -153,6 +154,7 @@ public class LoginActivity extends AppCompatActivity {
                         Section section = response.body();
                         if (section != null) {
                             Log.d("TAGGGGGG", "Token: " + section.getToken()); // Giả sử có phương thức getToken() trong model Section.
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         } else {
                             Log.d("TAGGGGGG", "Response body is null");
                         }
@@ -164,11 +166,11 @@ public class LoginActivity extends AppCompatActivity {
                             Log.e("TAGGGGGG", "Error reading error body", e);
                         }
                     }
-                    Log.d("TAGGGGGG","SUCESS");
-                    Section section = response.body();
-                    if(section != null){
-                        Log.d("TAGGGGGG",section.getToken());
-                    }
+//                    Log.d("TAGGGGGG","SUCESS");
+//                    Section section = response.body();
+//                    if(section != null){
+//                        Log.d("TAGGGGGG",section.getToken());
+//                    }
 
                 }
                 @Override
