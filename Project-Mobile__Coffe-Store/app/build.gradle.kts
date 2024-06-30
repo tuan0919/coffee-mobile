@@ -53,15 +53,27 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
-    implementation("androidx.room:room-rxjava2:2.6.1")
+    implementation("com.squareup.picasso:picasso:2.8")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation("com.fasterxml.jackson.core:jackson-core:2.10.1")
+    implementation("com.fasterxml.jackson.core:jackson-annotations:2.10.1")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.10.1")
+    
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
+
+    compileOnly ("org.projectlombok:lombok:1.18.24")
+    annotationProcessor ("org.projectlombok:lombok:1.18.24")
+    
+        implementation("androidx.room:room-rxjava2:2.6.1")
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
 
-    implementation("com.google.android.flexbox:flexbox:3.0.0")
-
-    implementation("com.fasterxml.jackson.core:jackson-core:2.7.2")
-    implementation("com.fasterxml.jackson.core:jackson-annotations:2.7.2")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.7.2")
-    compileOnly("org.projectlombok:lombok:1.18.32")
-    annotationProcessor("org.projectlombok:lombok:1.18.32")
+    // https://mvnrepository.com/artifact/jakarta.validation/jakarta.validation-api
+    implementation("jakarta.validation:jakarta.validation-api:3.0.2")
 }
