@@ -1,6 +1,8 @@
 package nlu.hcmuaf.android_coffee_app.service.impl;
 
 import java.util.Optional;
+
+import lombok.RequiredArgsConstructor;
 import nlu.hcmuaf.android_coffee_app.config.CustomUserDetails;
 import nlu.hcmuaf.android_coffee_app.entities.Users;
 import nlu.hcmuaf.android_coffee_app.repositories.UserRepository;
@@ -13,13 +15,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
+  private final UserRepository userRepository;
 
-  @Autowired
-  private UserRepository userRepository;
-
-  private static final Logger logger = (Logger) LoggerFactory.getLogger(
-      UserDetailsServiceImpl.class);
+  private static final Logger logger = (Logger) LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

@@ -25,11 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
   private final JwtAuthFilter jwtAuthFilter;
-
-  @Bean
-  public UserDetailsService userDetailsService() {
-    return new UserDetailsServiceImpl();
-  }
+  private final UserDetailsService userDetailsService;
 
   @Bean
   @Order(2)  // Đảm bảo rằng filter chain cho Private APIs chạy sau
@@ -44,8 +40,10 @@ public class SecurityConfig {
                       .hasAnyAuthority(ERole.ROLE_USER.name(), ERole.ROLE_ADMIN.name())
                   .requestMatchers(HttpMethod.GET,"/api/v2/don-hang/**")
                       .hasAnyAuthority(ERole.ROLE_USER.name(), ERole.ROLE_ADMIN.name())
+                  .requestMatchers("/api/v2/yeu-thich/**")
+                      .hasAnyAuthority(ERole.ROLE_USER.name(), ERole.ROLE_ADMIN.name())
                   .anyRequest()
-                      .authenticated();
+                      .denyAll();
             })
             .sessionManagement(sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(daoAuthenticationProvider())
@@ -60,11 +58,16 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .securityMatcher("/api/v1/**")
             .authorizeHttpRequests(auth -> {
-              auth.requestMatchers("/api/v1/san-pham/**").permitAll()
-                      .requestMatchers("/api/v1/dang-nhap").permitAll()
-                      .requestMatchers("/api/v1/dang-ky").permitAll()
-                      .requestMatchers("/api/v1/xac-minh").permitAll()
-                      .anyRequest().denyAll();  // Chỉ cho phép các request đã định nghĩa ở trên
+              auth.requestMatchers("/api/v1/san-pham/**")
+                        .permitAll()
+                      .requestMatchers("/api/v1/dang-nhap")
+                        .permitAll()
+                      .requestMatchers("/api/v1/dang-ky")
+                        .permitAll()
+                      .requestMatchers("/api/v1/xac-minh")
+                        .permitAll()
+                      .anyRequest()
+                        .denyAll();  // Chỉ cho phép các request đã định nghĩa ở trên
             });
     return httpSecurity.build();
   }
@@ -77,7 +80,7 @@ public class SecurityConfig {
   @Bean
   public AuthenticationProvider daoAuthenticationProvider() {
     DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-    authenticationProvider.setUserDetailsService(userDetailsService());
+    authenticationProvider.setUserDetailsService(userDetailsService);
     authenticationProvider.setPasswordEncoder(passwordEncoder());
     return authenticationProvider;
   }
