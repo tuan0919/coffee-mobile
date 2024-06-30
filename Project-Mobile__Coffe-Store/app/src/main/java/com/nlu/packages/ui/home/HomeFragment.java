@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
         //setting for coffee for you recycle view
         coffeeForYouRv = view.findViewById(R.id.homeCoffeeForYou);
 
-        //setting the coffee for you adapter
+        //setting the `coffee for you` adapter
         linearLayoutManager = new LinearLayoutManager(HomeFragment.this.getContext(), LinearLayoutManager.HORIZONTAL, false);
         coffeForYouRvAdapter = new CoffeForYouRvAdapter(this.getContext(), coffeeForYouDataSource, this);
         coffeeForYouRv.setLayoutManager(linearLayoutManager);
@@ -171,7 +171,7 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
                     //update data to adapter
                     coffeForYouRvAdapter.updateData(responseDTOS);
 
-                    //shuffle the data
+                    //shuffle the data  
                     Collections.shuffle(responseDTOS);
 
                     //re-update data to adapter

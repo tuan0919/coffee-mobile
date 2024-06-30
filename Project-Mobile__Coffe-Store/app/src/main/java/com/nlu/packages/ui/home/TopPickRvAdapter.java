@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +45,15 @@ class TopPickRvAdapter extends RecyclerView.Adapter<TopPickRvAdapter.MyHolder> {
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         holder.textView2.setText(data.get(position).getProductName());
         Picasso.get().load(data.get(position).getAvatar()).into(holder.imageView2);
+
+        //xử lý sự kiện cho `add to favorite`
+        holder.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(context, "Added to Favorite", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Removed from Favorite", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -54,12 +65,14 @@ class TopPickRvAdapter extends RecyclerView.Adapter<TopPickRvAdapter.MyHolder> {
     public static class MyHolder extends RecyclerView.ViewHolder {
         TextView textView2;
         ImageView imageView2;
+        ToggleButton toggleButton;
 
         //set lại nôi dung của hình ảnh với chữ
         public MyHolder(@NonNull View itemView, TopCoffeeRvInterface topCoffeeRvInterface) {
             super(itemView);
             textView2 = itemView.findViewById(R.id.topPickTitleRv);
             imageView2 = itemView.findViewById(R.id.topPickImageRv);
+            toggleButton = itemView.findViewById(R.id.topPickFavorite);
 
             //xử lý sự kiện khi và 1 hình ảnh được nhấn vào sẽ chuyển qua trang chi tiết sản phẩm
             itemView.setOnClickListener(new View.OnClickListener() {

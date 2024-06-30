@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,9 +27,9 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
     private final CoffeeForYouRvInterface coffeeForYouRvInterface;
 
     public CoffeForYouRvAdapter(Context context, ArrayList<ProductResponseDTO> data, CoffeeForYouRvInterface coffeeForYouRvInterface) {
-        this.context=context;
+        this.context = context;
         this.data = data != null ? data : new ArrayList<>();
-        this.coffeeForYouRvInterface=coffeeForYouRvInterface;
+        this.coffeeForYouRvInterface = coffeeForYouRvInterface;
     }
 
     //khỏi tạo view holder, để hiển thị giao diện lên fragment gọi nó
@@ -40,10 +42,17 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-//        holder.textView1.setText(data.get(position));
-//        Picasso.get().load("https://media.istockphoto.com/id/1358132613/photo/refreshing-hot-cup-of-coffee-at-a-cafe.jpg?s=612x612&w=0&k=20&c=ObwIF28Vt3k93Nch9U4QYUdOwMA_eiMwVVCvKbypnNc=").into(holder.imageView1);
         holder.textView1.setText(data.get(position).getProductName());
         Picasso.get().load(data.get(position).getAvatar()).into(holder.imageView1);
+
+        //xử lý sự kiện cho `add to favorite`
+        holder.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                Toast.makeText(context, "Added to Favorite", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Removed from Favorite", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
@@ -55,20 +64,22 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
     public static class MyHolder extends RecyclerView.ViewHolder {
         TextView textView1;
         ImageView imageView1;
+        ToggleButton toggleButton;
 
         //set lại nôi dung của hình ảnh với chữ
         public MyHolder(@NonNull View itemView, CoffeeForYouRvInterface coffeeForYouRvInterface) {
             super(itemView);
             textView1 = itemView.findViewById(R.id.homeCoffeeTitleRv);
             imageView1 = itemView.findViewById(R.id.homeCoffeeImageRv);
+            toggleButton = itemView.findViewById(R.id.coffeeForYouFavorite);
 
             //xử lý sự kiện khi và 1 hình ảnh được nhấn vào sẽ chuyển qua trang chi tiết sản phẩm
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(coffeeForYouRvInterface != null){
+                    if (coffeeForYouRvInterface != null) {
                         int position = getAdapterPosition();
-                        if(position!=RecyclerView.NO_POSITION){
+                        if (position != RecyclerView.NO_POSITION) {
                             coffeeForYouRvInterface.onItemClickCoffeeForYou(position);
                         }
                     }
@@ -76,6 +87,7 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
             });
         }
     }
+
     public void updateData(List<ProductResponseDTO> newList) {
         this.data.clear();
         this.data.addAll(newList);

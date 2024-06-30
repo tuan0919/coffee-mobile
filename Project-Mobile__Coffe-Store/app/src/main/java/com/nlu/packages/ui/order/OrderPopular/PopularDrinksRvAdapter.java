@@ -13,19 +13,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PopularDrinksRvAdapter extends RecyclerView.Adapter<PopularDrinksRvAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<String> data;
+    List<ProductResponseDTO> data;
     private final PopularDrinksRvInterface popularDrinksRvInterface;
 
-    public PopularDrinksRvAdapter(Context context, ArrayList<String> data, PopularDrinksRvInterface popularDrinksRvInterface) {
+    public PopularDrinksRvAdapter(Context context, ArrayList<ProductResponseDTO> data, PopularDrinksRvInterface popularDrinksRvInterface) {
         this.context = context;
-        this.data = data;
+        this.data = data != null ? data : new ArrayList<>();
         this.popularDrinksRvInterface = popularDrinksRvInterface;
     }
 
@@ -39,10 +41,8 @@ public class PopularDrinksRvAdapter extends RecyclerView.Adapter<PopularDrinksRv
 
     @Override
     public void onBindViewHolder(@NonNull PopularDrinksRvAdapter.ViewHolder holder, int position) {
-        holder.textView.setText(data.get(position));
-        Picasso.get().
-                load("https://media.istockphoto.com/id/1358132613/photo/refreshing-hot-cup-of-coffee-at-a-cafe.jpg?s=612x612&w=0&k=20&c=ObwIF28Vt3k93Nch9U4QYUdOwMA_eiMwVVCvKbypnNc=").
-                into(holder.imageView);
+        holder.textView.setText(data.get(position).getProductName());
+        Picasso.get().load(data.get(position).getAvatar()).into(holder.imageView);
 
         //xử lý sự kiện cho `add to favorite`
         holder.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -85,5 +85,10 @@ public class PopularDrinksRvAdapter extends RecyclerView.Adapter<PopularDrinksRv
                 }
             });
         }
+    }
+    public void updateData(List<ProductResponseDTO> newList) {
+        this.data.clear();
+        this.data.addAll(newList);
+        notifyDataSetChanged();
     }
 }

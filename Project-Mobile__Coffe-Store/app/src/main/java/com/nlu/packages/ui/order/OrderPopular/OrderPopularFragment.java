@@ -15,12 +15,21 @@ import android.widget.Toast;
 
 import com.nlu.packages.CartActivity;
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import com.nlu.packages.service.CoffeeApi;
+import com.nlu.packages.service.CoffeeService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class OrderPopularFragment extends Fragment implements TrendThisMonthRvInterface, PopularDrinksRvInterface {
     //data source
-    ArrayList<String> trendThisMonthDataSource, popularDrinksDataSource;
+    private List<ProductResponseDTO> trendThisMonthDataSource, popularDrinksDataSource = new ArrayList<>();
 
     //adapter
     TrendThisMonthRvAdapter trendThisMonthRvAdapter;
@@ -32,6 +41,7 @@ public class OrderPopularFragment extends Fragment implements TrendThisMonthRvIn
     //layout manager
     RecyclerView.LayoutManager layoutManager;
     LinearLayoutManager linearLayoutManager;
+    CoffeeApi coffeeApi;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -42,33 +52,22 @@ public class OrderPopularFragment extends Fragment implements TrendThisMonthRvIn
         //setting for `trend this month` recycle view
         trendThisMonthRv = view.findViewById(R.id.trendThisMonthRv);
 
-        //setting the data source for `trend this month`
-        trendThisMonthDataSource = new ArrayList<>();
-        trendThisMonthDataSource.add("Expesso");
-        trendThisMonthDataSource.add("Cappuccino");
-        trendThisMonthDataSource.add("Latte");
-        trendThisMonthDataSource.add("Mocha");
+        //get data from api
+        getListCoffee();
 
         //setting the `trend this month` adapter
         linearLayoutManager = new LinearLayoutManager(OrderPopularFragment.this.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        trendThisMonthRvAdapter = new TrendThisMonthRvAdapter(this.getContext(), trendThisMonthDataSource, this);
+        trendThisMonthRvAdapter = new TrendThisMonthRvAdapter(this.getContext(), (ArrayList<ProductResponseDTO>) trendThisMonthDataSource, this);
         trendThisMonthRv.setLayoutManager(linearLayoutManager);
         trendThisMonthRv.setAdapter(trendThisMonthRvAdapter);
 
-        //setting for `polular drink` recycle view
+        //setting grid layout for `polular drink` recycle view
         popularDrinksRv = view.findViewById(R.id.popularDrinksRv);
         layoutManager = new GridLayoutManager(this.getContext(), 2);
         popularDrinksRv.setLayoutManager(layoutManager);
 
-        //setting the data source for `polular drink`
-        popularDrinksDataSource = new ArrayList<>();
-        popularDrinksDataSource.add("Expesso");
-        popularDrinksDataSource.add("Cappuccino");
-        popularDrinksDataSource.add("Latte");
-        popularDrinksDataSource.add("Mocha");
-
         //setting the `polular drink` adapter
-        popularDrinksRvAdapter = new PopularDrinksRvAdapter(this.getContext(), popularDrinksDataSource, this);
+        popularDrinksRvAdapter = new PopularDrinksRvAdapter(this.getContext(), (ArrayList<ProductResponseDTO>) popularDrinksDataSource, this);
         popularDrinksRv.setAdapter(popularDrinksRvAdapter);
         popularDrinksRv.setHasFixedSize(true);
 
@@ -79,7 +78,7 @@ public class OrderPopularFragment extends Fragment implements TrendThisMonthRvIn
     public void onItemClickPopularDrinks(int position) {
         Intent intent = new Intent(OrderPopularFragment.this.getContext(), CartActivity.class);
 
-        intent.putExtra("Name", trendThisMonthDataSource.get(position));
+        intent.putExtra("ProductName", trendThisMonthDataSource.get(position).getProductName());
 
         startActivity(intent);
     }
@@ -88,8 +87,44 @@ public class OrderPopularFragment extends Fragment implements TrendThisMonthRvIn
     public void onItemClickTrendThisMonth(int position) {
         Intent intent = new Intent(OrderPopularFragment.this.getContext(), CartActivity.class);
 
-        intent.putExtra("Name", trendThisMonthDataSource.get(position));
+        intent.putExtra("ProductName", trendThisMonthDataSource.get(position).getProductName());
+
 
         startActivity(intent);
     }
+    public void getListCoffee(){
+        coffeeApi = CoffeeService.getClient();
+        Call<List<ProductResponseDTO>> call = coffeeApi.getAllProduct();
+        call.enqueue(new Callback<List<ProductResponseDTO>>() {
+            @Override
+            public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
+                if (response.isSuccessful()) {
+                    //get response data for `popular drinks`
+                    List<ProductResponseDTO> responseDTOS = response.body();
+                    popularDrinksDataSource = responseDTOS;
+
+                    //get response data for `trend this month`
+                    trendThisMonthDataSource = responseDTOS;
+
+                    //update `popular drinks` adapter
+                    popularDrinksRvAdapter.updateData(responseDTOS);
+
+                    //shuffle the data
+                    Collections.shuffle(responseDTOS);
+
+                    //update `trend this month` adapter
+                    trendThisMonthRvAdapter.updateData(responseDTOS);
+
+                } else {
+                    System.out.println("lỗi lấy data");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ProductResponseDTO>> call, Throwable throwable) {
+                System.out.println(throwable.getMessage());
+            }
+        });
+    }
+
 }

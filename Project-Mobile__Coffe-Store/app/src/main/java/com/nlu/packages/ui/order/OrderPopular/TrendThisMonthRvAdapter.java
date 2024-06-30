@@ -13,20 +13,22 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //class nầy để tạo 1 recycle view (được gọi là adapter), được dùng để lấy dữ liệu lên trên màn hình,
 //là phần code có thể mở rộng, nó là phần hỗ trợ giao diện cho mục Trend this month trên màn hình Home
 public class TrendThisMonthRvAdapter extends RecyclerView.Adapter<TrendThisMonthRvAdapter.MyHolder> {
     Context context;
-    ArrayList<String> data;
+    ArrayList<ProductResponseDTO> data;
     private final TrendThisMonthRvInterface trendThisMonthRvInterface;
 
-    public TrendThisMonthRvAdapter(Context context, ArrayList<String> data, TrendThisMonthRvInterface trendThisMonthRvInterface) {
+    public TrendThisMonthRvAdapter(Context context, ArrayList<ProductResponseDTO> data, TrendThisMonthRvInterface trendThisMonthRvInterface) {
         this.context = context;
-        this.data = data;
+        this.data = data != null ? data : new ArrayList<>();
         this.trendThisMonthRvInterface = trendThisMonthRvInterface;
     }
 
@@ -40,10 +42,8 @@ public class TrendThisMonthRvAdapter extends RecyclerView.Adapter<TrendThisMonth
 
     @Override
     public void onBindViewHolder(@NonNull TrendThisMonthRvAdapter.MyHolder holder, int position) {
-        holder.textView1.setText(data.get(position));
-        Picasso.get().
-                load("https://media.istockphoto.com/id/1358132613/photo/refreshing-hot-cup-of-coffee-at-a-cafe.jpg?s=612x612&w=0&k=20&c=ObwIF28Vt3k93Nch9U4QYUdOwMA_eiMwVVCvKbypnNc=").
-                into(holder.imageView1);
+        holder.textView1.setText(data.get(position).getProductName());
+        Picasso.get().load(data.get(position).getAvatar()).into(holder.imageView1);
 
         //xử lý sự kiện cho toggle button
         holder.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -93,7 +93,12 @@ public class TrendThisMonthRvAdapter extends RecyclerView.Adapter<TrendThisMonth
                     }
                 }
             });
-
         }
+    }
+
+    public void updateData(List<ProductResponseDTO> newList) {
+        this.data.clear();
+        this.data.addAll(newList);
+        notifyDataSetChanged();
     }
 }
