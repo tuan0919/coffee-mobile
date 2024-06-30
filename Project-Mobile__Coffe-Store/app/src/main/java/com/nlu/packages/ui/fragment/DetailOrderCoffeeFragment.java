@@ -1,32 +1,32 @@
     package com.nlu.packages.ui.fragment;
 
     import android.os.Bundle;
+    import android.util.Log;
+    import android.view.LayoutInflater;
+    import android.view.View;
+    import android.view.ViewGroup;
+    import android.widget.AdapterView;
+    import android.widget.ArrayAdapter;
+    import android.widget.ImageView;
+    import android.widget.Spinner;
+    import android.widget.TextView;
+    import android.widget.Toast;
 
     import androidx.annotation.NonNull;
     import androidx.annotation.Nullable;
     import androidx.appcompat.widget.AppCompatButton;
     import androidx.fragment.app.Fragment;
 
-    import android.util.Log;
-    import android.view.LayoutInflater;
-    import android.view.View;
-    import android.view.ViewGroup;
-    import android.widget.AdapterView;
-    import android.widget.ImageView;
-    import android.widget.Spinner;
-    import android.widget.TextView;
-    import android.widget.Toast;
-
     import com.bumptech.glide.Glide;
-    import com.google.gson.JsonObject;
     import com.nlu.packages.R;
     import com.nlu.packages.api.ApiService;
     import com.nlu.packages.inventory.AmountType;
-    import com.nlu.packages.inventory.FakeDetailData;
     import com.nlu.packages.inventory.CategoryAdapter;
-    import com.nlu.packages.model.Product;
+    import com.nlu.packages.inventory.FakeDetailData;
+    import com.nlu.packages.response.product.ProductResponseDTO;
 
     import java.util.ArrayList;
+    import java.util.Arrays;
     import java.util.List;
 
     import retrofit2.Call;
@@ -59,12 +59,20 @@
         private AppCompatButton minusButtonQuantitty;
         private AppCompatButton plusButtonQuantity;
         private TextView quantityText;
-        private List<Product>  products;
+        public static List<ProductResponseDTO> products;
         ImageView productPicture;
+        TextView productName,priceProduct;
+        List<ProductResponseDTO.IngredientDTO>milk,topping,sweet;
+        List<ProductResponseDTO.ProductSizeDTO> sizes;
+        ArrayAdapter arrayAdapter;
+
+        public static ArrayList<String> sz;
 
         public DetailOrderCoffeeFragment() {
             // Required empty public constructor
         }
+
+
 
         /**
          * Use this factory method to create a new instance of
@@ -107,11 +115,13 @@
             super.onViewCreated(view, savedInstanceState);
 
             // anh san pham
-            productPicture = getView().findViewById(R.id.productPicture);productPicture = getView().findViewById(R.id.productPicture);
-            //Sử dụng cho spinner chọn Size
+            productPicture = getView().findViewById(R.id.productPicture);
+            productName = getView().findViewById(R.id.productName);
+            priceProduct = getView().findViewById(R.id.priceProduct);
+            //Sử dụng cho spinner chọn SizeAr
             spnSize = getView().findViewById(R.id.spinner_size);
-            sa = new CategoryAdapter(getContext(), R.layout.item_selected, getListSize());
-            spnSize.setAdapter(sa);
+//            sa = new CategoryAdapter(getContext(), R.layout.item_selected, getListSize());
+            spnSize.setAdapter(sa1);
             spnSize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -123,6 +133,8 @@
 
                 }
             });
+
+
             //Sử dụng cho spinner chọn Milk
             spnMilk = getView().findViewById(R.id.spinner_milk);
             sa1 = new CategoryAdapter(getContext(), R.layout.item_selected, getListMilk());
@@ -188,33 +200,67 @@
                 }
             });
             //Lenh goi API
-            products = new ArrayList<>();
-            ApiService.api.getProduct(1).enqueue(new Callback<List<Product>>() {
+
+            ApiService.api.getProduct(1).enqueue(new Callback<List<ProductResponseDTO>>() {
                 @Override
-                public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
                     if (response.isSuccessful()) {
                         products = response.body();
-                        Log.d("LTTTTTT","Success");
+                        assert products != null;
+
+                        assert products != null;
+                        for(ProductResponseDTO a : products){
+                            Glide.with(getContext()).load(a.getAvatar()).into(productPicture);
+                            productName.setText(a.getProductName());
+                            priceProduct.setText(String.valueOf(a.getBasePrice()));
+                            sizes = a.getAvailableSizes();
+                            for(ProductResponseDTO.ProductSizeDTO h : sizes){
+                                if (h.getMultipler()==1.0) sz.add("SMALL");
+                                else if (h.getMultipler()==1.25) sz.add("MEDIUM");
+                                else if (h.getMultipler()==1.5) sz.add("LARGE");
+                            }
+                            sa = new CategoryAdapter(getContext(), R.layout.item_selected, getListSize());
+
+
+
+//                            private List<AmountType> getListSize() {
+//                                List<AmountType> list = new ArrayList<>();
+//                                list.add(new AmountType(fdd.getList().get(0)[0]));
+//                                list.add(new AmountType(fdd.getList().get(0)[1]));
+//                                list.add(new AmountType(fdd.getList().get(0)[2]));
+//                                return list;
+//                            }
+//                            ListAdapter listAdapter= new ListAdapter(getContext(),R.layout.item_selected,sizes);
+
+
+                        }
+
+                        Log.d("LTTTTTT","Success"+products);
+
                     }
                     Log.d("LTTTTTT","Success");
                 }
 
                 @Override
-                public void onFailure(Call<List<Product>> call, Throwable t) {
-                    Log.d("LTTTTTT","Faileddd");
+                public void onFailure(Call<List<ProductResponseDTO>> call, Throwable t) {
+                    Log.d("LTTTTTT","Faileddd" + t);
 
                 }
             });
 
+
         }
         FakeDetailData fdd = new FakeDetailData();
+        List<ProductResponseDTO> ps = DetailOrderCoffeeFragment.products;
+
         private List<AmountType> getListSize() {
             List<AmountType> list = new ArrayList<>();
-            list.add(new AmountType(fdd.getList().get(0)[0]));
-            list.add(new AmountType(fdd.getList().get(0)[1]));
-            list.add(new AmountType(fdd.getList().get(0)[2]));
+            for (int i = 0; i < sz.size(); i++) {
+                list.add(new AmountType(sz.get(i)));
+            }
             return list;
         }
+
         private List<AmountType> getListMilk() {
             List<AmountType> list = new ArrayList<>();
             list.add(new AmountType(fdd.getList().get(1)[0]));

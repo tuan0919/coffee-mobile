@@ -2,21 +2,17 @@ package com.nlu.packages.api;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.nlu.packages.model.Product;
+import com.nlu.packages.response.product.ProductResponseDTO;
 
-import java.io.IOException;
 import java.util.List;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -45,7 +41,7 @@ public interface ApiService {
             .build()
             .create(ApiService.class);
     @GET("v1/san-pham/nuoc-uong")
-    Call<List<Product>> getProduct(@Query("id")int idProduct);
+    Call<List<ProductResponseDTO>> getProduct(@Query("id")int idProduct);
 
 
 
