@@ -4,22 +4,33 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.nlu.packages.R;
+import com.nlu.packages.api.ApiService;
 import com.nlu.packages.inventory.AmountType;
 import com.nlu.packages.inventory.FakeDetailData;
 import com.nlu.packages.inventory.CategoryAdapter;
+import com.nlu.packages.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +55,12 @@ public class DetailOrderCoffeeFragment extends Fragment {
     private CategoryAdapter sa1;
     private CategoryAdapter sa2;
     private CategoryAdapter sa3;
+    private AppCompatButton minusButtonQuantitty;
+    private AppCompatButton plusButtonQuantity;
+    private TextView quantityText;
+    private Product product;
+    ImageView productPicture;
+
     public DetailOrderCoffeeFragment() {
         // Required empty public constructor
     }
@@ -69,10 +86,12 @@ public class DetailOrderCoffeeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -85,6 +104,9 @@ public class DetailOrderCoffeeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        // anh san pham
+        productPicture = getView().findViewById(R.id.productPicture);productPicture = getView().findViewById(R.id.productPicture);
         //Sử dụng cho spinner chọn Size
         spnSize = getView().findViewById(R.id.spinner_size);
         sa = new CategoryAdapter(getContext(), R.layout.item_selected, getListSize());
@@ -142,6 +164,48 @@ public class DetailOrderCoffeeFragment extends Fragment {
 
             }
         });
+        // xu ly tang giam so luong.
+        minusButtonQuantitty = getView().findViewById(R.id.minusButtonQuantitty);
+        plusButtonQuantity = getView().findViewById(R.id.plusButtonQuantity);
+        quantityText = getView().findViewById(R.id.quantityText);
+        minusButtonQuantitty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentQuantity = Integer.parseInt(quantityText.getText().toString());
+                if (currentQuantity > 1) {
+                    currentQuantity--;
+                    quantityText.setText(String.valueOf(currentQuantity));
+                }
+            }
+        });
+        plusButtonQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentQuantity = Integer.parseInt(quantityText.getText().toString());
+                currentQuantity++;
+                quantityText.setText(String.valueOf(currentQuantity ));
+            }
+        });
+        //Lenh goi API
+        product = new Product();
+        ApiService.api.getProduct(1).enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                product = response.body();
+                Log.d("Taggggg","FaileddddReponse");
+                if(product != null) {
+                    Log.d("Taggggg","Success");
+                    Glide.with(getContext())
+                            .load(product.getAvatar())
+                            .into(productPicture);
+                }
+            }
+            @Override
+            public void onFailure(Call<Product> call, Throwable t) {
+                Log.d("Taggggg","Failedddd"+t.getMessage());
+            }
+        });
+
     }
     FakeDetailData fdd = new FakeDetailData();
     private List<AmountType> getListSize() {
