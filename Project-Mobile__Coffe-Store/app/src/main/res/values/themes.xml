@@ -19,4 +19,26 @@
         <!--change text color-->
         <item name="android:editTextColor">@android:color/white</item>
     </style>
+    <style name="CheckoutActiveButton">
+        <item name="android:background">@drawable/checkout_activate_button</item>
+        <item name="android:textColor">@color/Greyscale3</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:radius">10dp</item>
+    </style>
+    <style name="CheckoutDeactiveButton">
+        <item name="android:background">@color/Greyscale3</item>
+        <item name="android:strokeColor">@color/Greyscale3</item>
+        <item name="android:strokeWidth">2</item>
+        <item name="android:textColor">@color/Background</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:radius">10dp</item>
+    </style>
+    <style name="EditButton">
+        <item name="android:background">@drawable/black_button_yellow_stroke</item>
+        <item name="android:fontFamily">@font/inter_semibold</item>
+        <item name="android:textColor">@color/Primary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>
