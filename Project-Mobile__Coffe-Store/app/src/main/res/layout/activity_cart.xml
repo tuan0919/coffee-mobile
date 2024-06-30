@@ -38,17 +38,23 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"/>
-        <ImageButton
-                android:id="@+id/addCartButton"
+        <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="#0b0b09"
-                android:contentDescription="@string/add_cart_button"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/add_shopping_cart_24px"/>
+                android:orientation="horizontal"
+        >
+            <ImageButton
+                    android:id="@+id/cart_sync_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="#0b0b09"
+                    android:contentDescription="@string/add_cart_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/add_shopping_cart_24px"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.flexbox.FlexboxLayout>
     <LinearLayout
             android:layout_width="match_parent"
@@ -113,8 +119,11 @@
                 app:justifyContent="center"
                 android:padding="15dp"
                 android:layout_marginTop="20dp"
+                app:flexDirection="column"
         >
-            <Button android:layout_width="match_parent"
+            <Button
+                    android:id="@+id/cart_items_checkout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Checkout"
                     android:textColor="@color/NeutralDark"

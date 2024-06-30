@@ -10,13 +10,24 @@
               android:padding="10dp"
               android:paddingTop="0dp"
              tools:context=".ui.fragment.ItemsCartFragment">
-    <ImageView
-            android:id="@+id/cart_item_productImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-    />
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <ImageView
+                android:id="@+id/cart_item_productImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+        />
+        <CheckBox
+                android:id="@+id/cart_item_checkBox"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+        />
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -58,12 +69,14 @@
                 android:layout_weight="1">
 
             <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/minusButtonQuantitty"
+                    android:id="@+id/cart_item_quantityBtn_minus"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/custom_button_quantity_left"
                     android:text="-"
+                    android:tag="btn_minus"
+                    android:clickable="true"
                     android:textColor="@color/Primary"
                     android:textSize="16sp"/>
 
@@ -79,12 +92,14 @@
                     android:textSize="18sp"/>
 
             <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/plusButtonQuantity"
+                    android:id="@+id/cart_item_quantityBtn_plus"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/custom_button_quantity_right"
                     android:text="+"
+                    android:tag="btn_plus"
+                    android:clickable="true"
                     android:textColor="@color/Primary"
                     android:textSize="16sp"/>
         </LinearLayout>
@@ -94,13 +109,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center">
         <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/cart_item_removeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#0b0b09"
                 android:contentDescription="Remove From Cart"
                 android:src="@drawable/delete_24px"
                 android:layout_alignParentEnd="true"
+                android:clickable="true"
         />
     </RelativeLayout>
 </LinearLayout>

@@ -6,7 +6,7 @@ import retrofit2.*;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CoffeeAppService {
-    private static final String BASE_URL = "http://192.168.1.2:8888/";
+    private static final String BASE_URL = "http://172.16.0.116:8888/";
     private static Retrofit instance;
 
     private static Retrofit create() {
