@@ -20,7 +20,7 @@ public interface ApiService {
             .create();
 
     ApiService api = new Retrofit.Builder()
-            .baseUrl("http://localhost:8888/api/")
+            .baseUrl("http://192.168.14.3:8888/api/")
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
             .create(ApiService.class);
