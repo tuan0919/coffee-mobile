@@ -13,22 +13,64 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nlu.packages.R;
+import com.nlu.packages.dto.request.wishlist.WishlistRequestDTO;
 import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO;
+import com.nlu.packages.service.CoffeeApi;
+import com.nlu.packages.service.CoffeeService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PopularDrinksRvAdapter extends RecyclerView.Adapter<PopularDrinksRvAdapter.ViewHolder> {
 
     Context context;
     List<ProductResponseDTO> data;
     private final PopularDrinksRvInterface popularDrinksRvInterface;
+    private CoffeeApi coffeeApi;
+    private List<Long> productIds = new ArrayList<>();
+    private WishlistRequestDTO wishlistRequestDTO = new WishlistRequestDTO();
 
     public PopularDrinksRvAdapter(Context context, ArrayList<ProductResponseDTO> data, PopularDrinksRvInterface popularDrinksRvInterface) {
         this.context = context;
         this.data = data != null ? data : new ArrayList<>();
         this.popularDrinksRvInterface = popularDrinksRvInterface;
+    }
+
+    private void initFavorite() {
+        coffeeApi = CoffeeService.getClient();
+        Call<List<ProductResponseDTO>> call = coffeeApi.getWishList();
+        call.enqueue(new Callback<List<ProductResponseDTO>>() {
+            @Override
+            public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
+                List<ProductResponseDTO> responseDTOS = response.body();
+                if (response.isSuccessful()) {
+                    if (responseDTOS != null) {
+                        responseDTOS.forEach(e -> {
+                            if (!productIds.contains(e.getProductId())) {
+                                productIds.add(e.getProductId());
+                            }
+                        });
+                        wishlistRequestDTO.setProductIds(productIds);
+                    } else {
+                        System.out.println("Null List");
+                    }
+                } else {
+                    onFailure(call, new Throwable("Uncessfull Response"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ProductResponseDTO>> call, Throwable throwable) {
+                System.out.println(throwable);
+            }
+        });
+        wishlistRequestDTO.setProductIds(productIds);
     }
 
     @NonNull
@@ -44,12 +86,46 @@ public class PopularDrinksRvAdapter extends RecyclerView.Adapter<PopularDrinksRv
         holder.textView.setText(data.get(position).getProductName());
         Picasso.get().load(data.get(position).getAvatar()).into(holder.imageView);
 
+        initFavorite();
+        if(productIds.contains(data.get(position).getProductId())){
+            holder.toggleButton.setChecked(true);
+        }
+
+        // Lấy danh sách sản phẩm yêu thích từ API nếu chưa có
+        if (productIds == null) {
+            initFavorite();
+        }
+
         //xử lý sự kiện cho `add to favorite`
         holder.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                Toast.makeText(context, "Added to Favorite", Toast.LENGTH_SHORT).show();
+                productIds.clear();
+                wishlistRequestDTO.getProductIds().add(data.get(position).getProductId());
+                Call<MessageResponseDTO> call = coffeeApi.addToWishList(wishlistRequestDTO);
+                call.enqueue(new Callback<MessageResponseDTO>() {
+                    @Override
+                    public void onResponse(Call<MessageResponseDTO> call, Response<MessageResponseDTO> response) {
+                        Toast.makeText(context, "Added to Favorite", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<MessageResponseDTO> call, Throwable throwable) {
+                        System.out.println(throwable);
+                    }
+                });
             } else {
-                Toast.makeText(context, "Removed from Favorite", Toast.LENGTH_SHORT).show();
+                Call<MessageResponseDTO> call = coffeeApi.removeFromWishList(data.get(position).getProductId());
+                call.enqueue(new Callback<MessageResponseDTO>() {
+                    @Override
+                    public void onResponse(Call<MessageResponseDTO> call, Response<MessageResponseDTO> response) {
+                        Toast.makeText(context, "Removed from Favorite", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<MessageResponseDTO> call, Throwable throwable) {
+                        System.out.println(throwable.getMessage());
+                    }
+                });
             }
         });
     }
@@ -86,6 +162,7 @@ public class PopularDrinksRvAdapter extends RecyclerView.Adapter<PopularDrinksRv
             });
         }
     }
+
     public void updateData(List<ProductResponseDTO> newList) {
         this.data.clear();
         this.data.addAll(newList);

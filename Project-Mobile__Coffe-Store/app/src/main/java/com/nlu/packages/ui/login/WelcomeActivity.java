@@ -1,5 +1,6 @@
 package com.nlu.packages.ui.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.nlu.packages.R;
+import com.nlu.packages.utils.MyUtils;
 import com.squareup.picasso.Picasso;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -26,6 +28,9 @@ public class WelcomeActivity extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+
+            //khởi tạo token
+            MyUtils.save(this, "token", "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJucWF0MDkxOSIsImlhdCI6MTcxOTgyMzYzOSwiZXhwIjoxNzE5OTEwMDM5fQ.6Kbk5WwJoohN2Y_gWoGbP-zL3O4j6mv1UYKibufMfi4");
 
             //load image with url using picasso
             imageView1 = findViewById(R.id.imageView);

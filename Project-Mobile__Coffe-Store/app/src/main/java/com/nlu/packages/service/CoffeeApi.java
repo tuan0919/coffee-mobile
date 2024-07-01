@@ -11,6 +11,7 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO;
@@ -39,9 +40,10 @@ public interface CoffeeApi {
     Call<List<ProductResponseDTO>> getProductWithType(String typePathName, String name, Long id);
 
     @GET("api/v1/san-pham/nuoc-uong/{categoryPathName}")
-    Call<List<ProductResponseDTO>> getProductWithCate (String typePathName,
-                                                       @Path("categoryPathName") String categoryPathName,
-                                                       String name, Long id);
+    Call<List<ProductResponseDTO>> getProductWithCate(String typePathName,
+                                                      @Path("categoryPathName") String categoryPathName,
+                                                      String name, Long id);
+
     @GET("api/v1/san-pham/{productTypePath}/{categoryTypePath}")
     Call<List<ProductResponseDTO>> getProduct(@Path("productTypePath") String productTypePath,
                                               @Path("categoryTypePath") String categoryTypePath,
@@ -56,6 +58,12 @@ public interface CoffeeApi {
     @GET("api/v1/san-pham")
     Call<List<ProductResponseDTO>> searchProduct(@Query("ten") String name);
 
+    @GET("api/v2/yeu-thich")
+    Call<List<ProductResponseDTO>> getWishList();
+
     @POST("api/v2/yeu-thich")
-    Call<TokenResponseDTO> addToWishList(@Body WishlistRequestDTO wishlistRequestDTO);
+    Call<MessageResponseDTO> addToWishList(@Body WishlistRequestDTO wishlistRequestDTO);
+
+    @DELETE("api/v2/yeu-thich/{productId}")
+    Call<MessageResponseDTO> removeFromWishList(@Path("productId") Long productId);
 }

@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.nlu.packages.CartActivity;
 import com.nlu.packages.R;
+import com.nlu.packages.dto.request.wishlist.WishlistRequestDTO;
 import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
@@ -48,7 +49,12 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     TopPickRvAdapter topPickRvAdapter;
     private CoffeeApi coffeeApi;
     private Consumer<ProductResponseDTO> onClickHandler;
-    private OrderFragment orderFragment=new OrderFragment();
+    private OrderFragment orderFragment = new OrderFragment();
+    private WishlistRequestDTO wishlistRequestDTO = new WishlistRequestDTO();
+    private List<Long> productIds;
+
+    public HomeFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,9 +105,9 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
                     @Override
                     public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
                         List<ProductResponseDTO> responseDTOS = response.body();
-                        if(responseDTOS.isEmpty()){
-                            Toast.makeText(getContext(),"Không tìm thấy", Toast.LENGTH_SHORT).show();
-                        }else{
+                        if (responseDTOS.isEmpty()) {
+                            Toast.makeText(getContext(), "Không tìm thấy", Toast.LENGTH_SHORT).show();
+                        } else {
                             Intent intent = new Intent(HomeFragment.this.getContext(), ProductSearch.class);
                             intent.putExtra("ProductOrder", (ArrayList<ProductResponseDTO>) responseDTOS);
                             startActivity(intent);
@@ -130,7 +136,7 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
 
         //setting the `coffee for you` adapter
         linearLayoutManager = new LinearLayoutManager(HomeFragment.this.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        coffeForYouRvAdapter = new CoffeForYouRvAdapter(this.getContext(), coffeeForYouDataSource, this);
+        coffeForYouRvAdapter = new CoffeForYouRvAdapter(this.getContext(), coffeeForYouDataSource, this, onClickHandler);
         coffeeForYouRv.setLayoutManager(linearLayoutManager);
         coffeeForYouRv.setAdapter(coffeForYouRvAdapter);
 
@@ -145,6 +151,7 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
 
         return view;
     }
+
 
     public void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -192,9 +199,7 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     public void onItemClickCoffeeForYou(int position) {
         Intent intent = new Intent(HomeFragment.this.getContext(), CartActivity.class);
 
-        intent.putExtra("ProductName", coffeeForYouDataSource.get(position).getProductName());
-        intent.putExtra("Avatar", coffeeForYouDataSource.get(position).getAvatar());
-        intent.putExtra("BasePrice", coffeeForYouDataSource.get(position).getBasePrice());
+        intent.putExtra("ProductOrder", coffeeForYouDataSource.get(position));
 
         startActivity(intent);
     }
@@ -203,13 +208,12 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     public void onItemClickTopCoffee(int position) {
         Intent intent = new Intent(HomeFragment.this.getContext(), CartActivity.class);
 
-        intent.putExtra("ProductName", topPickDataSource.get(position).getProductName());
-        intent.putExtra("Avatar", topPickDataSource.get(position).getAvatar());
-        intent.putExtra("BasePrice", topPickDataSource.get(position).getBasePrice());
+        intent.putExtra("ProductOrder", coffeeForYouDataSource.get(position));
 
         startActivity(intent);
     }
 
+    //get data from api
     public void getListCoffee() {
         coffeeApi = CoffeeService.getClient();
         Call<List<ProductResponseDTO>> call = coffeeApi.getAllProduct();

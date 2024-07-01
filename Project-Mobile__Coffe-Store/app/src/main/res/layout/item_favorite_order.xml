@@ -1,65 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="180dp"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
-    android:background="@color/Background">
+    app:cardCornerRadius="12dp"
+    app:cardUseCompatPadding="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@color/Background">
 
         <ImageView
-            android:id="@+id/orderImage"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:id="@+id/orderFavoriteImageRv"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/black_coffee" />
-
-        <ImageView
-            android:id="@+id/favoriteButton"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_favorite"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/orderTitle"
-            android:layout_width="wrap_content"
+            android:id="@+id/orderFavoriteProductName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="Iced Coffee"
-            android:textColor="@color/Greyscale1"
-            android:textSize="18sp"
-            android:fontFamily="@font/inter_bold"
-            app:layout_constraintTop_toBottomOf="@id/orderImage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <TextView
-            android:id="@+id/priceTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="$2.60"
-            android:fontFamily="@font/inter_bold"
+            android:maxHeight="50dp"
+            android:minHeight="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/inter_semibold"
+            android:gravity="left"
+            android:text="TextView"
             android:textColor="@color/Greyscale1"
             android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@id/orderTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/orderFavoriteImageRv" />
 
+        <ImageButton
+            android:id="@+id/orderFavoriteChecked"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/ic_favorite_on"
+            android:textOff=""
+            android:textOn=""
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/orderFavoritePrice"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:fontFamily="@font/inter_semibold"
+            android:gravity="left"
+            android:text="TextView"
+            android:textColor="@color/Greyscale1"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/orderFavoriteProductName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
