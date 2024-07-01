@@ -1,11 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.payment.PaymentFragment">
+    android:background="@color/Background"
+    android:orientation="vertical"
+    tools:context=".PaymentActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0b0b09"
+        android:backgroundTint="#0b0b09">
+
+        <ImageButton
+            android:id="@+id/goBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#0b0b09"
+            android:contentDescription="@string/go_back_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/chevron_left_24px" />
+
+        <TextView
+            android:id="@+id/paymentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter_semibold"
+            android:lineSpacingMultiplier="2"
+            android:text="@string/paymentText"
+            android:textColor="#dadada"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/paymentContainer"
         android:layout_width="match_parent"
@@ -37,7 +74,8 @@
             android:fontFamily="@font/inter_medium"
             android:inputType="text"
             android:padding="10dp"
-            android:text="XXXX-XXXX-XXXX-XXXX"
+            android:hint="XXXX-XXXX-XXXX-XXXX"
+            android:textColorHint="@color/Greyscale3"
             android:textColor="@color/Greyscale2"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -69,7 +107,8 @@
             android:fontFamily="@font/inter_medium"
             android:inputType="text"
             android:padding="10dp"
-            android:text="eg. John Smith"
+            android:hint="eg. John Smith"
+            android:textColorHint="@color/Greyscale3"
             android:textColor="@color/Greyscale2"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +139,8 @@
             android:fontFamily="@font/inter_medium"
             android:inputType="text"
             android:padding="10dp"
-            android:text="MM"
+            android:hint="MM"
+            android:textColorHint="@color/Greyscale3"
             android:textAlignment="center"
             android:textColor="@color/Greyscale2"
             android:textSize="20sp"
@@ -118,7 +158,8 @@
             android:fontFamily="@font/inter_medium"
             android:inputType="text"
             android:padding="10dp"
-            android:text="YY"
+            android:hint="YY"
+            android:textColorHint="@color/Greyscale3"
             android:textAlignment="center"
             android:textColor="@color/Greyscale2"
             android:textSize="20sp"
@@ -149,7 +190,8 @@
             android:fontFamily="@font/inter_medium"
             android:inputType="text"
             android:padding="10dp"
-            android:text="XXXX"
+            android:hint="XXXX"
+            android:textColorHint="@color/Greyscale3"
             android:textAlignment="center"
             android:textColor="@color/Greyscale2"
             android:textSize="20sp"
@@ -191,8 +233,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/payButton"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/proceedButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
@@ -210,4 +252,4 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView12" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</FrameLayout>
+</LinearLayout>
