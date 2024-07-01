@@ -1,4 +1,4 @@
-package nlu.hcmuaf.android_coffee_app.dto.request;
+package com.nlu.packages.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
