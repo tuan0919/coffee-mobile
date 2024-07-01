@@ -41,9 +41,6 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment:2.5.3")
     implementation("androidx.navigation:navigation-ui:2.5.3")
     implementation("androidx.activity:activity:1.8.0")
-    implementation("com.squareup.picasso:picasso:2.71828")
-    implementation("com.squareup.retrofit2:retrofit:2.4.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.3.0")
 
     implementation("jp.wasabeef:picasso-transformations:2.4.0")
     // If you want to use the GPU Filters
@@ -60,6 +57,9 @@ dependencies {
     implementation("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
     implementation("io.reactivex.rxjava2:rxjava:2.2.21")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("com.google.android.material:material:1.5.0")
 
     implementation("com.fasterxml.jackson.core:jackson-core:2.10.1")
     implementation("com.fasterxml.jackson.core:jackson-annotations:2.10.1")
