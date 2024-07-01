@@ -19,6 +19,7 @@ import com.nlu.packages.dto.response.cart.CartResponseDTO;
 import com.nlu.packages.inventory.checkout_recycle.CheckOutSummaryAdapter;
 import com.nlu.packages.inventory.stupid_data.DataToPayment;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class CheckActivity extends AppCompatActivity {
@@ -38,6 +39,8 @@ public class CheckActivity extends AppCompatActivity {
 //        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
 //            List<CartResponseDTO.CartItemDTO> list = getIntent().getParcelableArrayListExtra("chooseList", CartResponseDTO.CartItemDTO.class);
 //        }
+//        Hoặc đoạn này nhưng CartResponseDTO.CartItemDTO implements Serializable
+//        List<CartResponseDTO.CartItemDTO> list =  (List<CartResponseDTO.CartItemDTO>) getIntent().getSerializableExtra("chooseList");
         RecyclerView recyclerView = findViewById(R.id.recycleOrderSummary);
         // Fake Data
         DataToPayment datu = new DataToPayment();
