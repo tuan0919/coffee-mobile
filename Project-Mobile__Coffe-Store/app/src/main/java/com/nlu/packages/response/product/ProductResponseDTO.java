@@ -115,6 +115,46 @@ public class ProductResponseDTO {
         EIngredientType ingredientType;
         EIngredient ingredientEnum;
         double addPrice;
+
+        public long getIngredientId() {
+            return ingredientId;
+        }
+
+        public void setIngredientId(long ingredientId) {
+            this.ingredientId = ingredientId;
+        }
+
+        public String getIngredientName() {
+            return ingredientName;
+        }
+
+        public void setIngredientName(String ingredientName) {
+            this.ingredientName = ingredientName;
+        }
+
+        public EIngredientType getIngredientType() {
+            return ingredientType;
+        }
+
+        public void setIngredientType(EIngredientType ingredientType) {
+            this.ingredientType = ingredientType;
+        }
+
+        public EIngredient getIngredientEnum() {
+            return ingredientEnum;
+        }
+
+        public void setIngredientEnum(EIngredient ingredientEnum) {
+            this.ingredientEnum = ingredientEnum;
+        }
+
+        public double getAddPrice() {
+            return addPrice;
+        }
+
+        public void setAddPrice(double addPrice) {
+            this.addPrice = addPrice;
+        }
     }
 
     @Data
@@ -123,7 +163,7 @@ public class ProductResponseDTO {
     @FieldDefaults(level = AccessLevel.PRIVATE)
     public static class ProductSizeDTO {
         EProductSize sizeEnum;
-        double multipler;
+        double multipler; //1.5
         String name;
 
         public String getName() {
