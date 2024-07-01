@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.payment.PaymentFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/paymentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/Background">
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Credit Card Name"
+            android:textColor="@color/Greyscale2"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/creditCardName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/dark_bg_neutral_light_radius"
+            android:ems="10"
+            android:fontFamily="@font/inter_medium"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="XXXX-XXXX-XXXX-XXXX"
+            android:textColor="@color/Greyscale2"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Card Holder's Name"
+            android:textColor="@color/Greyscale2"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/creditCardName" />
+
+        <EditText
+            android:id="@+id/cardHolderName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="24dp"
+            android:background="@drawable/dark_bg_neutral_light_radius"
+            android:ems="10"
+            android:fontFamily="@font/inter_medium"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="eg. John Smith"
+            android:textColor="@color/Greyscale2"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Expire Date"
+            android:textColor="@color/Greyscale2"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardHolderName" />
+
+        <EditText
+            android:id="@+id/mothExpire"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/dark_bg_neutral_light_radius"
+            android:ems="10"
+            android:fontFamily="@font/inter_medium"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="MM"
+            android:textAlignment="center"
+            android:textColor="@color/Greyscale2"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <EditText
+            android:id="@+id/yearExpire"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/dark_bg_neutral_light_radius"
+            android:ems="10"
+            android:fontFamily="@font/inter_medium"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="YY"
+            android:textAlignment="center"
+            android:textColor="@color/Greyscale2"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/mothExpire"
+            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Security Code"
+            android:textColor="@color/Greyscale2"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardHolderName" />
+
+        <EditText
+            android:id="@+id/securityCode"
+            android:layout_width="115dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:background="@drawable/dark_bg_neutral_light_radius"
+            android:ems="10"
+            android:fontFamily="@font/inter_medium"
+            android:inputType="text"
+            android:padding="10dp"
+            android:text="XXXX"
+            android:textAlignment="center"
+            android:textColor="@color/Greyscale2"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/trueTotalContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/neutral_dark_bg_radius"
+            app:layout_constraintTop_toBottomOf="@+id/mothExpire"
+            tools:layout_editor_absoluteX="-16dp">
+
+            <TextView
+                android:id="@+id/textView12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/inter_semibold"
+                android:text="Total:"
+                android:textColor="@color/Greyscale1"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/inter_semibold"
+                android:text="$ 0.00"
+                android:textColor="@color/Greyscale1"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/payButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/yellow_bg_radius"
+                android:fontFamily="@font/inter_semibold"
+                android:padding="8dp"
+                android:text="Pay"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
