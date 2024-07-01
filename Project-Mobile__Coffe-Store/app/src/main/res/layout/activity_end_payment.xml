@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Background"
+    android:orientation="vertical"
+    tools:context=".EndPaymentActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0b0b09"
+        android:backgroundTint="#0b0b09">
+
+        <ImageButton
+            android:id="@+id/goBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#0b0b09"
+            android:contentDescription="@string/go_back_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/chevron_left_24px" />
+
+        <TextView
+            android:id="@+id/endPaymentText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter_semibold"
+            android:lineSpacingMultiplier="2"
+            android:text="Message"
+            android:textColor="#dadada"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/endPaymentMessageContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:orientation="vertical"
+        android:paddingTop="100dp"
+        android:background="@color/NeutralDark">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp"
+            android:layout_gravity="center|center_vertical"
+            >
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:id="@+id/imageInEndPaymentMessage"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@drawable/dejabrew_logo_removebg"/>
+            <TextView
+                android:layout_gravity="center"
+                android:fontFamily="@font/inter_bold"
+                android:layout_margin="5dp"
+                android:text="Thank you, have a nice day"
+                android:gravity="center_vertical"
+                android:textColor="@color/Primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_margin="10dp"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/endPaymentButton"
+                android:text="Done"
+                android:fontFamily="@font/inter_medium"
+                android:textColor="@color/Greyscale1"
+                android:background="@drawable/black_input_white_stroke"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

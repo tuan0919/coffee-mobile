@@ -25,7 +25,8 @@
             android:textColor="@color/Primary"
             android:background="@drawable/black_input_white_stroke"
             android:textSize="20sp"
-            tools:text="Store Name" />
+            tools:text="Store Name"
+            android:fontFamily="@font/inter_semibold"/>
 
         <TextView
             android:padding="5dp"
@@ -36,6 +37,20 @@
             android:background="@color/Background"
             android:textColor="@color/Greyscale1"
             android:textSize="16sp"
-            tools:text="Address" />
+            tools:text="Address"
+            android:fontFamily="@font/inter_medium"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:drawableStart="@drawable/distance_24px"
+            android:paddingHorizontal="5dp"
+            android:gravity="start|center_vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_gray_corner"
+            android:id="@+id/buttonLocate"
+            android:layout_margin="5dp"
+            android:text="Location"
+            android:textColor="@color/Primary"
+            android:fontFamily="@font/inter_semibold"
+            android:textAllCaps="false" />
     </LinearLayout>
 </LinearLayout>
