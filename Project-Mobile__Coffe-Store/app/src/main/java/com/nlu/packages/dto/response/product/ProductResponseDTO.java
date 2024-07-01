@@ -8,6 +8,7 @@ import com.nlu.packages.enums.EProductType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -15,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductResponseDTO {
+public class ProductResponseDTO implements Serializable {
     long productId;
     String productName;
     double basePrice;

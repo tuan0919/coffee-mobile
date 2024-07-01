@@ -23,7 +23,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public class CheckActivity extends AppCompatActivity {
-
+    AppCompatButton deliveryButton ;
+    AppCompatButton takeawayButton ;
+    double total;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,7 @@ public class CheckActivity extends AppCompatActivity {
 //        recyclerView.setAdapter(new CheckOutSummaryAdapter(this,list));
         recyclerView.setAdapter(new CheckOutSummaryAdapter(this,datu.getList()));
         //<- Thay đổi được
-        double total = 0;
+        total = 0;
         //-> Thay đổi được
 //        for (CartResponseDTO.CartItemDTO bu : list){
 //            total+=bu.getPrice();
@@ -69,6 +71,7 @@ public class CheckActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(CheckActivity.this, PaymentMethodActivity.class);
+                intent.putExtra("total",total);
                 startActivity(intent);
             }
         });
@@ -78,6 +81,27 @@ public class CheckActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+
+        deliveryButton = findViewById(R.id.deliveryButton);
+        takeawayButton = findViewById(R.id.takeawayButton);
+        deliveryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deliveryButton.setBackground(getResources().getDrawable(R.drawable.checkout_activate_button));
+                takeawayButton.setBackgroundColor(getResources().getColor(R.color.Greyscale3));
+                deliveryButton.setTextColor(getResources().getColor(R.color.Greyscale3));
+                takeawayButton.setTextColor(getResources().getColor(R.color.Background));
+            }
+        });
+        takeawayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takeawayButton.setBackground(getResources().getDrawable(R.drawable.checkout_activate_button));
+                deliveryButton.setBackgroundColor(getResources().getColor(R.color.Greyscale3));
+                takeawayButton.setTextColor(getResources().getColor(R.color.Greyscale3));
+                deliveryButton.setTextColor(getResources().getColor(R.color.Background));
             }
         });
 

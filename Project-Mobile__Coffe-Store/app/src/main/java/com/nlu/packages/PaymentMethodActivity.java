@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,11 +42,13 @@ public class PaymentMethodActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.paymentMethodRecycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(new PaymentMethodAdapter(this,list));
+        double total = getIntent().getDoubleExtra("total",0.0);
         AppCompatButton button = findViewById(R.id.proceedButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PaymentMethodActivity.this,PaymentActivity.class);
+                intent.putExtra("total",total);
                 startActivity(intent);
             }
         });
@@ -56,5 +59,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        TextView totalText = findViewById(R.id.total);
+        totalText.setText(String.valueOf(total));
     }
 }

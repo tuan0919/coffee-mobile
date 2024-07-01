@@ -1,4 +1,4 @@
-package com.nlu.packages.ui.fragment;
+package com.nlu.packages.inventory.lmao;
 
 import android.os.Bundle;
 
@@ -14,9 +14,15 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import com.nlu.packages.enums.EIngredient;
+import com.nlu.packages.enums.EProductSize;
 import com.nlu.packages.inventory.AmountType;
-import com.nlu.packages.inventory.FakeDetailData;
 import com.nlu.packages.inventory.CategoryAdapter;
+import com.nlu.packages.inventory.size.SizeAdapter;
+import com.nlu.packages.inventory.size.SizeType;
+import com.nlu.packages.inventory.topping.ToppingAdapter;
+import com.nlu.packages.inventory.topping.ToppingType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,11 +45,11 @@ public class DetailOrderCoffeeFragment extends Fragment {
     private Spinner spnSize;
     private Spinner spnMilk;
     private Spinner spnSweet;
-    private Spinner spnDecaf;
-    private CategoryAdapter sa;
+    private SizeAdapter sa;
     private CategoryAdapter sa1;
-    private CategoryAdapter sa2;
-    private CategoryAdapter sa3;
+    private ToppingAdapter sa2;
+    private ProductResponseDTO prd;
+    int quantity;
     public DetailOrderCoffeeFragment() {
         // Required empty public constructor
     }
@@ -87,12 +93,12 @@ public class DetailOrderCoffeeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         //Sử dụng cho spinner chọn Size
         spnSize = getView().findViewById(R.id.spinner_size);
-        sa = new CategoryAdapter(getContext(), R.layout.item_selected, getListSize());
+        sa = new SizeAdapter(getContext(), R.layout.item_selected, getListSize());
         spnSize.setAdapter(sa);
         spnSize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), sa.getItem(position).getType(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), sa.getItem(position).stringEPS(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -114,28 +120,14 @@ public class DetailOrderCoffeeFragment extends Fragment {
 
             }
         });
-        //Sử dụng cho spinner chọn Sweet
-        spnSweet = getView().findViewById(R.id.spinner_sweet);
-        sa2 = new CategoryAdapter(getContext(), R.layout.item_selected, getListSweet());
+        //Sử dụng cho spinner chọn topping
+        spnSweet = getView().findViewById(R.id.spinner_topping);
+        sa2 = new ToppingAdapter(getContext(), R.layout.item_selected, getListTopping());
         spnSweet.setAdapter(sa2);
         spnSweet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), sa2.getItem(position).getType(), Toast.LENGTH_SHORT).show();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        //Sử dụng cho spinner chọn Sweet
-        spnDecaf = getView().findViewById(R.id.spinner_decaf);
-        sa3 = new CategoryAdapter(getContext(), R.layout.item_selected, getListDecaf());
-        spnDecaf.setAdapter(sa3);
-        spnSweet.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(), sa3.getItem(position).getType(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), sa2.getItem(position).stringEI(), Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -143,30 +135,30 @@ public class DetailOrderCoffeeFragment extends Fragment {
             }
         });
     }
-    FakeDetailData fdd = new FakeDetailData();
-    private List<AmountType> getListSize() {
-        List<AmountType> list = new ArrayList<>();
-        list.add(new AmountType(fdd.getList().get(0)[0]));
-        list.add(new AmountType(fdd.getList().get(0)[1]));
-        list.add(new AmountType(fdd.getList().get(0)[2]));
+
+    private List<SizeType> getListSize() {
+        List<SizeType> list = new ArrayList<>();
+        list.add(new SizeType(EProductSize.SMALL));
+        list.add(new SizeType(EProductSize.MEDIUM));
+        list.add(new SizeType(EProductSize.LARGE));
         return list;
     }
     private List<AmountType> getListMilk() {
         List<AmountType> list = new ArrayList<>();
-        list.add(new AmountType(fdd.getList().get(1)[0]));
-        list.add(new AmountType(fdd.getList().get(1)[1]));
+        list.add(new AmountType("Có"));
+        list.add(new AmountType("Không"));
         return list;
     }
-    private List<AmountType> getListSweet() {
-        List<AmountType> list = new ArrayList<>();
-        list.add(new AmountType(fdd.getList().get(2)[0]));
-        list.add(new AmountType(fdd.getList().get(2)[1]));
-        return list;
-    }
-    private List<AmountType> getListDecaf() {
-        List<AmountType> list = new ArrayList<>();
-        list.add(new AmountType(fdd.getList().get(3)[0]));
-        list.add(new AmountType(fdd.getList().get(3)[1]));
+    private List<ToppingType> getListTopping() {
+        List<ToppingType> list = new ArrayList<>();
+        list.add(new ToppingType(EIngredient.CHOCOLATE));
+        list.add(new ToppingType(EIngredient.IT_DUONG));
+        list.add(new ToppingType(EIngredient.NHIEU_DUONG));
+        list.add(new ToppingType(EIngredient.KEM_TUOI));
+        list.add(new ToppingType(EIngredient.SHOT_EXPRESSO));
+        list.add(new ToppingType(EIngredient.THACH_DUA));
+        list.add(new ToppingType(EIngredient.TRAN_CHAU));
+        list.add(new ToppingType(EIngredient.SOT_CARAMEL));
         return list;
     }
 }
