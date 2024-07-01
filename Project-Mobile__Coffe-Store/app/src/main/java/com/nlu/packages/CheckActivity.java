@@ -14,12 +14,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.nlu.packages.dto.response.cart.CartResponseDTO;
 import com.nlu.packages.inventory.checkout_recycle.CheckOutSummaryAdapter;
-import com.nlu.packages.inventory.stupid_data.DataToPayment;
-
-import java.io.Serializable;
+import com.nlu.packages.response_dto.cart.CartResponseDTO;
 import java.util.List;
 
 public class CheckActivity extends AppCompatActivity {
@@ -42,29 +38,22 @@ public class CheckActivity extends AppCompatActivity {
 //            List<CartResponseDTO.CartItemDTO> list = getIntent().getParcelableArrayListExtra("chooseList", CartResponseDTO.CartItemDTO.class);
 //        }
 //        Hoặc đoạn này nhưng CartResponseDTO.CartItemDTO implements Serializable
-//        List<CartResponseDTO.CartItemDTO> list =  (List<CartResponseDTO.CartItemDTO>) getIntent().getSerializableExtra("chooseList");
+        List<CartResponseDTO.CartItemDTO> list =  (List<CartResponseDTO.CartItemDTO>) getIntent().getSerializableExtra("chooseList");
         RecyclerView recyclerView = findViewById(R.id.recycleOrderSummary);
-        // Fake Data
-        DataToPayment datu = new DataToPayment();
-        //
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         //-> Thay đổi được
 //        recyclerView.setAdapter(new CheckOutSummaryAdapter(this,list));
-        recyclerView.setAdapter(new CheckOutSummaryAdapter(this,datu.getList()));
+        recyclerView.setAdapter(new CheckOutSummaryAdapter(this, list));
         //<- Thay đổi được
         total = 0;
-        //-> Thay đổi được
-//        for (CartResponseDTO.CartItemDTO bu : list){
-//            total+=bu.getPrice();
-//        }
-        for (CartResponseDTO.CartItemDTO bu : datu.getList()){
-            total+=bu.getPrice();
+        for (CartResponseDTO.CartItemDTO bu : list){
+            total += bu.getPrice();
         }
         //<- Thay đổi được
         TextView subtotal = findViewById(R.id.subtotal);
-        subtotal.setText("$ "+Double.toString(total));
+        subtotal.setText(total+"00đ");
         TextView truetotal = findViewById(R.id.total);
-        truetotal.setText("$ "+Double.toString(total));
+        truetotal.setText(total+"00đ");
 
         AppCompatButton button = findViewById(R.id.proceedToPaymentButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +93,6 @@ public class CheckActivity extends AppCompatActivity {
                 deliveryButton.setTextColor(getResources().getColor(R.color.Background));
             }
         });
-
     }
+
 }

@@ -1,17 +1,15 @@
-package com.nlu.packages;
+package com.nlu.packages.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import com.nlu.packages.R;
 
 public class DetailProductOrderActivity extends AppCompatActivity {
     ImageButton btnBack;

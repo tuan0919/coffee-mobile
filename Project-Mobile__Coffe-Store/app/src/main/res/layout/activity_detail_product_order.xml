@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Background"
-    tools:context=".DetailProductOrderActivity">
+    tools:context=".ui.fragment.DetailProductOrderActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout2"
@@ -47,7 +47,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerView"
-        android:name="com.nlu.packages.inventory.lmao.DetailOrderCoffeeFragment"
+        android:name="com.nlu.packages.ui.fragment.DetailOrderCoffeeFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"

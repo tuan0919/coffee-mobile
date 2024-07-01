@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-import android.widget.Button;
 import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -20,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.nlu.packages.DetailProductOrderActivity;
+import com.nlu.packages.ui.fragment.DetailProductOrderActivity;
 import com.nlu.packages.response_dto.product.ProductResponseDTO;
 import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.R;

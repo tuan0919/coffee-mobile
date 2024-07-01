@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nlu.packages.R;
-import com.nlu.packages.dto.response.cart.CartResponseDTO;
+import com.nlu.packages.response_dto.cart.CartResponseDTO;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

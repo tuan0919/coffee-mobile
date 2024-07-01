@@ -32,7 +32,7 @@ public class CartResponseDTO implements Serializable {
     @Data
     @NoArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class ProductDTO {
+    public static class ProductDTO implements Serializable {
         long id;
         String name;
         double price;

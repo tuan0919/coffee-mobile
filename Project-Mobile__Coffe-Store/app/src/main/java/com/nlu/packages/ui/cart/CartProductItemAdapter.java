@@ -26,14 +26,14 @@ public class CartProductItemAdapter extends RecyclerView.Adapter<CartProductItem
     private CartResponseDTO cartResponseDTO = null;
     private BiConsumer<CartResponseDTO.CartItemDTO, Integer> onDeleteHandler;
     private BiConsumer<View, CartResponseDTO.CartItemDTO> onChangeQuantityHandler;
-    private Consumer<Integer> onChooseItemHandler;
+    private BiConsumer<Integer, Boolean> onChooseItemHandler;
     private SparseBooleanArray checkBoxStates;
 
     public CartProductItemAdapter(Activity context,
                                   CartResponseDTO cartResponseDTO,
                                   BiConsumer<CartResponseDTO.CartItemDTO, Integer> onDeleteHandler,
                                   BiConsumer<View, CartResponseDTO.CartItemDTO> onChangeQuantityHandler,
-                                  Consumer<Integer> onChooseItemHandler) {
+                                  BiConsumer<Integer, Boolean> onChooseItemHandler) {
         this.context = context;
         this.cartResponseDTO = cartResponseDTO;
         this.onDeleteHandler = onDeleteHandler;
@@ -115,7 +115,7 @@ public class CartProductItemAdapter extends RecyclerView.Adapter<CartProductItem
             checkBox_cartItemChoose.setChecked(checkBoxStates.get(position, false));
             checkBox_cartItemChoose.setOnCheckedChangeListener((button, isChecked) -> {
                 checkBoxStates.put(position, isChecked);
-                onChooseItemHandler.accept(position);
+                onChooseItemHandler.accept(position, isChecked);
             });
         }
     }

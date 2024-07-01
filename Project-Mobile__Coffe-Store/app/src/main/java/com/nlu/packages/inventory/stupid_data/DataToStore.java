@@ -1,6 +1,5 @@
 package com.nlu.packages.inventory.stupid_data;
-
-import com.nlu.packages.dto.response.order.OrderResponseDTO;
+import com.nlu.packages.response_dto.order.OrderResponseDTO;
 
 import java.util.ArrayList;
 import java.util.List;

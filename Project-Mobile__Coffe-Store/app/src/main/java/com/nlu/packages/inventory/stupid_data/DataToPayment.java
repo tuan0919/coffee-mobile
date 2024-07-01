@@ -1,12 +1,10 @@
 package com.nlu.packages.inventory.stupid_data;
 
-import com.nlu.packages.dto.response.cart.CartResponseDTO;
-import com.nlu.packages.dto.response.order.OrderResponseDTO;
-import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.nlu.packages.enums.EIngredient;
 import com.nlu.packages.enums.EIngredientType;
 import com.nlu.packages.enums.EProductSize;
-import com.nlu.packages.enums.EProductType;
+import com.nlu.packages.response_dto.cart.CartResponseDTO;
+import com.nlu.packages.response_dto.product.ProductResponseDTO;
 
 import java.util.ArrayList;
 import java.util.List;
