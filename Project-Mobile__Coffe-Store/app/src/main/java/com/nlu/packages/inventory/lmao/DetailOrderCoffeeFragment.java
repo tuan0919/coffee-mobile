@@ -1,4 +1,4 @@
-package com.nlu.packages.ui.fragment;
+package com.nlu.packages.inventory.lmao;
 
 import android.content.Intent;
 import android.os.Bundle;

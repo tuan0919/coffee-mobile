@@ -1,11 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.payment.CheckOutFragment">
+    android:background="@color/Background"
+    android:orientation="vertical"
+    tools:context=".CheckActivity">
 
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0b0b09"
+        android:backgroundTint="#0b0b09">
+
+        <ImageButton
+            android:id="@+id/goBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#0b0b09"
+            android:contentDescription="@string/go_back_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/chevron_left_24px" />
+
+        <TextView
+            android:id="@+id/paymentMethodText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/inter_semibold"
+            android:lineSpacingMultiplier="2"
+            android:text="@string/paymentText"
+            android:textColor="#dadada"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,7 +61,7 @@
             android:background="@color/Greyscale3"
             android:orientation="horizontal">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/deliveryButton"
                 style="@style/CheckoutActiveButton"
                 android:layout_width="wrap_content"
@@ -33,7 +72,7 @@
                 android:padding="0dp"
                 android:text="Delivery" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/takeawayButton"
                 style="@style/CheckoutDeactiveButton"
                 android:layout_width="wrap_content"
@@ -47,48 +86,10 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/pickupFromContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/pickUpFromText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/inter_semibold"
-                android:text="Pickup From"
-                android:textColor="@color/Greyscale3"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/pickup_edit_button"
-                style="@style/EditButton"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:padding="0dp"
-                android:text="Edit"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <LinearLayout
-                android:id="@+id/itemPlaceContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/pickUpFromText"></LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/orderSummaryContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp">
 
             <TextView
                 android:id="@+id/orderSummaryText"
@@ -103,24 +104,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/edit_order_button"
                 style="@style/EditButton"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
+                android:layout_marginBottom="8dp"
                 android:text="Edit"
+                app:layout_constraintBottom_toTopOf="@+id/recycleOrderSummary"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/itemProductContainer"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycleOrderSummary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/orderSummaryText"></LinearLayout>
+                app:layout_constraintTop_toBottomOf="@+id/orderSummaryText"
+                tools:layout_editor_absoluteX="76dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -128,7 +131,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/neutral_dark_bg_radius"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/subtotal_container"
@@ -195,7 +199,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/proceedToPaymentButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -217,4 +221,4 @@
         </LinearLayout>
 
     </LinearLayout>
-</FrameLayout>
+</LinearLayout>

@@ -17,6 +17,7 @@ import com.nlu.packages.request_dto.LoginRequestDTO;
 import com.nlu.packages.request_dto.RegisterRequestDTO;
 
 public interface CoffeeApi {
+    // Link API:localhost:8888/api
     @POST("api/v1/dang-nhap")
     Call<TokenResponseDTO> login(@Body LoginRequestDTO loginRequestDTO);
 

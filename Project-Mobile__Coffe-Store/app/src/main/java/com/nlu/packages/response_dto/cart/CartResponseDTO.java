@@ -21,8 +21,8 @@ public class CartResponseDTO implements Serializable {
     @Data
     @NoArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class CartItemDTO {
-        ProductDTO product;
+    public static class CartItemDTO implements Serializable {
+        CartResponseDTO.ProductDTO product;
         int quantity;
         List<EIngredient> ingredients;
         EProductSize size;

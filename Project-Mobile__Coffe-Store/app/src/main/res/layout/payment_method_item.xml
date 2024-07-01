@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
+    <androidx.appcompat.widget.AppCompatButton
+        android:background="@drawable/black_input_white_stroke"
+        android:padding="5dp"
+        android:textSize="20sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:id="@+id/methodPayOptionButton"
+        android:textColor="@color/Greyscale1"
+        android:fontFamily="@font/inter_semibold"/>
+</LinearLayout>
