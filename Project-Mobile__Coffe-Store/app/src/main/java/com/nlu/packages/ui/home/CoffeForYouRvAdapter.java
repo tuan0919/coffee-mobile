@@ -13,23 +13,44 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nlu.packages.R;
+import com.nlu.packages.dto.request.wishlist.WishlistRequestDTO;
 import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import nlu.hcmuaf.android_coffee_app.dto.response.TokenResponseDTO;
+import com.nlu.packages.service.CoffeeApi;
+import com.nlu.packages.service.CoffeeService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 //class nầy để tạo 1 recycle view (được gọi là adapter), được dùng để lấy dữ liệu lên trên màn hình,
 //là phần code có thể mở rộng, nó là phần hỗ trợ giao diện cho mục Coffee for you trên màn hình Home
 class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyHolder> {
     Context context;
     List<ProductResponseDTO> data;
-    private final CoffeeForYouRvInterface coffeeForYouRvInterface;
+    private CoffeeForYouRvInterface coffeeForYouRvInterface;
+    private Consumer<ProductResponseDTO> onClickHandler;
+    private CoffeeApi coffeeApi= CoffeeService.getClient();
+    private WishlistRequestDTO wishlistRequestDTO=new WishlistRequestDTO();
 
     public CoffeForYouRvAdapter(Context context, ArrayList<ProductResponseDTO> data, CoffeeForYouRvInterface coffeeForYouRvInterface) {
         this.context = context;
         this.data = data != null ? data : new ArrayList<>();
         this.coffeeForYouRvInterface = coffeeForYouRvInterface;
+    }
+
+    public CoffeForYouRvAdapter(Context context, List<ProductResponseDTO> data,
+                                CoffeeForYouRvInterface coffeeForYouRvInterface,
+                                Consumer<ProductResponseDTO> onClickHandler) {
+        this.context = context;
+        this.data = data;
+        this.coffeeForYouRvInterface = coffeeForYouRvInterface;
+        this.onClickHandler = onClickHandler;
     }
 
     //khỏi tạo view holder, để hiển thị giao diện lên fragment gọi nó
@@ -44,11 +65,23 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         holder.textView1.setText(data.get(position).getProductName());
         Picasso.get().load(data.get(position).getAvatar()).into(holder.imageView1);
+        holder.renderView(data.get(position));
 
         //xử lý sự kiện cho `add to favorite`
         holder.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                Toast.makeText(context, "Added to Favorite", Toast.LENGTH_SHORT).show();
+                Call<TokenResponseDTO> call = coffeeApi.addToWishList(wishlistRequestDTO);
+                call.enqueue(new Callback<TokenResponseDTO>() {
+                    @Override
+                    public void onResponse(Call<TokenResponseDTO> call, Response<TokenResponseDTO> response) {
+                        Toast.makeText(context, "Added to Favorite", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<TokenResponseDTO> call, Throwable throwable) {
+                        System.out.println(throwable);
+                    }
+                });
             } else {
                 Toast.makeText(context, "Removed from Favorite", Toast.LENGTH_SHORT).show();
             }
@@ -61,7 +94,7 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
     }
 
     //khai báo textview vói image view để chứa hình ảnh với chữ
-    public static class MyHolder extends RecyclerView.ViewHolder {
+    class MyHolder extends RecyclerView.ViewHolder {
         TextView textView1;
         ImageView imageView1;
         ToggleButton toggleButton;
@@ -84,6 +117,12 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
                         }
                     }
                 }
+            });
+        }
+
+        public void renderView(ProductResponseDTO productResponseDTO) {
+            imageView1.setOnClickListener(v -> {
+                onClickHandler.accept(productResponseDTO);
             });
         }
     }

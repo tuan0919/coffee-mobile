@@ -28,7 +28,7 @@ public class ProductSearch extends AppCompatActivity implements ProductSearchRvI
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_product_list);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.product_list), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
 
@@ -40,7 +40,7 @@ public class ProductSearch extends AppCompatActivity implements ProductSearchRvI
 
             //setting the data source
             Intent intent = getIntent();
-            responseDTOS = (ArrayList<ProductResponseDTO>) intent.getSerializableExtra("Product");
+            responseDTOS = (ArrayList<ProductResponseDTO>) intent.getSerializableExtra("ProductOrder");
 
             //setting for `product with category` recycle view
             productWithCategoryRv = findViewById(R.id.productWithCategoryRv);

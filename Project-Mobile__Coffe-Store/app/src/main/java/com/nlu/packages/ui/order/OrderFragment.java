@@ -1,45 +1,46 @@
 package com.nlu.packages.ui.order;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.ViewPager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.nlu.packages.R;
 import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import com.nlu.packages.service.CoffeeApi;
+import com.nlu.packages.service.CoffeeService;
 import com.nlu.packages.ui.order.OrderFavorite.OrderFavoriteFragment;
 import com.nlu.packages.ui.order.OrderMenu.OrderMenuFragment;
 import com.nlu.packages.ui.order.OrderPopular.OrderPopularFragment;
-import com.nlu.packages.ui.order.OrderPopular.PopularDrinksRvAdapter;
-import com.nlu.packages.ui.order.OrderPopular.TrendThisMonthRvAdapter;
 import com.nlu.packages.ui.order.OrderPrevious.OrderPreviousFragment;
+import com.nlu.packages.ui.order.OrderProduct.ProductSearch;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class OrderFragment extends Fragment {
+    private SearchView searchView;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ImageButton backButton;
-    public static OrderFragment orderFragment;
+    private CoffeeApi coffeeApi=CoffeeService.getClient();
     public OrderFragment() {
-    }
-    public static OrderFragment newInstance() {
-        if (orderFragment == null) {
-            orderFragment = new OrderFragment();
-        }
-        return orderFragment;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +50,8 @@ public class OrderFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayoutOrderFragment);
         viewPager = view.findViewById(R.id.viewPagerOrder);
         backButton = view.findViewById(R.id.orderBackButton);
+        searchView = view.findViewById(R.id.searchViewOrder1);
+        coffeeApi = CoffeeService.getClient();
 
         OrderViewPageAdapter adapter = new OrderViewPageAdapter(
                 getActivity().getSupportFragmentManager(),
@@ -59,6 +62,39 @@ public class OrderFragment extends Fragment {
         adapter.addFragment(new OrderFavoriteFragment(), "Favorites");
         viewPager.setAdapter(adapter);
 
+        //xử lý sự kiện tìm kiếm, tra cứu thông tin
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Call<List<ProductResponseDTO>> call = coffeeApi.searchProduct(query);
+                call.enqueue(new Callback<List<ProductResponseDTO>>() {
+                    @Override
+                    public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
+                        List<ProductResponseDTO> responseDTOS = response.body();
+                        if(responseDTOS.isEmpty()){
+                            Toast.makeText(getContext(),"Không tìm thấy", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Intent intent = new Intent(OrderFragment.this.getContext(), ProductSearch.class);
+                            intent.putExtra("ProductOrder", (ArrayList<ProductResponseDTO>) responseDTOS);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ProductResponseDTO>> call, Throwable throwable) {
+                        System.out.println(throwable);
+                    }
+                });
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        //Phân tab bằng viewpager
         tabLayout.setupWithViewPager(viewPager);
 
         for (int i=0; i<tabLayout.getTabCount(); i++) {
@@ -79,6 +115,7 @@ public class OrderFragment extends Fragment {
             }
         }
 
+        //xử lý sự kiện khi tab được nhấn vào
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {

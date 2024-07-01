@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -29,6 +30,8 @@ import com.nlu.packages.ui.order.OrderProduct.ProductSearch;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,11 +47,31 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     CoffeForYouRvAdapter coffeForYouRvAdapter;
     TopPickRvAdapter topPickRvAdapter;
     private CoffeeApi coffeeApi;
+    private Consumer<ProductResponseDTO> onClickHandler;
+    private OrderFragment orderFragment=new OrderFragment();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Event Listener
+        onClickHandler = (productDTO) -> {
+            CoffeeService.getClient()
+                    .getProduct("nuoc-uong", "",
+                            Map.of("id", productDTO.getProductId() + ""))
+                    .enqueue(new Callback<List<ProductResponseDTO>>() {
+                        @Override
+                        public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
+                            System.out.println("onResponse: " + response.body());
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<ProductResponseDTO>> call, Throwable throwable) {
+
+                        }
+                    });
+        };
 
         //add hide soft keyboard
         constraintLayoutHome = view.findViewById(R.id.constraintLayoutHomeFragment);
@@ -60,7 +83,7 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadFragment(OrderFragment.newInstance(), "OrderFragment");
+                loadFragment(orderFragment, "OrderFragment");
                 BottomNavigationView navView = getActivity().findViewById(R.id.nav_view);
                 navView.setSelectedItemId(R.id.navigation_order);
 
@@ -71,15 +94,18 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Call<List<ProductResponseDTO>> call = coffeeApi.getAllProduct(query);
+                Call<List<ProductResponseDTO>> call = coffeeApi.searchProduct(query);
                 call.enqueue(new Callback<List<ProductResponseDTO>>() {
                     @Override
                     public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
                         List<ProductResponseDTO> responseDTOS = response.body();
-                        responseDTOS.forEach(i-> System.out.println(i));
-                        Intent intent = new Intent(HomeFragment.this.getContext(), ProductSearch.class);
-                        intent.putExtra("Product", (ArrayList<ProductResponseDTO>) responseDTOS);
-                        startActivity(intent);
+                        if(responseDTOS.isEmpty()){
+                            Toast.makeText(getContext(),"Không tìm thấy", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Intent intent = new Intent(HomeFragment.this.getContext(), ProductSearch.class);
+                            intent.putExtra("ProductOrder", (ArrayList<ProductResponseDTO>) responseDTOS);
+                            startActivity(intent);
+                        }
                     }
 
                     @Override
@@ -148,10 +174,10 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     private void loadFragment(Fragment fragment, String tag) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         Fragment existingFragment = getActivity().getSupportFragmentManager().findFragmentByTag(tag);
-        if(existingFragment == null){
+        if (existingFragment == null) {
             fragmentTransaction.add(R.id.container, fragment, tag);
             fragmentTransaction.addToBackStack(null);
-        }else{
+        } else {
             fragmentTransaction.replace(R.id.container, existingFragment, tag);
         }
         fragmentTransaction.commit();
