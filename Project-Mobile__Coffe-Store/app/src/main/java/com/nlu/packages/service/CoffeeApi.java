@@ -54,4 +54,15 @@ public interface CoffeeApi {
 
     @POST("api/v2/dat-hang")
     Call<MessageResponseDTO> createOrder(@Body CreateOrderRequestDTO dto);
+    @GET("api/v1/san-pham")
+    Call<List<ProductResponseDTO>> searchProduct(@Query("ten") String name);
+
+    @GET("api/v2/yeu-thich")
+    Call<List<ProductResponseDTO>> getWishList();
+
+    @POST("api/v2/yeu-thich")
+    Call<MessageResponseDTO> addToWishList(@Body WishlistRequestDTO wishlistRequestDTO);
+
+    @DELETE("api/v2/yeu-thich/{productId}")
+    Call<MessageResponseDTO> removeFromWishList(@Path("productId") Long productId);
 }

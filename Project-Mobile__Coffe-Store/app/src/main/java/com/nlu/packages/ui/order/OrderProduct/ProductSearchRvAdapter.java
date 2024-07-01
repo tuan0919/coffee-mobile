@@ -11,32 +11,35 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ProductWithCategoryRvAdapter extends RecyclerView.Adapter<ProductWithCategoryRvAdapter.ViewHolder> {
+public class ProductSearchRvAdapter extends RecyclerView.Adapter<ProductSearchRvAdapter.ViewHolder> {
     Context context;
-    ArrayList<String> data;
-    private final ProductWithCategoryRvInterface productWithCategoryRvInterface;
+    ArrayList<ProductResponseDTO> data;
+    private final ProductSearchRvInterface productSearchRvInterface;
 
-    public ProductWithCategoryRvAdapter(Context context, ArrayList<String> data, ProductWithCategoryRvInterface productWithCategoryRvInterface) {
+    public ProductSearchRvAdapter(Context context, ArrayList<ProductResponseDTO> data, ProductSearchRvInterface productSearchRvInterface) {
         this.context = context;
         this.data = data;
-        this.productWithCategoryRvInterface = productWithCategoryRvInterface;
+        this.productSearchRvInterface = productSearchRvInterface;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_with_category_rv, null, false);
-        return new ViewHolder(view, productWithCategoryRvInterface);
+        return new ViewHolder(view, productSearchRvInterface);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ProductWithCategoryRvAdapter.ViewHolder holder, int position) {
-        holder.textView1.setText(data.get(position));
-        Picasso.get().load("https://media.istockphoto.com/id/1358132613/photo/refreshing-hot-cup-of-coffee-at-a-cafe.jpg?s=612x612&w=0&k=20&c=ObwIF28Vt3k93Nch9U4QYUdOwMA_eiMwVVCvKbypnNc=").into(holder.imageView1);
+    public void onBindViewHolder(@NonNull ProductSearchRvAdapter.ViewHolder holder, int position) {
+        holder.textView1.setText(data.get(position).getProductName());
+        Picasso.get().
+                load(data.get(position).getAvatar())
+                .into(holder.imageView1);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class ProductWithCategoryRvAdapter extends RecyclerView.Adapter<ProductWi
         ImageView imageView1;
 
         //set lại nôi dung của hình ảnh với chữ
-        public ViewHolder(@NonNull View itemView, ProductWithCategoryRvInterface productWithCategoryRvInterface) {
+        public ViewHolder(@NonNull View itemView, ProductSearchRvInterface productSearchRvInterface) {
             super(itemView);
             textView1 = itemView.findViewById(R.id.productWithCategoryRvTitle);
             imageView1 = itemView.findViewById(R.id.productWithCategoryRvImage);
@@ -58,10 +61,10 @@ public class ProductWithCategoryRvAdapter extends RecyclerView.Adapter<ProductWi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(productWithCategoryRvInterface != null){
+                    if(productSearchRvInterface != null){
                         int position = getAdapterPosition();
                         if(position!=RecyclerView.NO_POSITION){
-                            productWithCategoryRvInterface.onItemClickProductWithCategory(position);
+                            productSearchRvInterface.onItemClickProductWithCategory(position);
                         }
                     }
                 }

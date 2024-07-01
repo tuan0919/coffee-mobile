@@ -55,6 +55,9 @@
             android:name=".ui.fragment.DetailProductOrderActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.payment.CheckAndPayActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.cart.CartActivity"
             android:exported="false" />
         <activity

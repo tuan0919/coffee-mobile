@@ -13,15 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
 
 import java.util.ArrayList;
 
 public class PreviousAdapter extends RecyclerView.Adapter<PreviousAdapter.MyHolder> {
     Context context;
-    ArrayList<OrderItem> data;
+    ArrayList<ProductResponseDTO> data;
     private final PreviousAdapterInterface previousAdapterInterface;
 
-    public PreviousAdapter(Context context, ArrayList<OrderItem> data, PreviousAdapterInterface previousAdapterInterface) {
+    public PreviousAdapter(Context context, ArrayList<ProductResponseDTO> data, PreviousAdapterInterface previousAdapterInterface) {
         this.context = context;
         this.data = data;
         this.previousAdapterInterface = previousAdapterInterface;
@@ -36,14 +37,7 @@ public class PreviousAdapter extends RecyclerView.Adapter<PreviousAdapter.MyHold
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        OrderItem currentItem = data.get(position);
-        holder.nameProduct.setText(currentItem.getName());
-        holder.priceTitle.setText(currentItem.getPrice());
-        holder.imageView1.setImageResource(currentItem.getImageResourceId());
 
-        holder.reorderButton.setOnClickListener(view -> {
-            Toast.makeText(context, "Reordered " + currentItem.getName(), Toast.LENGTH_SHORT).show();
-        });
 
         holder.itemView.setOnClickListener(view -> {
             if (previousAdapterInterface != null) {

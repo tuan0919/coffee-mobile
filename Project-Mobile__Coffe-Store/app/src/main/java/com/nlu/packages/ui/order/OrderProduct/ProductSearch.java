@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
 
 import java.util.ArrayList;
 
-public class ProductWithType extends AppCompatActivity implements ProductWithCategoryRvInterface{
+public class ProductSearch extends AppCompatActivity implements ProductSearchRvInterface {
     //recycler view
     RecyclerView productWithCategoryRv;
-    ArrayList<String> productWithCategoryDataSource;
+    ArrayList<ProductResponseDTO> responseDTOS;
     //layout manager
     RecyclerView.LayoutManager layoutManager;
     @Override
@@ -27,26 +28,19 @@ public class ProductWithType extends AppCompatActivity implements ProductWithCat
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_product_list);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.product_list), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
 
             //adapter
-            ProductWithCategoryRvAdapter productWithCategoryRvAdapter;
+            ProductSearchRvAdapter productSearchRvAdapter;
 
             //setting for coffee for you recycle view
             productWithCategoryRv = findViewById(R.id.productWithCategoryRv);
 
             //setting the data source
-            productWithCategoryDataSource = new ArrayList<>();
-            productWithCategoryDataSource.add("Expesso");
-            productWithCategoryDataSource.add("Cappuccino");
-            productWithCategoryDataSource.add("Latte");
-            productWithCategoryDataSource.add("Mocha");
-            productWithCategoryDataSource.add("Milk Tea");
-            productWithCategoryDataSource.add("Olong");
-            productWithCategoryDataSource.add("Milk Caffee");
-            productWithCategoryDataSource.add("Bac Xiu");
+            Intent intent = getIntent();
+            responseDTOS = (ArrayList<ProductResponseDTO>) intent.getSerializableExtra("ProductOrder");
 
             //setting for `product with category` recycle view
             productWithCategoryRv = findViewById(R.id.productWithCategoryRv);
@@ -54,8 +48,8 @@ public class ProductWithType extends AppCompatActivity implements ProductWithCat
             productWithCategoryRv.setLayoutManager(layoutManager);
 
             //setting the `product with category` adapter
-            productWithCategoryRvAdapter = new ProductWithCategoryRvAdapter(this, productWithCategoryDataSource, this);
-            productWithCategoryRv.setAdapter(productWithCategoryRvAdapter);
+            productSearchRvAdapter = new ProductSearchRvAdapter(this, responseDTOS, this);
+            productWithCategoryRv.setAdapter(productSearchRvAdapter);
             productWithCategoryRv.setHasFixedSize(true);
 
             return insets;
@@ -64,10 +58,11 @@ public class ProductWithType extends AppCompatActivity implements ProductWithCat
 
     @Override
     public void onItemClickProductWithCategory(int position) {
-        Intent intent = new Intent(ProductWithType.this, CartActivity.class);
+        Intent intent = new Intent(ProductSearch.this, CartActivity.class);
 
-        intent.putExtra("Name", productWithCategoryDataSource.get(position));
+        intent.putExtra("ProductItem", responseDTOS.get(position));
 
         startActivity(intent);
     }
+
 }

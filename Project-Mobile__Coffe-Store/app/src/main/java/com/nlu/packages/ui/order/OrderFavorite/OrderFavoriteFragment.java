@@ -1,48 +1,104 @@
 package com.nlu.packages.ui.order.OrderFavorite;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
+import com.nlu.packages.CartActivity;
 import com.nlu.packages.R;
-
-import com.nlu.packages.ui.order.OrderPrevious.OrderItem;
-
+import com.nlu.packages.dto.request.wishlist.WishlistRequestDTO;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import com.nlu.packages.service.CoffeeApi;
+import com.nlu.packages.service.CoffeeService;
+import com.nlu.packages.utils.MyUtils;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
-public class OrderFavoriteFragment extends Fragment {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-    ArrayList<OrderItem> favoritesDataSource;
-    OrderFavoriteAdapter favoritesAdapter;
-    RecyclerView favoritesRecyclerView;
-    GridLayoutManager gridLayoutManager;
+public class OrderFavoriteFragment extends Fragment implements OrderFavoriteRvInterface {
+    private RecyclerView.LayoutManager layoutManager;
+    private OrderFavoriteAdapter orderFavoriteAdapter;
+    private RecyclerView orderFavoriteRv;
+    private CoffeeApi coffeeApi;
+    private List<ProductResponseDTO> dataSource = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_favorites, container, false);
 
-        favoritesRecyclerView = view.findViewById(R.id.favoritesRecyclerView);
+        //order menu recyclerview
+        orderFavoriteRv = view.findViewById(R.id.favoritesRecyclerView);
 
-        // Initialize the data source with sample data
-        favoritesDataSource = new ArrayList<>();
-        favoritesDataSource.add(new OrderItem("Iced Coffee", "$2.60", R.drawable.black_coffee));
-        favoritesDataSource.add(new OrderItem("Vanilla Latte", "$2.45", R.drawable.milk_coffee));
-        favoritesDataSource.add(new OrderItem("Chocolate Donut", "$3.90", R.drawable.soft_coffee));
-        favoritesDataSource.add(new OrderItem("Expresso", "$2.00", R.drawable.black_coffee));
+        //setting the data source
+        orderFavoriteAdapter = new OrderFavoriteAdapter(this.getContext(), dataSource, this);
+        orderFavoriteRv.setAdapter(orderFavoriteAdapter);
+        orderFavoriteRv.setHasFixedSize(true);
 
-        // Set up the adapter and layout manager
-        favoritesAdapter = new OrderFavoriteAdapter(this.getContext(), favoritesDataSource);
-        gridLayoutManager = new GridLayoutManager(OrderFavoriteFragment.this.getContext(), 2);
-        favoritesRecyclerView.setLayoutManager(gridLayoutManager);
-        favoritesRecyclerView.setAdapter(favoritesAdapter);
+        //setting grid layout
+        layoutManager = new GridLayoutManager(this.getContext(), 2);
+        orderFavoriteRv.setLayoutManager(layoutManager);
+
+        //fetching api
+        getWishList();
 
         return view;
+    }
+
+    //khởi tạo coffee api có kèm thêm token
+    private void initCoffeeApi() {
+        String token = MyUtils.get(this.getContext(), "token");
+        if (token == null || !token.contains(".")) {
+            Log.e("CoffeForYouRvAdapter", "Token is invalid: " + token);
+            return;
+        }
+        coffeeApi = CoffeeService.getRetrofitInstance(token);
+    }
+
+    public void getWishList() {
+        initCoffeeApi();
+        Call<List<ProductResponseDTO>> call = coffeeApi.getWishList();
+        call.enqueue(new Callback<List<ProductResponseDTO>>() {
+            @Override
+            public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
+                if (response.isSuccessful()) {
+                    //get the response
+                    dataSource = response.body();
+                    orderFavoriteAdapter.updateData(dataSource);
+                } else {
+                    onFailure(call, new Throwable("Response is not successful"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ProductResponseDTO>> call, Throwable throwable) {
+                System.out.println(throwable.getMessage());
+            }
+        });
+    }
+
+    @Override
+    public void onClickedFavoriteItem(int position) {
+        Intent intent = new Intent(OrderFavoriteFragment.this.getContext(), CartActivity.class);
+
+        intent.putExtra("ProductOrder", dataSource.get(position));
+
+        startActivity(intent);
+    }
+
+    @Override
+    public void updateUI() {
+        orderFavoriteAdapter.updateData(dataSource);
     }
 }

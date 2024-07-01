@@ -77,7 +77,7 @@ public class OrderPopularFragment extends Fragment implements TrendThisMonthRvIn
     public void onItemClickPopularDrinks(int position) {
         Intent intent = new Intent(OrderPopularFragment.this.getContext(), CartActivity.class);
 
-        intent.putExtra("ProductName", trendThisMonthDataSource.get(position).getProductName());
+        intent.putExtra("ProductOrder", popularDrinksDataSource.get(position));
 
         startActivity(intent);
     }
@@ -86,7 +86,7 @@ public class OrderPopularFragment extends Fragment implements TrendThisMonthRvIn
     public void onItemClickTrendThisMonth(int position) {
         Intent intent = new Intent(OrderPopularFragment.this.getContext(), CartActivity.class);
 
-        intent.putExtra("ProductName", trendThisMonthDataSource.get(position).getProductName());
+        intent.putExtra("ProductOrder", trendThisMonthDataSource.get(position));
 
 
         startActivity(intent);
