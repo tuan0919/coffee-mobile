@@ -260,7 +260,8 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/inter_semibold"
                 android:padding="1dp"
-                android:text="4.99$"
+                android:text="0đ"
+                android:layout_marginLeft="10dp"
                 android:textColor="@color/Secondary"
                 android:textSize="24sp" />
         </LinearLayout>

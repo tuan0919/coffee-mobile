@@ -8,12 +8,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CartItemRequestDTO {
+public class CartItemRequestDTO implements Serializable {
     private Long productId;
     private Integer quantity;
     private EProductSize size;

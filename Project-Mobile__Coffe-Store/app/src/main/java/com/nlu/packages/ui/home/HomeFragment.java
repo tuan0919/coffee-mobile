@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.nlu.packages.DetailProductOrderActivity;
 import com.nlu.packages.response_dto.product.ProductResponseDTO;
 import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.R;
@@ -69,7 +70,9 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
                     .enqueue(new Callback<List<ProductResponseDTO>>() {
                         @Override
                         public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
-                            System.out.println("onResponse: " + response.body());
+                            var intent = new Intent(getContext(), DetailProductOrderActivity.class);
+                            intent.putExtra("productOrder", (ArrayList<ProductResponseDTO>) response.body());
+                            startActivity(intent);
                         }
 
                         @Override

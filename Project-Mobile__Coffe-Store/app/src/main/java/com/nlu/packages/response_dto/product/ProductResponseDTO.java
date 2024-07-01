@@ -7,6 +7,7 @@ import com.nlu.packages.enums.EProductType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -14,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ProductResponseDTO {
+public class ProductResponseDTO implements Serializable {
     long productId;
     String productName;
     double basePrice;
@@ -30,7 +31,7 @@ public class ProductResponseDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class IngredientDTO {
+    public static class IngredientDTO implements Serializable {
         long ingredientId;
         String ingredientName;
         EIngredientType ingredientType;
@@ -42,7 +43,7 @@ public class ProductResponseDTO {
     @AllArgsConstructor
     @NoArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class ProductSizeDTO {
+    public static class ProductSizeDTO implements Serializable {
         EProductSize sizeEnum;
         double multipler;
     }

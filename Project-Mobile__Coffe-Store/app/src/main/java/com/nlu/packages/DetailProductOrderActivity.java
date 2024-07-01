@@ -14,9 +14,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class DetailProductOrderActivity extends AppCompatActivity {
-    ImageView productPicture;
-    TextView productName,calo,priceProduct,sizeText,milkText,sweetText,decafText,priceTrueTotalProduct,quantityText;
-    AppCompatButton addToCartButton,minusButtonQuantitty,plusButtonQuantity;
     ImageButton btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
