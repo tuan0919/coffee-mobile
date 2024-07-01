@@ -7,7 +7,7 @@
               android:layout_height="match_parent"
               android:orientation="vertical"
               android:background="#0B0B09"
-              tools:context=".CartActivity">
+              tools:context=".ui.cart.CartActivity">
     <com.google.android.flexbox.FlexboxLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

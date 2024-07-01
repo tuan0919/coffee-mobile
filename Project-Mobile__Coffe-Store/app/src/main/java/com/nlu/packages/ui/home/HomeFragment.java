@@ -3,14 +3,14 @@ package com.nlu.packages.ui.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 
+import android.widget.Button;
+import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -20,9 +20,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.nlu.packages.CartActivity;
+import com.nlu.packages.response_dto.product.ProductResponseDTO;
+import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.R;
-import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
 import com.nlu.packages.ui.order.OrderFragment;
@@ -31,6 +31,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.nlu.packages.ui.user.ProfileActivity;
+import lombok.var;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,8 +47,14 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     CoffeForYouRvAdapter coffeForYouRvAdapter;
     TopPickRvAdapter topPickRvAdapter;
     private CoffeeApi coffeeApi;
+    private ImageButton avatarButton;
+    private Runnable goToUserScreen;
 
     public HomeFragment() {
+    }
+
+    public HomeFragment(Runnable goToUserScreen) {
+        this.goToUserScreen = goToUserScreen;
     }
 
     @Override
@@ -68,6 +76,12 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
                 BottomNavigationView navView = getActivity().findViewById(R.id.nav_view);
                 navView.setSelectedItemId(R.id.navigation_order);
             }
+        });
+
+        avatarButton = view.findViewById(R.id.btn_avatar);
+        avatarButton.setOnClickListener((v) -> {
+            Intent intent = new Intent(getContext(), ProfileActivity.class);
+            startActivity(intent);
         });
 
         //setting for `coffee for you` and `top pick` data source
@@ -120,7 +134,6 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     }
 
     private void loadFragment(Fragment fragment) {
-        Fragment orderFragment = new OrderFragment();
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.addToBackStack(null);

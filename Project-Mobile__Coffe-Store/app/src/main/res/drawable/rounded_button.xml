@@ -1,0 +1,8 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="?attr/colorButtonNormal"/> <!-- Sử dụng màu mặc định của button theo chủ đề -->
+    <corners android:radius="20dp"/> <!-- Bo góc 16dp, bạn có thể điều chỉnh theo ý muốn -->
+    <padding android:left="10dp"
+        android:top="10dp"
+        android:right="10dp"
+        android:bottom="10dp"/>
+</shape>

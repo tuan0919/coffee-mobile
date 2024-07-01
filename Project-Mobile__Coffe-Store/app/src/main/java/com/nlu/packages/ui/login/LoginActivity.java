@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     AppCompatButton button1, button2, button3;
     EditText editText1,editText2;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

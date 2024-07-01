@@ -38,8 +38,11 @@
             android:name=".DetailProductOrderActivity"
             android:exported="false" />
         <activity
-            android:name=".CartActivity"
+            android:name=".ui.cart.CartActivity"
             android:exported="false" />
+        <activity
+                android:name=".ui.user.ProfileActivity"
+                android:exported="false" />
         <activity
             android:name=".ui.login.WelcomeActivity"
             android:exported="true"

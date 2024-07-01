@@ -1,23 +1,18 @@
 package com.nlu.packages.ui.order.OrderProduct;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nlu.packages.CartActivity;
+import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.R;
-import com.nlu.packages.ui.home.HomeFragment;
-import com.nlu.packages.ui.order.OrderPopular.PopularDrinksRvAdapter;
 
 import java.util.ArrayList;
 

@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.nlu.packages.CartActivity;
+import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.R;
 
 import java.util.ArrayList;

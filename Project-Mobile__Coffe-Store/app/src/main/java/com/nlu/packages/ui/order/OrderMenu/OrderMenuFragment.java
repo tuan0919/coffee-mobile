@@ -8,12 +8,11 @@ import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.nlu.packages.CartActivity;
+import com.nlu.packages.response_dto.product.ProductResponseDTO;
+import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.R;
-import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
 

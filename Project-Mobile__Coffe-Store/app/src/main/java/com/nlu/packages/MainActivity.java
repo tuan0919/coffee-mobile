@@ -17,18 +17,20 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.nlu.packages.databinding.ActivityMainBinding;
+import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.ui.home.HomeFragment;
 import com.nlu.packages.ui.order.OrderFragment;
 import com.nlu.packages.ui.store.StoreFragment;
+import com.nlu.packages.ui.user.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private Runnable goTo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         BottomNavigationView navView = findViewById(R.id.nav_view);
@@ -45,7 +47,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     if(item.getItemId() == R.id.navigation_home) {
-                        loadFragment(new HomeFragment());
+                        loadFragment(new HomeFragment(() -> {
+                            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                            startActivity(intent);
+                        }));
                         return true;
                     }else if(item.getItemId() == R.id.navigation_order){
                         loadFragment(new OrderFragment());
@@ -63,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadFragment(Fragment fragment) {
-        Fragment orderFragment = new OrderFragment();
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.addToBackStack(null);

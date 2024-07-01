@@ -11,11 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.nlu.packages.CartActivity;
+import com.nlu.packages.response_dto.product.ProductResponseDTO;
+import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.R;
-import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
 

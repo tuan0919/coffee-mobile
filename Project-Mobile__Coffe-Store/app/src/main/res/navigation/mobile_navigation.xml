@@ -19,7 +19,7 @@
 
     <activity
         android:id="@+id/navigation_cart"
-        android:name="com.nlu.packages.CartActivity"
+        android:name="com.nlu.packages.ui.cart.CartActivity"
         android:label="@string/title_cart"
         tools:layout="@layout/activity_cart" />
 
