@@ -19,6 +19,8 @@ import com.nlu.packages.dto.response.cart.CartResponseDTO;
 import com.nlu.packages.inventory.checkout_recycle.CheckOutSummaryAdapter;
 import com.nlu.packages.inventory.stupid_data.DataToPayment;
 
+import java.util.List;
+
 public class CheckActivity extends AppCompatActivity {
 
     @Override
@@ -32,20 +34,28 @@ public class CheckActivity extends AppCompatActivity {
             return insets;
         });
         // recycleOrderSummary
-//        List<CartResponseDTO.CartItemDTO> list = getIntent().getParcelableArrayListExtra("Danh Sach Thanh Toan");
+//        Đoạn code này nhận list từ Activity Cart
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+//            List<CartResponseDTO.CartItemDTO> list = getIntent().getParcelableArrayListExtra("chooseList", CartResponseDTO.CartItemDTO.class);
+//        }
         RecyclerView recyclerView = findViewById(R.id.recycleOrderSummary);
         // Fake Data
         DataToPayment datu = new DataToPayment();
+        //
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //-> Thay đổi được
 //        recyclerView.setAdapter(new CheckOutSummaryAdapter(this,list));
         recyclerView.setAdapter(new CheckOutSummaryAdapter(this,datu.getList()));
+        //<- Thay đổi được
         double total = 0;
+        //-> Thay đổi được
 //        for (CartResponseDTO.CartItemDTO bu : list){
 //            total+=bu.getPrice();
 //        }
         for (CartResponseDTO.CartItemDTO bu : datu.getList()){
             total+=bu.getPrice();
         }
+        //<- Thay đổi được
         TextView subtotal = findViewById(R.id.subtotal);
         subtotal.setText("$ "+Double.toString(total));
         TextView truetotal = findViewById(R.id.total);
