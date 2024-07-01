@@ -18,18 +18,28 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 //class nầy để tạo 1 recycle view (được gọi là adapter), được dùng để lấy dữ liệu lên trên màn hình,
 //là phần code có thể mở rộng, nó là phần hỗ trợ giao diện cho mục Coffee for you trên màn hình Home
 class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyHolder> {
     Context context;
     List<ProductResponseDTO> data;
-    private final CoffeeForYouRvInterface coffeeForYouRvInterface;
+    private CoffeeForYouRvInterface coffeeForYouRvInterface;
+    private Consumer<ProductResponseDTO> onClickHandler;
 
     public CoffeForYouRvAdapter(Context context, ArrayList<ProductResponseDTO> data, CoffeeForYouRvInterface coffeeForYouRvInterface) {
         this.context = context;
         this.data = data != null ? data : new ArrayList<>();
         this.coffeeForYouRvInterface = coffeeForYouRvInterface;
+    }
+
+    public CoffeForYouRvAdapter(Context context,
+                                ArrayList<ProductResponseDTO> data,
+                                CoffeeForYouRvInterface coffeeForYouRvInterface,
+                                Consumer<ProductResponseDTO> onClickHandler) {
+        this(context, data, coffeeForYouRvInterface);
+        this.onClickHandler = onClickHandler;
     }
 
     //khỏi tạo view holder, để hiển thị giao diện lên fragment gọi nó
@@ -44,7 +54,7 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         holder.textView1.setText(data.get(position).getProductName());
         Picasso.get().load(data.get(position).getAvatar()).into(holder.imageView1);
-
+        holder.renderView(data.get(position));
         //xử lý sự kiện cho `add to favorite`
         holder.toggleButton.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -61,7 +71,7 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
     }
 
     //khai báo textview vói image view để chứa hình ảnh với chữ
-    public static class MyHolder extends RecyclerView.ViewHolder {
+    class MyHolder extends RecyclerView.ViewHolder {
         TextView textView1;
         ImageView imageView1;
         ToggleButton toggleButton;
@@ -79,12 +89,17 @@ class CoffeForYouRvAdapter extends RecyclerView.Adapter<CoffeForYouRvAdapter.MyH
                 public void onClick(View view) {
                     if (coffeeForYouRvInterface != null) {
                         int position = getAdapterPosition();
+                        data.get(position).getProductId();
                         if (position != RecyclerView.NO_POSITION) {
                             coffeeForYouRvInterface.onItemClickCoffeeForYou(position);
                         }
                     }
                 }
             });
+        }
+
+        public void renderView(ProductResponseDTO productResponseDTO) {
+            imageView1.setOnClickListener((view) -> onClickHandler.accept(productResponseDTO));
         }
     }
 

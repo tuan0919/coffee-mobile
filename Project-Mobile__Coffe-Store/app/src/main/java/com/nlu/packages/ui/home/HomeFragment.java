@@ -30,6 +30,8 @@ import com.nlu.packages.ui.order.OrderFragment;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import com.nlu.packages.ui.user.ProfileActivity;
 import lombok.var;
@@ -48,19 +50,34 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     TopPickRvAdapter topPickRvAdapter;
     private CoffeeApi coffeeApi;
     private ImageButton avatarButton;
-    private Runnable goToUserScreen;
+    private Consumer<ProductResponseDTO> onClickHandler;
+
 
     public HomeFragment() {
-    }
-
-    public HomeFragment(Runnable goToUserScreen) {
-        this.goToUserScreen = goToUserScreen;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // Event Listener
+        onClickHandler = (productDTO) -> {
+            CoffeeService.getClient()
+                    .getProduct("nuoc-uong", "",
+                            Map.of("id", productDTO.getProductId()+""))
+                    .enqueue(new Callback<List<ProductResponseDTO>>() {
+                        @Override
+                        public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
+                            System.out.println("onResponse: " + response.body());
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<ProductResponseDTO>> call, Throwable throwable) {
+
+                        }
+                    });
+        };
 
         //add hide soft keyboard
         constraintLayoutHome = view.findViewById(R.id.constraintLayoutHomeFragment);
@@ -92,7 +109,7 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
 
         //setting the `coffee for you` adapter
         linearLayoutManager = new LinearLayoutManager(HomeFragment.this.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        coffeForYouRvAdapter = new CoffeForYouRvAdapter(this.getContext(), coffeeForYouDataSource, this);
+        coffeForYouRvAdapter = new CoffeForYouRvAdapter(this.getContext(), coffeeForYouDataSource, this, onClickHandler);
         coffeeForYouRv.setLayoutManager(linearLayoutManager);
         coffeeForYouRv.setAdapter(coffeForYouRvAdapter);
 

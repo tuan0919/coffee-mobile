@@ -47,10 +47,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     if(item.getItemId() == R.id.navigation_home) {
-                        loadFragment(new HomeFragment(() -> {
-                            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                            startActivity(intent);
-                        }));
+                        loadFragment(new HomeFragment());
                         return true;
                     }else if(item.getItemId() == R.id.navigation_order){
                         loadFragment(new OrderFragment());

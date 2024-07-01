@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -17,12 +18,20 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.nlu.packages.MainActivity;
 import com.nlu.packages.R;
+import com.nlu.packages.request_dto.LoginRequestDTO;
+import com.nlu.packages.response_dto.MessageResponseDTO;
+import com.nlu.packages.response_dto.TokenResponseDTO;
+import com.nlu.packages.service.CoffeeService;
+import com.nlu.packages.utils.MyUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     AppCompatButton button1, button2, button3;
     EditText editText1,editText2;
-
+    private Runnable onLoginHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +41,9 @@ public class LoginActivity extends AppCompatActivity {
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+
+            editText1 = findViewById(R.id.logInEmail);
+            editText2 = findViewById(R.id.logInPassword);
 
             //add underline for button
             button1 = findViewById(R.id.signUpButton);
@@ -52,10 +64,34 @@ public class LoginActivity extends AppCompatActivity {
 
             //Login
             button3 = findViewById(R.id.LoginButton);
-            button3.setOnClickListener(view -> {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            });
+            onLoginHandler = () -> {
+                String email = editText1.getText().toString();
+                String password = editText2.getText().toString();
+                CoffeeService.getClient().login(LoginRequestDTO.builder()
+                        .email(email)
+                        .password(password).build())
+                .enqueue(new Callback<TokenResponseDTO>() {
+                    @Override
+                    public void onResponse(Call<TokenResponseDTO> call, Response<TokenResponseDTO> response) {
+                        if (response.isSuccessful() && response.body().getToken() != null) {
+                            String token = response.body().getToken();
+                            MyUtils.save(LoginActivity.this, "token", token);
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        }
+                        else {
+                            Toast.makeText(LoginActivity.this,
+                                    response.body().getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<TokenResponseDTO> call, Throwable throwable) {
+                        throw new RuntimeException(throwable);
+                    }
+                });
+            };
+            button3.setOnClickListener(s -> onLoginHandler.run());
             return insets;
         });
     }

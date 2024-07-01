@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.nlu.packages.R;
 import com.nlu.packages.response_dto.user.UserDTO;
 import com.nlu.packages.service.CoffeeService;
+import com.nlu.packages.utils.MyUtils;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import lombok.var;
@@ -25,7 +26,6 @@ import retrofit2.Response;
 
 public class ProfileActivity extends AppCompatActivity {
     private static final int REQUEST_EDIT_PROFILE = 1;
-    private final String token = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJucWF0MDkxOSIsImlhdCI6MTcxOTcyOTQzNywiZXhwIjoxNzE5ODE1ODM3fQ.GbA4kjxSlV2J_umExB9ib4D7lmzD8pU0y_HB97ruNnE";
 
     private TextView userNameTextView;
     private TextView userEmailTextView;
@@ -138,6 +138,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     public void loadUser() {
+        String token = MyUtils.get(this, "token");
         CoffeeService.getRetrofitInstance(token)
                 .getUserInfo().enqueue(new Callback<UserDTO>() {
                     @Override

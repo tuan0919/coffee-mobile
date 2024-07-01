@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.nlu.packages.response_dto.MessageResponseDTO;
+import com.nlu.packages.response_dto.TokenResponseDTO;
 import com.nlu.packages.response_dto.cart.CartItemRequestDTO;
 import com.nlu.packages.response_dto.cart.CartResponseDTO;
 import com.nlu.packages.response_dto.product.ProductResponseDTO;
@@ -17,7 +18,7 @@ import com.nlu.packages.request_dto.RegisterRequestDTO;
 
 public interface CoffeeApi {
     @POST("api/v1/dang-nhap")
-    Call<MessageResponseDTO> login(@Body LoginRequestDTO loginRequestDTO);
+    Call<TokenResponseDTO> login(@Body LoginRequestDTO loginRequestDTO);
 
     @POST("api/v1/dang-ky")
     Call<MessageResponseDTO> register(@Body RegisterRequestDTO loginRequestDTO);
