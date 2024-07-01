@@ -1,5 +1,5 @@
 package com.nlu.packages.ui.order.OrderProduct;
 
-public interface ProductWithCategoryRvInterface {
+public interface ProductSearchRvInterface {
     void onItemClickProductWithCategory(int position);
 }

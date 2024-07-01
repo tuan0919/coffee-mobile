@@ -16,19 +16,26 @@ import com.nlu.packages.R;
 import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
+import com.nlu.packages.ui.order.OrderFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderMenuFragment extends Fragment implements OrderMenuRvInterface{
+public class OrderMenuFragment extends Fragment implements OrderMenuRvInterface {
     private RecyclerView.LayoutManager layoutManager;
-    OrderMenuRvAdapter orderMenuAdapter;
+    public OrderMenuRvAdapter orderMenuAdapter;
     RecyclerView orderMenuRv;
     CoffeeApi coffeeApi;
-    private List<ProductResponseDTO> dataSource;
+    private List<ProductResponseDTO> dataSource=new ArrayList<>();
+    public static OrderMenuFragment orderMenuFragment;
+
+    public OrderMenuFragment() {
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,7 +60,7 @@ public class OrderMenuFragment extends Fragment implements OrderMenuRvInterface{
     }
 
     //fetch data from api
-    public void getListCoffee(){
+    public void getListCoffee() {
         coffeeApi = CoffeeService.getClient();
         Call<List<ProductResponseDTO>> call = coffeeApi.getAllProduct();
         call.enqueue(new Callback<List<ProductResponseDTO>>() {
@@ -63,6 +70,7 @@ public class OrderMenuFragment extends Fragment implements OrderMenuRvInterface{
                     //get the response
                     dataSource = response.body();
                     orderMenuAdapter.updateData(dataSource);
+                    dataSource.forEach(i-> System.out.println(i.getProductId()+ ""));
                 } else {
                     System.out.println("lỗi lấy data");
                 }

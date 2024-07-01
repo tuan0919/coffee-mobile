@@ -35,4 +35,7 @@ public interface CoffeeApi {
     Call<List<ProductResponseDTO>> getProductWithCate (String typePathName,
                                                        @Path("categoryPathName") String categoryPathName,
                                                        String name, Long id);
+
+    @GET("api/v1/san-pham")
+    Call<List<ProductResponseDTO>> getAllProduct(@Query("ten") String name);
 }

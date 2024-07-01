@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -16,16 +18,29 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.nlu.packages.R;
+import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.nlu.packages.ui.order.OrderFavorite.OrderFavoriteFragment;
 import com.nlu.packages.ui.order.OrderMenu.OrderMenuFragment;
 import com.nlu.packages.ui.order.OrderPopular.OrderPopularFragment;
+import com.nlu.packages.ui.order.OrderPopular.PopularDrinksRvAdapter;
+import com.nlu.packages.ui.order.OrderPopular.TrendThisMonthRvAdapter;
 import com.nlu.packages.ui.order.OrderPrevious.OrderPreviousFragment;
+
+import java.util.List;
 
 public class OrderFragment extends Fragment {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ImageButton backButton;
-
+    public static OrderFragment orderFragment;
+    public OrderFragment() {
+    }
+    public static OrderFragment newInstance() {
+        if (orderFragment == null) {
+            orderFragment = new OrderFragment();
+        }
+        return orderFragment;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

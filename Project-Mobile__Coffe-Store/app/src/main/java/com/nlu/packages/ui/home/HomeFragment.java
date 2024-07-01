@@ -3,13 +3,11 @@ package com.nlu.packages.ui.home;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -26,6 +24,7 @@ import com.nlu.packages.dto.response.product.ProductResponseDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
 import com.nlu.packages.ui.order.OrderFragment;
+import com.nlu.packages.ui.order.OrderProduct.ProductSearch;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,9 +45,6 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
     TopPickRvAdapter topPickRvAdapter;
     private CoffeeApi coffeeApi;
 
-    public HomeFragment() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,14 +55,44 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
         searchView = view.findViewById(R.id.searchViewHome1);
         setUpUI(view);
 
-        //change to OrderFragment
+        //xử lý sự kiện khi nhấn vào chuyển tới order menu fragment
         button = view.findViewById(R.id.order_Button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loadFragment(new OrderFragment());
+                loadFragment(OrderFragment.newInstance(), "OrderFragment");
                 BottomNavigationView navView = getActivity().findViewById(R.id.nav_view);
                 navView.setSelectedItemId(R.id.navigation_order);
+
+            }
+        });
+
+        //xử lý sự kiện tìm kiếm, tra cứu thông tin
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Call<List<ProductResponseDTO>> call = coffeeApi.getAllProduct(query);
+                call.enqueue(new Callback<List<ProductResponseDTO>>() {
+                    @Override
+                    public void onResponse(Call<List<ProductResponseDTO>> call, Response<List<ProductResponseDTO>> response) {
+                        List<ProductResponseDTO> responseDTOS = response.body();
+                        responseDTOS.forEach(i-> System.out.println(i));
+                        Intent intent = new Intent(HomeFragment.this.getContext(), ProductSearch.class);
+                        intent.putExtra("Product", (ArrayList<ProductResponseDTO>) responseDTOS);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ProductResponseDTO>> call, Throwable throwable) {
+                        System.out.println(throwable);
+                    }
+                });
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
 
@@ -119,11 +145,15 @@ public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, T
         }
     }
 
-    private void loadFragment(Fragment fragment) {
-        Fragment orderFragment = new OrderFragment();
+    private void loadFragment(Fragment fragment, String tag) {
         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.addToBackStack(null);
+        Fragment existingFragment = getActivity().getSupportFragmentManager().findFragmentByTag(tag);
+        if(existingFragment == null){
+            fragmentTransaction.add(R.id.container, fragment, tag);
+            fragmentTransaction.addToBackStack(null);
+        }else{
+            fragmentTransaction.replace(R.id.container, existingFragment, tag);
+        }
         fragmentTransaction.commit();
     }
 
