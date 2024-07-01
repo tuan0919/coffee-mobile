@@ -29,13 +29,13 @@
             app:srcCompat="@drawable/chevron_left_24px" />
 
         <TextView
-            android:id="@+id/paymentText"
+            android:id="@+id/paymentMethodText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/inter_semibold"
             android:lineSpacingMultiplier="2"
-            android:text="@string/paymentText"
+            android:text="Method"
             android:textColor="#dadada"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"

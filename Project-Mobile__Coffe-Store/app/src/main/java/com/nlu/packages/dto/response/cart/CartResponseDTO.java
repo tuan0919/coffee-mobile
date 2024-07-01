@@ -6,6 +6,7 @@ import com.nlu.packages.enums.EProductSize;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Builder
@@ -21,7 +22,7 @@ public class CartResponseDTO {
     @Data
     @NoArgsConstructor
     @FieldDefaults(level = AccessLevel.PRIVATE)
-    public static class CartItemDTO {
+    public static class CartItemDTO implements Serializable {
         CartResponseDTO.ProductDTO product;
         int quantity;
         List<EIngredient> ingredients;
