@@ -33,7 +33,6 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
@@ -51,7 +50,7 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     //login google.
     implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
     // thng tin cá nhaan
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     //glider

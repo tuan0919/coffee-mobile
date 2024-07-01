@@ -1,11 +1,8 @@
 package com.nlu.packages;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -20,11 +17,11 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.nlu.packages.databinding.ActivityMainBinding;
 import com.nlu.packages.ui.home.HomeFragment;
 import com.nlu.packages.ui.order.OrderFragment;
 import com.nlu.packages.ui.reward.RewardFragment;
 import com.nlu.packages.ui.store.StoreFragment;
+import com.nlu.packages.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;

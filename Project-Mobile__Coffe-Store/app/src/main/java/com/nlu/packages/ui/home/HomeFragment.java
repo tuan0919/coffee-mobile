@@ -26,7 +26,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.nlu.packages.CartActivity;
-import com.nlu.packages.MainActivity;
 import com.nlu.packages.R;
 import com.nlu.packages.ui.login.LoginActivity;
 import com.nlu.packages.ui.login.UserProfileActivity;

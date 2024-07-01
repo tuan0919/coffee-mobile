@@ -3,6 +3,7 @@ package com.nlu.packages.ui.login;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,7 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -24,12 +25,18 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.auth.api.identity.BeginSignInRequest;
+import com.google.android.gms.auth.api.identity.BeginSignInResult;
+import com.google.android.gms.auth.api.identity.Identity;
+import com.google.android.gms.auth.api.identity.SignInClient;
+import com.google.android.gms.auth.api.identity.SignInCredential;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -51,13 +58,17 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     FirebaseAuth auth;
-
     AppCompatButton button1, button2, button3;
     EditText editText1,editText2;
     Button google;
     GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN =9001;
     Login login;
+
+    private TextView jsonString;
+    private SignInClient oneTapClient;
+    private BeginSignInRequest signInRequest;
+    private static final int REQ_ONE_TAP = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +125,93 @@ public class LoginActivity extends AppCompatActivity {
 
             return insets;
         });
+
+        jsonString = findViewById(R.id.jsonString);
+        oneTapClient = Identity.getSignInClient(this);
+        signInRequest = BeginSignInRequest.builder()
+                .setPasswordRequestOptions(BeginSignInRequest.PasswordRequestOptions.builder()
+                        .setSupported(true)
+                        .build())
+                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                        .setSupported(true)
+                        // Your server's client ID, not your Android client ID.
+                        .setServerClientId("653580284590-18e8cnb86rmk7f8qo0thkt5404aj1uak.apps.googleusercontent.com") // TODO
+                        // Only show accounts previously used to sign in.
+                        .setFilterByAuthorizedAccounts(false)
+                        .build())
+                // Automatically sign in when exactly one credential is retrieved.
+                .setAutoSelectEnabled(true)
+                .build();
     }
+
+    public void buttonGoogleSignIn(View view) {
+        oneTapClient.beginSignIn(signInRequest)
+                .addOnSuccessListener(this, new OnSuccessListener<BeginSignInResult>() {
+                    @Override
+                    public void onSuccess(BeginSignInResult result) {
+                        try {
+                            startIntentSenderForResult(
+                                    result.getPendingIntent().getIntentSender(), REQ_ONE_TAP,
+                                    null, 0, 0, 0);
+                        } catch (IntentSender.SendIntentException e) {
+                            Log.e("TAG", "Couldn't start One Tap UI: " + e.getLocalizedMessage());
+                        }
+                    }
+                })
+                .addOnFailureListener(this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // No saved credentials found. Launch the One Tap sign-up flow, or
+                        // do nothing and continue presenting the signed-out UI.
+                        Log.d("TAG", e.getLocalizedMessage());
+                    }
+                });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQ_ONE_TAP:
+                try {
+                    SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(data);
+                    String idToken = credential.getGoogleIdToken();
+                    String username = credential.getId();
+                    String password = credential.getPassword();
+                    String fullName = credential.getDisplayName();
+                    String firstName = credential.getFamilyName();
+                    String lastName = credential.getGivenName();
+                    String id = credential.getId();
+                    String phone = credential.getPhoneNumber();
+//                    String avatar = credential.getProfilePictureUri().toString();
+                    jsonString.setText(username);  // test
+                    if (idToken !=  null) {
+                        // Got an ID token from Google. Use it to authenticate
+                        // with your backend.
+                        Log.d("TAG", "Got ID token.");
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+//                        Log.d("idToken", idToken);
+//                        Log.d("username", username);
+//                        Log.d("password", password);
+//                        Log.d("fullName", fullName);
+//                        Log.d("firstName", firstName);
+//                        Log.d("lastName", lastName);
+//                        Log.d("id", id);
+//                        Log.d("phone", phone);
+//                        Log.d("avatar", avatar);
+                    } else if (password != null) {
+                        // Got a saved username and password. Use them to authenticate
+                        // with your backend.
+                        Log.d("TAG", "Got password.");
+                    }
+                } catch (ApiException e) {
+                    jsonString.setText(e.toString());
+                }
+                break;
+        }
+    }
+
     private void Login() {
         String str_email = editText1.getText().toString().trim();
         String str_pass = editText2.getText().toString().trim();
@@ -189,28 +286,29 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+
     private void LoginByGoogle() {
         Intent signinIntent= mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signinIntent,RC_SIGN_IN);
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == RC_SIGN_IN){
-            Task<GoogleSignInAccount> task= GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account= task.getResult(ApiException.class);
-                firebaseAuth(account.getIdToken());
-
-            }
-            catch (ApiException e)
-            {
-                Toast.makeText(this,"login failed:"+e,Toast.LENGTH_SHORT).show();
-                String errorMessage = "Google sign-in failed: " + e.getStatusCode() + " - " + e.getMessage();
-                Log.e("LoginFaile", "login failed:"+e, e);
-            }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if(requestCode == RC_SIGN_IN){
+//            Task<GoogleSignInAccount> task= GoogleSignIn.getSignedInAccountFromIntent(data);
+//            try {
+//                GoogleSignInAccount account= task.getResult(ApiException.class);
+//                firebaseAuth(account.getIdToken());
+//
+//            }
+//            catch (ApiException e)
+//            {
+//                Toast.makeText(this,"login failed:"+e,Toast.LENGTH_SHORT).show();
+//                String errorMessage = "Google sign-in failed: " + e.getStatusCode() + " - " + e.getMessage();
+//                Log.e("LoginFaile", "login failed:"+e, e);
+//            }
+//        }
+//    }
     private void firebaseAuth(String idToken){
         AuthCredential credential= GoogleAuthProvider.getCredential(idToken,null);
         auth.signInWithCredential(credential)
@@ -222,6 +320,11 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
                             // thêm dữ liệu user nếu chưa tồn tại.
                             firebaseUser = auth.getCurrentUser();
+                            Log.d("TAGGGGGGG", firebaseUser.getEmail());
+                            Log.d("TAGGGGGGG", firebaseUser.getDisplayName());
+                            Log.d("TAGGGGGGG", firebaseUser.getPhoneNumber());
+                            Log.d("TAGGGGGGG", firebaseUser.getPhotoUrl().toString());
+                            Log.d("TAGGGGGGG", firebaseUser.getEmail());
 
                         }
                         else{

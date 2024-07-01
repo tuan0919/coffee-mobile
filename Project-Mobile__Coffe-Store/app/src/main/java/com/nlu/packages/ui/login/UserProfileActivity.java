@@ -13,16 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultCaller;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -148,11 +142,12 @@ public class UserProfileActivity extends AppCompatActivity {
                             public void onSuccess(Uri uri) {
                                 String imageUrl = uri.toString();
                                 Log.d("image", "Upload thành công: " + imageUrl);
-                                // update URL
+                                // update anh moi vo authentication
 
                                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                         .setPhotoUri(Uri.parse(imageUrl))
                                         .build();
+
                                 user.updateProfile(profileUpdates)
                                         .addOnCompleteListener(task -> {
                                             if (task.isSuccessful()) {
@@ -182,6 +177,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     }
                 });
     }
+    // Truy caapj vaf chonj anh trong thu vien anh dien thoai
 
     private void PickImgFromGalary() {
         Intent intent =new Intent();

@@ -18,7 +18,6 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.nlu.packages.MainActivity;
 import com.nlu.packages.R;
 import com.squareup.picasso.Picasso;
 
