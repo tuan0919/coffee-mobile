@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class CoffeeService {
-    private static final String BASE_URL = "http://192.168.1.54:8888/";
+    private static final String BASE_URL = "http://192.168.1.2:8888/";
     private static Retrofit retrofit;
 
     //khởi tạo retrofit singleton

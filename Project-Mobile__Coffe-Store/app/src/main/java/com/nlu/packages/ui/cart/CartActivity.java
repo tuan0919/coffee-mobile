@@ -160,6 +160,8 @@ public class CartActivity extends AppCompatActivity {
             intent.putExtra("chooseList", (ArrayList<CartResponseDTO.CartItemDTO>) list);
             startActivity(intent);
         };
+
+
         setContentView(R.layout.activity_cart);
         btnBack = findViewById(R.id.goBackButton);
         btnBack.setOnClickListener((e) -> finish());

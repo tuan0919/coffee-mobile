@@ -16,7 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.nlu.packages.inventory.checkout_recycle.CheckOutSummaryAdapter;
 import com.nlu.packages.response_dto.cart.CartResponseDTO;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CheckActivity extends AppCompatActivity {
     AppCompatButton deliveryButton ;
@@ -56,13 +59,14 @@ public class CheckActivity extends AppCompatActivity {
         truetotal.setText(total+"00đ");
 
         AppCompatButton button = findViewById(R.id.proceedToPaymentButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CheckActivity.this, PaymentMethodActivity.class);
-                intent.putExtra("total",total);
-                startActivity(intent);
-            }
+        button.setOnClickListener(v -> {
+            Intent intent = new Intent(CheckActivity.this, PaymentMethodActivity.class);
+            intent.putExtra("total",total);
+            ArrayList<Long> chooseIds = (ArrayList<Long>) list.stream()
+                    .map(item -> item.getProduct().getId())
+                            .collect(Collectors.toList());;
+            intent.putExtra("chosenProductIds", chooseIds);
+            startActivity(intent);
         });
 
         ImageButton goBack = findViewById(R.id.goBackButton);

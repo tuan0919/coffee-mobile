@@ -4,6 +4,7 @@ import com.nlu.packages.enums.EPaymentMethod;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -11,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class CreateOrderRequestDTO {
+public class CreateOrderRequestDTO implements Serializable {
     Long storeId;
     EPaymentMethod method;
     List<Long> chosenProductIds;

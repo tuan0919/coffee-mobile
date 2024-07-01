@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.nlu.packages.request_dto.cart.CartItemRequestDTO;
+import com.nlu.packages.request_dto.order.CreateOrderRequestDTO;
 import com.nlu.packages.response_dto.MessageResponseDTO;
 import com.nlu.packages.response_dto.TokenResponseDTO;
 import com.nlu.packages.response_dto.cart.CartResponseDTO;
@@ -50,4 +51,7 @@ public interface CoffeeApi {
 
     @GET("api/v2/nguoi-dung")
     Call<UserDTO> getUserInfo();
+
+    @POST("api/v2/dat-hang")
+    Call<MessageResponseDTO> createOrder(@Body CreateOrderRequestDTO dto);
 }

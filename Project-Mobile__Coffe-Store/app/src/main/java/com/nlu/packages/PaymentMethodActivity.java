@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
@@ -15,14 +16,27 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.nlu.packages.enums.EPaymentMethod;
 import com.nlu.packages.inventory.paymentmethod_recycle.PaymentMethodAdapter;
 import com.nlu.packages.inventory.paymentmethod_recycle.PaymentMethodText;
+import com.nlu.packages.inventory.paymentmethod_recycle.RecycleViewPaymentMethodAdapter;
+import com.nlu.packages.request_dto.order.CreateOrderRequestDTO;
+import com.nlu.packages.response_dto.MessageResponseDTO;
+import com.nlu.packages.service.CoffeeService;
+import com.nlu.packages.utils.MyUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class PaymentMethodActivity extends AppCompatActivity {
-
+    private EPaymentMethod method = null;
+    private Consumer<EPaymentMethod> onChoosePaymentHandler;
+    private long storeId = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,23 +47,75 @@ public class PaymentMethodActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        List<PaymentMethodText> list = new ArrayList<>();
-        list.add(new PaymentMethodText("Credit Card"));
-        list.add(new PaymentMethodText("Debit Card"));
-        list.add(new PaymentMethodText("Paypal"));
-        list.add(new PaymentMethodText("Google Pay"));
-        list.add(new PaymentMethodText("Apple Pay"));
+
+        // Event handler
+        onChoosePaymentHandler = (payment) -> {
+            method = payment;
+            System.out.println(method);
+        };
+
+        List<EPaymentMethod> list = Arrays.asList(
+                EPaymentMethod.COD,
+                EPaymentMethod.MOMO,
+                EPaymentMethod.BANK_CART,
+                EPaymentMethod.CREDIT_CART
+        );
+        String token = MyUtils.get(this, "token");
         RecyclerView recyclerView = findViewById(R.id.paymentMethodRecycle);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new PaymentMethodAdapter(this,list));
+        recyclerView.setAdapter(new RecycleViewPaymentMethodAdapter(this, list, onChoosePaymentHandler));
         double total = getIntent().getDoubleExtra("total",0.0);
         AppCompatButton button = findViewById(R.id.proceedButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PaymentMethodActivity.this,PaymentActivity.class);
-                intent.putExtra("total",total);
-                startActivity(intent);
+                ArrayList<Long> chooseIds = (ArrayList<Long>)
+                        getIntent().getSerializableExtra("chosenProductIds");
+                if (method == null) {
+                    Toast.makeText(PaymentMethodActivity.this, "Cần chọn 1 phương thức thanh toán",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if (method == EPaymentMethod.COD) {
+                    CoffeeService
+                            .getRetrofitInstance(token).createOrder(CreateOrderRequestDTO
+                                    .builder()
+                                    .method(method)
+                                    .storeId(storeId)
+                                    .chosenProductIds(chooseIds)
+                                    .build()
+                            ).enqueue(new Callback<MessageResponseDTO>() {
+                                @Override
+                                public void onResponse(Call<MessageResponseDTO> call, Response<MessageResponseDTO> response) {
+                                    System.out.println(chooseIds);
+                                    System.out.println(method.name());
+                                    System.out.println(response.message());
+                                    System.out.println(response.errorBody());
+                                    System.out.println(response.raw());
+                                    if (response.isSuccessful()) {
+                                        Toast.makeText(PaymentMethodActivity.this, response.body().getMessage(),
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<MessageResponseDTO> call, Throwable throwable) {
+                                    throw new RuntimeException(throwable);
+                                }
+                            });
+
+                } else {
+                    Intent intent = new Intent(PaymentMethodActivity.this,PaymentActivity.class);
+                    intent.putExtra("total",total);
+                    intent.putExtra("requestDTO", CreateOrderRequestDTO
+                            .builder()
+                            .method(method)
+                            .storeId(storeId)
+                            .chosenProductIds(chooseIds)
+                            .build()
+                    );
+                    startActivity(intent);
+                }
             }
         });
         ImageButton goBack = findViewById(R.id.goBackButton);
