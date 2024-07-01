@@ -8,24 +8,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.nlu.packages.R;
-import com.nlu.packages.dto.request.wishlist.WishlistRequestDTO;
-import com.nlu.packages.dto.response.product.ProductResponseDTO;
-import nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO;
+import com.nlu.packages.response_dto.MessageResponseDTO;
+import com.nlu.packages.response_dto.product.ProductResponseDTO;
+import com.nlu.packages.response_dto.wishlist.WishlistRequestDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderMenuRvAdapter extends RecyclerView.Adapter<OrderMenuRvAdapter.ViewHolder> {
 
@@ -106,7 +103,7 @@ public class OrderMenuRvAdapter extends RecyclerView.Adapter<OrderMenuRvAdapter.
                 Call<MessageResponseDTO> call = coffeeApi.addToWishList(wishlistRequestDTO);
                 call.enqueue(new Callback<MessageResponseDTO>() {
                     @Override
-                    public void onResponse(Call<MessageResponseDTO> call, Response<nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO> response) {
+                    public void onResponse(Call<MessageResponseDTO> call, Response<MessageResponseDTO> response) {
                         Toast.makeText(context, "Added to Favorite", Toast.LENGTH_SHORT).show();
                     }
 

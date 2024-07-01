@@ -1,12 +1,9 @@
 package com.nlu.packages.inventory.paymentmethod_recycle;
 
 import android.view.View;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.nlu.packages.R;
 
 public class PaymentMethodViewHolder extends RecyclerView.ViewHolder {

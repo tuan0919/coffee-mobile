@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-
 import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,11 +14,9 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.nlu.packages.MainActivity;
 import com.nlu.packages.R;
 import com.nlu.packages.request_dto.LoginRequestDTO;
-import com.nlu.packages.response_dto.MessageResponseDTO;
 import com.nlu.packages.response_dto.TokenResponseDTO;
 import com.nlu.packages.service.CoffeeService;
 import com.nlu.packages.utils.MyUtils;

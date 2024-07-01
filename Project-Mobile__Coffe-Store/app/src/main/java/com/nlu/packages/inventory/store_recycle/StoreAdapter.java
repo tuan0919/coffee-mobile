@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.nlu.packages.R;
 import com.nlu.packages.StoreLocationActivity;
-import com.nlu.packages.dto.response.order.OrderResponseDTO;
-import com.nlu.packages.inventory.checkout_recycle.CheckOutSummaryViewHolder;
+import com.nlu.packages.response_dto.order.OrderResponseDTO;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

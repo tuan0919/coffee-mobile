@@ -7,18 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.widget.SearchView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import com.google.android.material.tabs.TabLayout;
 import com.nlu.packages.R;
-import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import com.nlu.packages.response_dto.product.ProductResponseDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
 import com.nlu.packages.ui.order.OrderFavorite.OrderFavoriteFragment;
@@ -26,13 +24,12 @@ import com.nlu.packages.ui.order.OrderMenu.OrderMenuFragment;
 import com.nlu.packages.ui.order.OrderPopular.OrderPopularFragment;
 import com.nlu.packages.ui.order.OrderPrevious.OrderPreviousFragment;
 import com.nlu.packages.ui.order.OrderProduct.ProductSearch;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderFragment extends Fragment {
     private SearchView searchView;

@@ -1,17 +1,15 @@
 package com.nlu.packages.ui.login;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import androidx.appcompat.widget.AppCompatButton;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.nlu.packages.R;
 import com.nlu.packages.utils.MyUtils;
 import com.squareup.picasso.Picasso;

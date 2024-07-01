@@ -1,4 +1,4 @@
-package com.nlu.packages.dto.request.wishlist;
+package com.nlu.packages.response_dto.wishlist;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

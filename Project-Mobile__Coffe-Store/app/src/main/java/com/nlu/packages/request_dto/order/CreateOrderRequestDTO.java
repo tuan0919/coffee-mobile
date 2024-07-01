@@ -1,6 +1,6 @@
 package com.nlu.packages.request_dto.order;
-import com.nlu.packages.enums.EPaymentMethod;
 
+import com.nlu.packages.enums.EPaymentMethod;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

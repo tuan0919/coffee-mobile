@@ -34,9 +34,6 @@
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
-            android:name=".ui.order.OrderProduct.ProductWithType"
-            android:exported="false" />
-        <activity
             android:name=".ui.login.ForgotActivity"
             android:exported="false" />
         <activity
@@ -53,9 +50,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.fragment.DetailProductOrderActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.payment.CheckAndPayActivity"
             android:exported="false" />
         <activity
             android:name=".ui.cart.CartActivity"

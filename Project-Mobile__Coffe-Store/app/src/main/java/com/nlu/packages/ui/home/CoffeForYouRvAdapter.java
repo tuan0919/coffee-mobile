@@ -9,28 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.nlu.packages.R;
-import com.nlu.packages.dto.request.wishlist.WishlistRequestDTO;
-import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import com.nlu.packages.response_dto.MessageResponseDTO;
+import com.nlu.packages.response_dto.product.ProductResponseDTO;
+import com.nlu.packages.response_dto.wishlist.WishlistRequestDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
 import com.nlu.packages.utils.MyUtils;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.function.Consumer;
-
-import nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO;
-import nlu.hcmuaf.android_coffee_app.dto.response.TokenResponseDTO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 //class nầy để tạo 1 recycle view (được gọi là adapter), được dùng để lấy dữ liệu lên trên màn hình,
 //là phần code có thể mở rộng, nó là phần hỗ trợ giao diện cho mục Coffee for you trên màn hình Home

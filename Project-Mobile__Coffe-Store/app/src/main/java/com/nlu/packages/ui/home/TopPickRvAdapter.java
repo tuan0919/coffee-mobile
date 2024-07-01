@@ -1,7 +1,6 @@
 package com.nlu.packages.ui.home;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,29 +8,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.nlu.packages.R;
-import com.nlu.packages.dto.request.wishlist.WishlistRequestDTO;
-
-import nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO;
-
-import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import com.nlu.packages.response_dto.MessageResponseDTO;
+import com.nlu.packages.response_dto.product.ProductResponseDTO;
+import com.nlu.packages.response_dto.wishlist.WishlistRequestDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
-import com.nlu.packages.utils.MyUtils;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Consumer;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+
 
 //class nầy để tạo 1 recycle view, để lấy dữ liệu lên trên màn hình, là phần code có thể mở rộng, nó là phần hỗ
 //trợ hiển thị giao diện cho phần Top Pick Coffee trên màn hình Home

@@ -2,19 +2,12 @@ package com.nlu.packages.ui.order.OrderPrevious;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.nlu.packages.ui.cart.CartActivity;
+import androidx.fragment.app.Fragment;
 import com.nlu.packages.R;
-
-import java.util.ArrayList;
+import com.nlu.packages.ui.cart.CartActivity;
 
 public class OrderPreviousFragment extends Fragment implements PreviousAdapterInterface {
 

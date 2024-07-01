@@ -1,10 +1,8 @@
 package com.nlu.packages.service;
 
+import com.nlu.packages.request_dto.LoginRequestDTO;
+import com.nlu.packages.request_dto.RegisterRequestDTO;
 import com.nlu.packages.request_dto.VerifyRequestDTO;
-
-import java.util.List;
-import java.util.Map;
-
 import com.nlu.packages.request_dto.cart.CartItemRequestDTO;
 import com.nlu.packages.request_dto.order.CreateOrderRequestDTO;
 import com.nlu.packages.response_dto.MessageResponseDTO;
@@ -12,10 +10,12 @@ import com.nlu.packages.response_dto.TokenResponseDTO;
 import com.nlu.packages.response_dto.cart.CartResponseDTO;
 import com.nlu.packages.response_dto.product.ProductResponseDTO;
 import com.nlu.packages.response_dto.user.UserDTO;
+import com.nlu.packages.response_dto.wishlist.WishlistRequestDTO;
 import retrofit2.Call;
 import retrofit2.http.*;
-import com.nlu.packages.request_dto.LoginRequestDTO;
-import com.nlu.packages.request_dto.RegisterRequestDTO;
+
+import java.util.List;
+import java.util.Map;
 
 public interface CoffeeApi {
     // Link API:localhost:8888/api

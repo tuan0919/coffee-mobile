@@ -3,9 +3,6 @@ package com.nlu.packages;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -14,14 +11,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.nlu.packages.databinding.ActivityMainBinding;
 import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.ui.home.HomeFragment;
 import com.nlu.packages.ui.order.OrderFragment;
 import com.nlu.packages.ui.store.StoreFragment;
-import com.nlu.packages.ui.user.ProfileActivity;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,7 +1,6 @@
 package com.nlu.packages.ui.order.OrderFavorite;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,28 +8,22 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.nlu.packages.R;
-
-import nlu.hcmuaf.android_coffee_app.dto.response.MessageResponseDTO;
-
-import com.nlu.packages.dto.request.wishlist.WishlistRequestDTO;
-import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import com.nlu.packages.response_dto.MessageResponseDTO;
+import com.nlu.packages.response_dto.product.ProductResponseDTO;
+import com.nlu.packages.response_dto.wishlist.WishlistRequestDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
-import com.nlu.packages.utils.MyUtils;
 import com.squareup.picasso.Picasso;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class OrderFavoriteAdapter extends RecyclerView.Adapter<OrderFavoriteAdapter.MyHolder> {
     Context context;
@@ -125,7 +118,7 @@ public class OrderFavoriteAdapter extends RecyclerView.Adapter<OrderFavoriteAdap
         return data.size();
     }
 
-    public class MyHolder extends RecyclerView.ViewHolder {
+    class MyHolder extends RecyclerView.ViewHolder {
         TextView productName;
         TextView productPrice;
         ImageView imageView1;

@@ -1,13 +1,10 @@
 package com.nlu.packages.inventory.checkout_recycle;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.nlu.packages.R;
 import com.nlu.packages.response_dto.cart.CartResponseDTO;
 import com.squareup.picasso.Picasso;

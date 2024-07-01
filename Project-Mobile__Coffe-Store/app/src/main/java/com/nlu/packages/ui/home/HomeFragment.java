@@ -8,9 +8,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
-
 import android.widget.ImageButton;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -18,18 +17,21 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.nlu.packages.ui.fragment.DetailProductOrderActivity;
-import com.nlu.packages.response_dto.product.ProductResponseDTO;
-import com.nlu.packages.ui.cart.CartActivity;
 import com.nlu.packages.R;
-import com.nlu.packages.dto.request.wishlist.WishlistRequestDTO;
-import com.nlu.packages.dto.response.product.ProductResponseDTO;
+import com.nlu.packages.response_dto.product.ProductResponseDTO;
+import com.nlu.packages.response_dto.wishlist.WishlistRequestDTO;
 import com.nlu.packages.service.CoffeeApi;
 import com.nlu.packages.service.CoffeeService;
+import com.nlu.packages.ui.cart.CartActivity;
+import com.nlu.packages.ui.fragment.DetailProductOrderActivity;
 import com.nlu.packages.ui.order.OrderFragment;
 import com.nlu.packages.ui.order.OrderProduct.ProductSearch;
+import com.nlu.packages.ui.user.ProfileActivity;
+import lombok.var;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,16 +39,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import com.nlu.packages.ui.user.ProfileActivity;
-import lombok.var;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class HomeFragment extends Fragment implements CoffeeForYouRvInterface, TopCoffeeRvInterface {
     private ConstraintLayout constraintLayoutHome;
     private SearchView searchView;
     private androidx.appcompat.widget.AppCompatButton button;
+    private ImageButton avatarButton;
     private RecyclerView coffeeForYouRv, topPickRv;
     private ArrayList<ProductResponseDTO> coffeeForYouDataSource, topPickDataSource = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;

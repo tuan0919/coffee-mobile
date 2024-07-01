@@ -1,7 +1,7 @@
 package com.nlu.packages.utils;
 
-import android.content.*;
-import com.nlu.packages.response_dto.cart.CartResponseDTO;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 public class MyUtils {
     public static void deleteTokenResponse(Context context) {
