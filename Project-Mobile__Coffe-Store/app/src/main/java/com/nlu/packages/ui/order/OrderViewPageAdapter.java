@@ -33,4 +33,6 @@ public class OrderViewPageAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return fragmentTitle.get(position);
     }
+
+
 }

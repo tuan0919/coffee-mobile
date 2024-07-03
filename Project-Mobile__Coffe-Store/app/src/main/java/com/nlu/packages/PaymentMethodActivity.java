@@ -89,8 +89,7 @@ public class PaymentMethodActivity extends AppCompatActivity {
                                     System.out.println(response.errorBody());
                                     System.out.println(response.raw());
                                     if (response.isSuccessful()) {
-                                        Toast.makeText(PaymentMethodActivity.this, response.body().getMessage(),
-                                                Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(PaymentMethodActivity.this, EndPaymentActivity.class));
                                     }
                                 }
 

@@ -8,6 +8,7 @@ import com.nlu.packages.request_dto.order.CreateOrderRequestDTO;
 import com.nlu.packages.response_dto.MessageResponseDTO;
 import com.nlu.packages.response_dto.TokenResponseDTO;
 import com.nlu.packages.response_dto.cart.CartResponseDTO;
+import com.nlu.packages.response_dto.order.OrderResponseDTO;
 import com.nlu.packages.response_dto.product.ProductResponseDTO;
 import com.nlu.packages.response_dto.user.UserDTO;
 import com.nlu.packages.response_dto.wishlist.WishlistRequestDTO;
@@ -55,7 +56,16 @@ public interface CoffeeApi {
     @POST("api/v2/dat-hang")
     Call<MessageResponseDTO> createOrder(@Body CreateOrderRequestDTO dto);
     @GET("api/v1/san-pham")
-    Call<List<ProductResponseDTO>> searchProduct(@Query("ten") String name);
+    Call<List<ProductResponseDTO>>
+
+
+
+
+
+
+
+
+    searchProduct(@Query("ten") String name);
 
     @GET("api/v2/yeu-thich")
     Call<List<ProductResponseDTO>> getWishList();
@@ -65,4 +75,7 @@ public interface CoffeeApi {
 
     @DELETE("api/v2/yeu-thich/{productId}")
     Call<MessageResponseDTO> removeFromWishList(@Path("productId") Long productId);
+
+    @GET("api/v2/don-hang")
+    Call<List<OrderResponseDTO>> getOrder();
 }

@@ -24,6 +24,7 @@ import com.nlu.packages.ui.order.OrderMenu.OrderMenuFragment;
 import com.nlu.packages.ui.order.OrderPopular.OrderPopularFragment;
 import com.nlu.packages.ui.order.OrderPrevious.OrderPreviousFragment;
 import com.nlu.packages.ui.order.OrderProduct.ProductSearch;
+import lombok.var;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -58,6 +59,27 @@ public class OrderFragment extends Fragment {
         adapter.addFragment(new OrderPreviousFragment(), "Previous");
         adapter.addFragment(new OrderFavoriteFragment(), "Favorites");
         viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                String title = adapter.getPageTitle(i).toString();
+                if (title.equals("Previous")) {
+                    OrderPreviousFragment fragment =
+                            (OrderPreviousFragment) adapter.getItem(i);
+                    fragment.loadPreviousOrderData();
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
         //xử lý sự kiện tìm kiếm, tra cứu thông tin
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

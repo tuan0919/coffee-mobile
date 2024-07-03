@@ -39,7 +39,7 @@ public class PaymentActivity extends AppCompatActivity {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                moveTaskToBack(true);
             }
         });
         TextView totalText = findViewById(R.id.total);
@@ -55,7 +55,7 @@ public class PaymentActivity extends AppCompatActivity {
                                 if (response.isSuccessful()) {
                                     Toast.makeText(PaymentActivity.this, response.body().getMessage(),
                                             Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(PaymentActivity.this,MainActivity.class);
+                                    Intent intent = new Intent(PaymentActivity.this,EndPaymentActivity.class);
                                     startActivity(intent);
                                 }
                             }
